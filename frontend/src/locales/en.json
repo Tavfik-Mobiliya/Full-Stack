@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "home": "Home",
+    "projects": "Interiors",
+    "collections": "Furniture",
+    "concierge": "Concierge",
+    "admin": "Admin Panel"
+  },
+  "hero": {
+    "title": "Aura Interiors",
+    "subtitle": "Sculpting Light, Space & Matter into Living Sanctuaries",
+    "explore": "Explore Galleries",
+    "book": "Book Consultation"
+  },
+  "categories": {
+    "all": "All Works",
+    "residential": "Residential",
+    "hospitality": "Hospitality",
+    "culinary": "Culinary",
+    "tables": "Tables",
+    "chairs": "Chairs",
+    "cabinets": "Cabinets"
+  },
+  "filters": {
+    "title": "Refine Portfolio",
+    "category": "Category",
+    "style": "Aesthetic Style",
+    "material": "Noble Materials",
+    "priceRange": "Price Range",
+    "search": "Search projects, styles, materials...",
+    "clear": "Reset Filters",
+    "minPrice": "Min Price",
+    "maxPrice": "Max Price",
+    "featured": "Featured Masterpieces"
+  },
+  "project": {
+    "specs": "Architectural Specifications",
+    "beforeAfter": "Metamorphosis (Before & After)",
+    "back": "Back to Portfolio",
+    "inquire": "Inquire About This Piece",
+    "location": "Location",
+    "year": "Year",
+    "material": "Material",
+    "style": "Style",
+    "price": "Price"
+  },
+  "testimonials": {
+    "title": "Client Testimonials",
+    "subtitle": "Words from those who inhabit our spaces"
+  },
+  "concierge": {
+    "title": "The Concierge",
+    "subtitle": "Schedule an exclusive architectural consultation or request a custom catalog.",
+    "name": "Full Name",
+    "email": "Email Address",
+    "phone": "Phone Number (Optional)",
+    "message": "Project Vision / Message",
+    "type": "Inquiry Type",
+    "types": {
+      "contact": "General Contact",
+      "appointment": "Schedule Consultation",
+      "catalog": "Request Exclusive Catalog",
+      "whatsapp": "Instant WhatsApp Inquiry"
+    },
+    "preferredDate": "Preferred Meeting Date",
+    "submit": "Submit Request",
+    "submitting": "Submitting Vision...",
+    "success": "Your request has been received. Our concierge team will reach out shortly.",
+    "error": "Failed to submit request. Please try again or contact us directly.",
+    "whatsappRedirect": "Chatting with concierge on WhatsApp..."
+  },
+  "admin": {
+    "title": "Curator Dashboard",
+    "subtitle": "Manage the Digital Showroom's portfolios and inquiries.",
+    "projectsTab": "Project Portfolio",
+    "inquiriesTab": "Concierge Inquiries",
+    "testimonialsTab": "Client Reviews",
+    "addProject": "Add Masterpiece",
+    "editProject": "Edit Masterpiece",
+    "addTestimonial": "Add Testimonial",
+    "editTestimonial": "Edit Testimonial",
+    "deleteConfirm": "Are you sure you want to delete this item?",
+    "table": {
+      "title": "Title",
+      "category": "Category",
+      "type": "Type",
+      "actions": "Actions",
+      "author": "Author",
+      "sender": "Sender",
+      "message": "Message",
+      "date": "Date"
+    },
+    "form": {
+      "slug": "Slug (URL identifier)",
+      "category": "Main Category",
+      "subCategory": "Sub-Category (optional)",
+      "roomType": "Room Type (optional)",
+      "year": "Year Created",
+      "images": "Image URLs (comma-separated)",
+      "beforeImage": "Before Image URL (optional)",
+      "afterImage": "After Image URL (optional)",
+      "price": "Price (USD) (optional)",
+      "budget": "Budget Scale (e.g. Ultra-Luxury)",
+      "featured": "Feature on Homepage",
+      "titleEn": "Title (English)",
+      "titleAr": "Title (Arabic)",
+      "titleTr": "Title (Turkish)",
+      "descEn": "Description (English)",
+      "descAr": "Description (Arabic)",
+      "descTr": "Description (Turkish)",
+      "locEn": "Location (English)",
+      "locAr": "Location (Arabic)",
+      "locTr": "Location (Turkish)",
+      "matEn": "Materials (English)",
+      "matAr": "Materials (Arabic)",
+      "matTr": "Materials (Turkish)",
+      "styleEn": "Style (English)",
+      "styleAr": "Style (Arabic)",
+      "styleTr": "Style (Turkish)",
+      "save": "Save Entry",
+      "cancel": "Cancel",
+      "author": "Author Name",
+      "quoteEn": "Quote (English)",
+      "quoteAr": "Quote (Arabic)",
+      "quoteTr": "Quote (Turkish)",
+      "roleEn": "Role (English)",
+      "roleAr": "Role (Arabic)",
+      "roleTr": "Role (Turkish)"
+    }
+  },
+  "footer": {
+    "about": "Aura Interiors is a bespoke architectural and interior design firm specializing in ultra-luxury residential and commercial projects worldwide.",
+    "rights": "All rights reserved.",
+    "contact": "Contact",
+    "hours": "Atelier Hours",
+    "hoursVal": "Mon - Fri: 09:00 - 18:00"
+  }
+}

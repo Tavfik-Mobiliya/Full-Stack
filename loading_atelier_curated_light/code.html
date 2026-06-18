@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AURA INTERIORS | Atelier Curated</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@300;400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@100..900&amp;family=Playfair+Display:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-container": "#444549",
+                    "on-tertiary": "#2f3034",
+                    "on-primary-fixed": "#241a00",
+                    "on-tertiary-fixed-variant": "#46464b",
+                    "error-container": "#93000a",
+                    "secondary": "#c8c8b0",
+                    "surface-variant": "#f0edea",
+                    "inverse-on-surface": "#f2f0ef",
+                    "secondary-fixed": "#474836",
+                    "surface-container-low": "#faf9f8",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#fcfaf9",
+                    "on-background": "#1b1b1b",
+                    "surface-container": "#f5f3f2",
+                    "inverse-primary": "#f2ca50",
+                    "surface": "#fcfaf9",
+                    "tertiary-fixed": "#2f3034",
+                    "outline-variant": "#d0c5af",
+                    "surface-dim": "#e5e2e1",
+                    "primary-fixed-dim": "#735c00",
+                    "tertiary-fixed-dim": "#46464b",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#4d4635",
+                    "on-secondary-container": "#1b1d0e",
+                    "on-primary-container": "#241a00",
+                    "tertiary": "#5e5e62",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#f2ca50",
+                    "on-error": "#ffffff",
+                    "background": "#fcfaf9",
+                    "on-secondary-fixed-variant": "#e4e4cc",
+                    "surface-container-highest": "#e5e2e1",
+                    "inverse-surface": "#313030",
+                    "on-tertiary-fixed": "#e3e2e7",
+                    "surface-container-high": "#ebe8e7",
+                    "primary-fixed": "#554300",
+                    "outline": "#7e7667",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#735c00",
+                    "on-secondary-fixed": "#e4e4cc",
+                    "on-primary-fixed-variant": "#ffe088",
+                    "tertiary-container": "#e3e2e7",
+                    "secondary-fixed-dim": "#474836",
+                    "on-surface": "#1b1b1b",
+                    "primary": "#735c00",
+                    "secondary-container": "#e4e4cc",
+                    "on-error-container": "#410002"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "unit": "4px",
+                    "margin-mobile": "20px",
+                    "container-max": "1280px",
+                    "section-gap": "64px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Playfair Display"],
+                    "display-lg": ["Playfair Display"],
+                    "label-sm": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "headline-lg": ["Playfair Display"],
+                    "body-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-md": ["28px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.03em", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-caps": ["11px", {"lineHeight": "1.2", "letterSpacing": "0.2em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        @keyframes subtle-rotation {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-loader {
+            animation: subtle-rotation 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        .fade-in-out {
+            animation: fadeInOut 4s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translateY(8px); }
+            20%, 80% { opacity: 0.6; transform: translateY(0); }
+        }
+
+        .glass-overlay {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container overflow-hidden">
+<!-- Hero Content (Subtle Background for Context) -->
+<main class="relative min-h-screen w-full flex items-center justify-center">
+<!-- Background Ambient Glow -->
+<div class="absolute inset-0 overflow-hidden pointer-events-none">
+<div class="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-1/4 -right-1/4 w-[800px] h-[800px] bg-secondary/5 rounded-full blur-[120px]"></div>
+</div>
+<!-- Main Loading Section -->
+<div class="relative z-10 flex flex-col items-center gap-12 text-center max-w-lg px-margin-mobile">
+<!-- Circular Loader Component -->
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/10 blur-2xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-700"></div>
+<!-- Note: The loader image contains the gold arc which we maintain -->
+<img alt="Atelier Curated Loader" class="w-24 h-24 relative z-10 animate-loader object-contain brightness-100 contrast-100" src="https://lh3.googleusercontent.com/aida/AP1WRLvs2UFOKTHKeaCByMT8wyhn6LHRs1_YAVx2yT4c_h_FRnbO518jb8XFEN0U7GTLnYiXkkhYHuUVvwqqc-F55GGsziyka40cREEU40XDv44k8x-t6MPh9ZjPDMFxhr3KBI_NPP6d1sIfTDz0LFCiVqXmcG8eh4stsWyWaZ3DijGoJ4jMU9aFAY9o6jN-FlSDOzUFvbTBLJEOQlJG5diJHCnAYvmyBp3LstNL4Vpxi84QMY76KqwDG8anVf7D"/>
+</div>
+<!-- Identity Branding -->
+<div class="space-y-6">
+<h1 class="font-display-lg text-on-surface tracking-[0.2em] uppercase transition-all duration-1000 ease-in-out">
+                    ATELIER CURATED
+                </h1>
+<div class="h-6 overflow-hidden">
+<p class="font-body-md text-on-surface-variant italic tracking-widest fade-in-out" id="dynamic-phrase">Crafting bespoke environments...</p>
+</div>
+</div>
+<!-- Minimalist Detail Lines -->
+<div class="w-px h-16 bg-gradient-to-b from-primary/60 to-transparent"></div>
+</div>
+<!-- Layout Frame Elements -->
+<div class="fixed top-margin-desktop left-margin-desktop border-l border-t border-outline-variant/60 w-12 h-12 hidden md:block"></div>
+<div class="fixed top-margin-desktop right-margin-desktop border-r border-t border-outline-variant/60 w-12 h-12 hidden md:block"></div>
+<div class="fixed bottom-margin-desktop left-margin-desktop border-l border-b border-outline-variant/60 w-12 h-12 hidden md:block"></div>
+<div class="fixed bottom-margin-desktop right-margin-desktop border-r border-b border-outline-variant/60 w-12 h-12 hidden md:block"></div>
+<!-- Side Concierge / Floating Elements (Hidden on mobile) -->
+<div class="fixed right-0 top-1/2 -translate-y-1/2 flex flex-col gap-unit p-2 z-40 hidden md:flex rounded-l-xl border-l border-y border-outline-variant/30 bg-surface-container-low/80 backdrop-blur-md">
+<button class="p-3 text-on-surface-variant hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">chat</span>
+</button>
+<button class="p-3 text-on-surface-variant hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu_book</span>
+</button>
+</div>
+<!-- Footer Text -->
+<div class="fixed bottom-8 w-full text-center px-margin-mobile">
+<p class="font-label-caps text-on-surface-variant/70 tracking-[0.3em] uppercase">
+                ESTABLISHED MMXXIV — ARCHITECTURAL EXCELLENCE
+            </p>
+</div>
+</main>
+<script>
+        // Smooth phrase cycling
+        const phrases = [
+            "Curating your architectural vision...",
+            "Sculpting light and shadow...",
+            "Defining timeless elegance...",
+            "Crafting bespoke environments...",
+            "Harmonizing space and form..."
+        ];
+        
+        let index = 0;
+        const phraseElement = document.getElementById('dynamic-phrase');
+
+        setInterval(() => {
+            index = (index + 1) % phrases.length;
+            
+            // Sync text change with the middle of the fade animation
+            setTimeout(() => {
+                phraseElement.textContent = phrases[index];
+            }, 2000); 
+            
+        }, 4000);
+
+        // Interaction micro-movement
+        document.addEventListener('mousemove', (e) => {
+            const amount = 20;
+            const x = (e.clientX / window.innerWidth - 0.5) * amount;
+            const y = (e.clientY / window.innerHeight - 0.5) * amount;
+            
+            document.querySelectorAll('.animate-loader').forEach(el => {
+                el.style.transform = `rotate(0deg) translate(${x}px, ${y}px)`;
+            });
+        });
+    </script>
+</body></html>

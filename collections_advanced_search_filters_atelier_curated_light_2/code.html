@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Collections | AURA INTERIORS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&amp;family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#574500",
+                    "outline-variant": "#e0e0e0",
+                    "on-secondary-fixed": "#1b1d0e",
+                    "on-secondary": "#303221",
+                    "on-primary": "#3c2f00",
+                    "on-error-container": "#93000a",
+                    "on-primary-fixed": "#241a00",
+                    "secondary": "#494a38",
+                    "on-secondary-fixed-variant": "#474836",
+                    "tertiary": "#444549",
+                    "on-background": "#1a1c1e",
+                    "inverse-primary": "#f2ca50",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "primary-container": "#d4af37",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#1b1d0e",
+                    "on-primary-container": "#241a00",
+                    "surface-container-low": "#f3f3f3",
+                    "surface-bright": "#ffffff",
+                    "surface-variant": "#f9f9f9",
+                    "primary-fixed-dim": "#e9c349",
+                    "tertiary-container": "#e3e2e7",
+                    "surface-container": "#eeeeee",
+                    "on-surface": "#131313",
+                    "primary": "#b8952d",
+                    "primary-fixed": "#ffe088",
+                    "inverse-on-surface": "#f2f0f1",
+                    "secondary-container": "#e4e4cc",
+                    "on-tertiary-fixed": "#1a1b1f",
+                    "on-surface-variant": "#44474e",
+                    "tertiary-fixed": "#e3e2e7",
+                    "surface-tint": "#b8952d",
+                    "surface-container-high": "#e6e6e6",
+                    "surface-container-highest": "#e0e0e0",
+                    "on-tertiary-fixed-variant": "#46464b",
+                    "inverse-surface": "#2f3033",
+                    "on-error": "#ffffff",
+                    "outline": "#74777f",
+                    "on-tertiary-container": "#1a1b1f",
+                    "secondary-fixed": "#e4e4cc",
+                    "surface-dim": "#f9f9f9",
+                    "background": "#f9f9f9",
+                    "tertiary-fixed-dim": "#c6c6cb",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#c8c8b0",
+                    "surface": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "margin-mobile": "20px",
+                    "unit": "4px",
+                    "margin-desktop": "64px",
+                    "container-max": "1280px",
+                    "gutter": "24px",
+                    "section-gap": "96px"
+            },
+            "fontFamily": {
+                    "label-md": ["Hanken Grotesk"],
+                    "display-lg": ["Playfair Display"],
+                    "headline-lg": ["Playfair Display"],
+                    "body-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "headline-md": ["Playfair Display"],
+                    "headline-lg-mobile": ["Playfair Display"],
+                    "label-sm": ["Hanken Grotesk"],
+                    "label-caps": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["28px", {"lineHeight": "1.3", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "500"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.03em", "fontWeight": "500"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.15em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(184, 149, 45, 0.03) 0%, transparent 50%);
+        }
+        .reveal-on-hover .overlay {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .reveal-on-hover:hover .overlay {
+            opacity: 1;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary/20">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex justify-between items-center px-margin-desktop py-6 max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md tracking-tighter text-primary">AURA INTERIORS</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Showroom</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-primary border-b border-primary pb-1" href="#">Collections</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Projects</a>
+<a class="font-body-md text-body-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors" href="#">Our Story</a>
+</div>
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">language</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:opacity-80 transition-opacity">shopping_bag</span>
+<span class="md:hidden material-symbols-outlined text-primary">menu</span>
+</div>
+</div>
+</nav>
+<!-- Concierge Sidebar -->
+<aside class="fixed right-0 top-1/2 -translate-y-1/2 rounded-l-xl border-l border-y border-outline-variant bg-surface shadow-md flex flex-col gap-unit p-2 z-40 translate-x-0 hover:-translate-x-2 transition-transform duration-300">
+<div class="p-3 border-b border-outline-variant/30 text-center mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">concierge</span>
+</div>
+<div class="flex flex-col gap-2">
+<button class="p-3 hover:bg-surface-container transition-colors rounded-lg group relative">
+<span class="material-symbols-outlined text-on-surface-variant">chat</span>
+<span class="absolute right-full mr-4 bg-inverse-surface text-inverse-on-surface px-3 py-1 rounded text-label-caps opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">WhatsApp Inquiry</span>
+</button>
+<button class="p-3 hover:bg-surface-container transition-colors rounded-lg group relative">
+<span class="material-symbols-outlined text-on-surface-variant">menu_book</span>
+<span class="absolute right-full mr-4 bg-inverse-surface text-inverse-on-surface px-3 py-1 rounded text-label-caps opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Request Catalog</span>
+</button>
+<button class="p-3 hover:bg-surface-container transition-colors rounded-lg group relative">
+<span class="material-symbols-outlined text-on-surface-variant">calendar_today</span>
+<span class="absolute right-full mr-4 bg-inverse-surface text-inverse-on-surface px-3 py-1 rounded text-label-caps opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Book Appointment</span>
+</button>
+<button class="p-3 bg-primary text-on-primary rounded-lg">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+</div>
+</aside>
+<main class="pt-[140px] pb-section-gap hero-gradient min-h-screen">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<!-- Editorial Header -->
+<header class="mb-16">
+<p class="text-primary font-label-md text-label-md tracking-[0.3em] uppercase mb-4">Nocturnal Atelier</p>
+<h1 class="font-display-lg text-display-lg uppercase tracking-[0.15em] text-on-surface">The Collection</h1>
+<div class="h-[1px] w-24 bg-primary mt-8"></div>
+</header>
+<!-- Filter Bar -->
+<section class="glass-panel rounded-lg p-6 mb-16 flex flex-wrap items-center justify-between gap-6">
+<div class="flex flex-wrap gap-8 items-center">
+<div class="relative group">
+<button class="flex items-center gap-2 text-label-md font-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
+                        Category <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex items-center gap-2 text-label-md font-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
+                        Material <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex items-center gap-2 text-label-md font-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
+                        Style <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+<div class="relative group">
+<button class="flex items-center gap-2 text-label-md font-label-md uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors">
+                        Price Range <span class="material-symbols-outlined text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+<div class="relative flex-grow max-w-md">
+<input class="w-full bg-transparent border-b border-outline-variant focus:border-primary py-2 px-0 text-body-md font-body-md placeholder:text-outline focus:ring-0 outline-none transition-all" placeholder="Search Archives..." type="text"/>
+<img alt="Search" class="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-6 opacity-40 hover:opacity-100 cursor-pointer" src="https://lh3.googleusercontent.com/aida/AP1WRLtaOBU7KRaY6u6X10EJCM_zCD14YP1MKiIqqZcd7q8vc4-_z436gVcIXJSbRPkUnoptBJFh3FygH8Mn8xbkK8CmBiJotlQV-_JwZOlBsXklkJKg947swWbk3mJnbqb-TgtYlh5hlaz3zPc_uaO1t9her_xm7aAUA_YmFDgAGf4_Dj9n4H3-D1wDC53TpVxnKnDLQYODBZL1eZPicMgnEJPLShGjOicSfjKUhk1IGs8YzRTDwaqL9pKf2VVP"/>
+</div>
+</section>
+<!-- Collections Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Collection Item 1 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden aspect-[4/5] bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A sculptural, minimalist black marble dining table centerpiece in a dark, atmospheric interior with dramatic top-down lighting. The scene exudes luxury and architectural precision, featuring a palette of deep obsidian and warm gold accents from a nearby brass sculpture. The mood is quiet, sophisticated, and high-end editorial." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmSWaExIzPm9rNYSDlatknR01l07FK_janypjSr5MPy58ufOQLMEEPMDr67b0hj2EAToJETtJL2ADhFNHWesKZM85GcfRkGOrV0rQbTAQOtCk4qVsBRt9Ada26kmpRSKThFo34TUVnV_-WNO6rhgaxbCq0QIL5aVjr2xhkrrH5JNYHIx-JC4R3hhLKTfV8MS06jym14HY_gnf07d_fj8ApcsqLHB2eymBmY8DXepDeDwGuuMKMPfq_ihz2takHUBoV9hd9oaHTGXCq"/>
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+<div class="bg-primary px-8 py-3 text-on-primary font-label-md uppercase tracking-widest scale-95 group-hover:scale-100 transition-transform">Explore Series</div>
+</div>
+</div>
+<p class="text-label-sm font-label-sm text-primary mb-1 uppercase tracking-widest">Minimalist · Obsidian</p>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">The Obsidian Series</h3>
+<div class="mt-4 flex items-center gap-2 text-label-md font-label-md uppercase tracking-tighter opacity-60">
+                    View Collection <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</div>
+<!-- Collection Item 2 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden aspect-[4/5] bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A curated arrangement of ethereal, cream-colored velvet lounge chairs within a vast, concrete-walled brutalist space. Large floor-to-ceiling windows reveal a twilight cityscape in the background. The lighting is soft and ambient, highlighting the rich textures of the velvet against the cold concrete. The aesthetic is contemporary luxury with a focus on form and materiality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBViH6-QQGnf5wCvDYdjBnzAqeYO7JntCIURtvzNLaesMPGazczNRELx6M62vfun61S9p0AXYeXaqhOhT5AKODB4tYaFO6qOMoW32vUYwaBMc8_ugysRGrENF_shhCgCiTzQc2WziAyhIockcgqk6KbQ6McEJQUu3yG-LBNBu5gjs640I_qZ8MReFwbhwb42Zc-npQQitvACMG3VOov9o7RHh7IF-koTZvib2DLfyYJlpdm3He0MCxe3cGzG2Yo99HmG5HRH3pX81dJ"/>
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+<div class="bg-primary px-8 py-3 text-on-primary font-label-md uppercase tracking-widest scale-95 group-hover:scale-100 transition-transform">Explore Series</div>
+</div>
+</div>
+<p class="text-label-sm font-label-sm text-primary mb-1 uppercase tracking-widest">Brutalist · Velvet</p>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Ethereal Lounge</h3>
+<div class="mt-4 flex items-center gap-2 text-label-md font-label-md uppercase tracking-tighter opacity-60">
+                    View Collection <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</div>
+<!-- Collection Item 3 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden aspect-[4/5] bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="An exquisite walnut wood cabinet with intricate brass inlays, standing against a dark charcoal wall. The lighting is low-key, emphasizing the natural grain of the wood and the metallic shimmer of the brass. The composition is balanced and artistic, reflecting mid-century modern influences redefined for a dark, luxury interior. Shadows are deep and soft." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiz7uWOmkDxObsXHhACwsA2mNaexpyLzo2_LP3AK3XNcuUlCLyifgj_1eyxT2VnuqQ9T6u3cfF01Z9U0QDehELRNG3HmI50LlIBi_yrDqcvrLjrOvDu3IS8a0uE1cxHjDG30dLzb94QoOwkqalglh0mo_FHt8XFEGCoAe6-91CoQxGRvpOz1HTJN9dSo2iFpn2mfZ8cmJeALyPXm0Jy8rkBpYadP8mae1Kffef0MilBjJYFYsjBa5rmelCsnpp4pr-k-Vkp4TGa13w"/>
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+<div class="bg-primary px-8 py-3 text-on-primary font-label-md uppercase tracking-widest scale-95 group-hover:scale-100 transition-transform">Explore Series</div>
+</div>
+</div>
+<p class="text-label-sm font-label-sm text-primary mb-1 uppercase tracking-widest">Mid-Century · Walnut</p>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Nocturne Storage</h3>
+<div class="mt-4 flex items-center gap-2 text-label-md font-label-md uppercase tracking-tighter opacity-60">
+                    View Collection <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</div>
+<!-- Collection Item 4 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden aspect-[4/5] bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A series of sculptural hand-blown glass light fixtures hanging at varying heights in a darkened foyer. The glass has a smoke-tinted finish and glows with a warm, dim internal light. The background features dark wood paneling and marble flooring. The overall vibe is one of quiet, nocturnal elegance and artistic craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlAtV6mxkTkL4jyFwp4AVq-x7GIMGWcvSQpi1JqvhkCszHsFnmY4HPXLI2wH7zWqvMtLJFBTJxiiugtEiPcdkh3tI1qfOGanRFhMF7dh3K4ktynk7KmDebeGiDvJYKVcTonXjsRrxQ3dBiBIac8ARCqrDSbo8HLLusi3PXwRIi0s5BzXOisVgKN6HNc2RjUGr7_54JGXZS2jTshTO4cKcBXOb8VVtbzvRbMeLagXlrJZQdhC4X-phCJg97RX8-NqBURlBprV206EFJ"/>
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+<div class="bg-primary px-8 py-3 text-on-primary font-label-md uppercase tracking-widest scale-95 group-hover:scale-100 transition-transform">Explore Series</div>
+</div>
+</div>
+<p class="text-label-sm font-label-sm text-primary mb-1 uppercase tracking-widest">Aura · Lighting</p>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Lumina Archives</h3>
+<div class="mt-4 flex items-center gap-2 text-label-md font-label-md uppercase tracking-tighter opacity-60">
+                    View Collection <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</div>
+<!-- Collection Item 5 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden aspect-[4/5] bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A minimalist home office setup featuring a desk made from a single slab of raw-edged dark granite supported by sleek brass legs. A designer chair in olive green leather complements the desk. The wall behind is deep slate gray, with a single piece of abstract monochrome art. The lighting is focused and functional, creating a mood of serious focus and refined taste." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV4gj8OS4VqPCBgry7diCFbQqaM1Z-OMvEVMf59270U_AwulW5V08rwJXEpHaMuWu4lHxmvIRaUButPLzjyjXMuYPQuEGbacimU_yv03Ml2HKTac3F0tmc_N57obkp7XQemujNscblIkOmv8nMfigGE5SLQBrOFW5lXnNmTzBQzkDTaQ9PSHzWjbXkTVjCVzuf0w8n3NR37WA-D-DqKzrDPERydwW0zl2DmQYgi-PYIAXS1jUB3zoY-VKGLpMFMrlWvzGxk-TujvqT"/>
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+<div class="bg-primary px-8 py-3 text-on-primary font-label-md uppercase tracking-widest scale-95 group-hover:scale-100 transition-transform">Explore Series</div>
+</div>
+</div>
+<p class="text-label-sm font-label-sm text-primary mb-1 uppercase tracking-widest">Office · Granite</p>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Atelier Workspace</h3>
+<div class="mt-4 flex items-center gap-2 text-label-md font-label-md uppercase tracking-tighter opacity-60">
+                    View Collection <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</div>
+<!-- Collection Item 6 -->
+<div class="group cursor-pointer">
+<div class="relative overflow-hidden aspect-[4/5] bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A master bedroom suite featuring a low-profile platform bed with a tall, integrated headboard in dark gray boucle fabric. Soft, directional bedside lighting casts gentle shadows. The room is decorated in a monochromatic dark palette with layers of texture from linen sheets and wool throws. The atmosphere is serene, cocoon-like, and profoundly luxurious." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD22BxDp43VDmFjn7b2nwce6RH9MTC4s-menXLQTkH-UIeL_QUwm6pcAqhDbkWWSDDZSIJKz-dhpYR8Cs29tWeYaduaiRd4eoz46o6LB333vTXb4xHg987ftpf920wTtil6pBgnP1XfJTdJSX0WrmeaS5GbzA1DxTB94s4Jd8__0ytkJldNs3GKwRlrpHH7MlqjBIp5NjYVV3fEHQx6xcibnTBAnuXXtHs61W-khdQ44xkISzFqCR9__VVxBzUyf-rVb91cg4j05UO1"/>
+<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+<div class="bg-primary px-8 py-3 text-on-primary font-label-md uppercase tracking-widest scale-95 group-hover:scale-100 transition-transform">Explore Series</div>
+</div>
+</div>
+<p class="text-label-sm font-label-sm text-primary mb-1 uppercase tracking-widest">Sanctuary · Bouclé</p>
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">The Sleep Suite</h3>
+<div class="mt-4 flex items-center gap-2 text-label-md font-label-md uppercase tracking-tighter opacity-60">
+                    View Collection <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low border-t border-outline-variant w-full">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-section-gap max-w-container-max mx-auto">
+<div class="flex flex-col gap-4">
+<div class="font-headline-sm text-headline-sm text-primary">AURA INTERIORS</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[240px]">
+                Crafting spaces that resonate with the soul. Precision, passion, and permanence.
+            </p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-md text-label-md uppercase tracking-widest text-primary">Discover</h4>
+<div class="flex flex-col gap-2">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:underline" href="#">Showroom</a>
+<a class="font-body-md text-body-md text-primary font-bold transition-all hover:underline" href="#">Collections</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:underline" href="#">Projects</a>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-md text-label-md uppercase tracking-widest text-primary">Company</h4>
+<div class="flex flex-col gap-2">
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:underline" href="#">Our Story</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:underline" href="#">Careers</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all hover:underline" href="#">Contact Us</a>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-label-md text-label-md uppercase tracking-widest text-primary">Newsletter</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-2">Join the inner circle for exclusive previews.</p>
+<div class="flex border-b border-outline-variant pb-2">
+<input class="bg-transparent border-none p-0 focus:ring-0 text-body-md w-full" placeholder="Email Address" type="email"/>
+<button class="text-primary material-symbols-outlined">east</button>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 py-8 px-margin-desktop text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 AURA INTERIORS. ARCHITECTURAL EXCELLENCE.</p>
+</div>
+</footer>
+<script>
+    // Micro-interactions for hover effects
+    document.querySelectorAll('.group').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+            item.style.transform = 'translateY(-4px)';
+        });
+        item.addEventListener('mouseleave', () => {
+            item.style.transform = 'translateY(0px)';
+        });
+    });
+</script>
+</body></html>

@@ -1,0 +1,18 @@
+PRODUCT REQUIREMENTS DOCUMENT (PRD)
+Project Title: Interior & Furniture Design Digital Showroom
+Objective: Develop a multilingual (English, Arabic, Turkish) portfolio website for a luxury interior and furniture design company.
+Target Users: High-end clients, Homeowners, Interior design enthusiasts, Admin users.
+
+Functional Requirements:
+- Multilingual Support (EN, AR, TR) with RTL support for Arabic.
+- Homepage: Hero, Dual category split (Interior/Furniture), Featured Projects, Testimonials, Contact CTA.
+- Interior Design Page: Filterable gallery (room type, style, color, budget).
+- Furniture Design Page: Filterable gallery (product type, style, material, price).
+- Project Detail Page: Image gallery, Before/After slider, Project specs, CTA.
+- Testimonials Page: Categorized list of reviews.
+- About Us Page: Story, Team, Partners.
+- Contact Page: Form, WhatsApp integration, Maps.
+- Admin Dashboard: CRUD for projects and testimonials.
+
+Design Style: Premium, modern, minimal, high-end aesthetic.
+Technical Stack: Next.js, Tailwind CSS, TypeScript.

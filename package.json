@@ -1,0 +1,12 @@
+{
+  "name": "stitch-luxury-design-digital-showroom",
+  "version": "1.0.0",
+  "description": "Monorepo root for trilingual luxury interior & furniture showroom",
+  "scripts": {
+    "dev": "npx concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "build:all": "npm run build --prefix backend && npm run build --prefix frontend"
+  }
+}

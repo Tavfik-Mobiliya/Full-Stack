@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "home": "Anasayfa",
+    "projects": "İç Mimari",
+    "collections": "Mobilya",
+    "concierge": "Konsiyerj",
+    "admin": "Yönetici Paneli"
+  },
+  "hero": {
+    "title": "Aura Interiors",
+    "subtitle": "Işığı, Boşluğu ve Maddeyi Yaşayan Sığınaklara Dönüştürüyoruz",
+    "explore": "Galerileri Keşfet",
+    "book": "Danışmanlık Randevusu Al"
+  },
+  "categories": {
+    "all": "Tüm Eserler",
+    "residential": "Konut",
+    "hospitality": "Otelcilik",
+    "culinary": "Mutfak",
+    "tables": "Masalar",
+    "chairs": "Sandalyeler",
+    "cabinets": "Dolaplar"
+  },
+  "filters": {
+    "title": "Portföyü Filtrele",
+    "category": "Kategori",
+    "style": "Estetik Tarz",
+    "material": "Değerli Malzemeler",
+    "priceRange": "Fiyat Aralığı",
+    "search": "Proje, tarz, malzeme ara...",
+    "clear": "Filtreleri Sıfırla",
+    "minPrice": "Min Fiyat",
+    "maxPrice": "Max Fiyat",
+    "featured": "Öne Çıkan Eserler"
+  },
+  "project": {
+    "specs": "Mimari Özellikler",
+    "beforeAfter": "Dönüşüm (Önce & Sonra)",
+    "back": "Portföye Dön",
+    "inquire": "Bu Parça Hakkında Bilgi Al",
+    "location": "Konum",
+    "year": "Yıl",
+    "material": "Malzeme",
+    "style": "Tarz",
+    "price": "Fiyat"
+  },
+  "testimonials": {
+    "title": "Müşteri Yorumları",
+    "subtitle": "Mekanlarımızda yaşayanların kendi kelimeleriyle"
+  },
+  "concierge": {
+    "title": "Konsiyerj",
+    "subtitle": "Özel bir mimari danışmanlık randevusu ayarlayın veya size özel kataloğumuzu talep edin.",
+    "name": "Ad Soyad",
+    "email": "E-posta Adresi",
+    "phone": "Telefon Numarası (İsteğe Bağlı)",
+    "message": "Proje Vizyonu / Mesaj",
+    "type": "Talep Türü",
+    "types": {
+      "contact": "Genel İletişim",
+      "appointment": "Danışmanlık Planla",
+      "catalog": "Özel Katalog Talep Et",
+      "whatsapp": "Hızlı WhatsApp İletişimi"
+    },
+    "preferredDate": "Tercih Edilen Toplantı Tarihi",
+    "submit": "Talebi Gönder",
+    "submitting": "Vizyonunuz Gönderiliyor...",
+    "success": "Talebiniz alınmıştır. Konsiyerj ekibimiz kısa süre içinde sizinle iletişime geçecektir.",
+    "error": "Talep gönderilemedi. Lütfen tekrar deneyin veya bizimle doğrudan iletişime geçin.",
+    "whatsappRedirect": "WhatsApp üzerinden konsiyerj ile sohbete yönlendiriliyorsunuz..."
+  },
+  "admin": {
+    "title": "Küratör Paneli",
+    "subtitle": "Dijital Showroom portföyünü ve konsiyerj taleplerini yönetin.",
+    "projectsTab": "Proje Portföyü",
+    "inquiriesTab": "Konsiyerj Talepleri",
+    "testimonialsTab": "Müşteri Yorumları",
+    "addProject": "Yeni Eser Ekle",
+    "editProject": "Eseri Düzenle",
+    "addTestimonial": "Yorum Ekle",
+    "editTestimonial": "Yorumu Düzenle",
+    "deleteConfirm": "Bu öğeyi silmek istediğinizden emin misiniz?",
+    "table": {
+      "title": "Başlık",
+      "category": "Kategori",
+      "type": "Tür",
+      "actions": "İşlemler",
+      "author": "Yazar",
+      "sender": "Gönderen",
+      "message": "Mesaj",
+      "date": "Tarih"
+    },
+    "form": {
+      "slug": "Kısa Ad (URL belirteci)",
+      "category": "Ana Kategori",
+      "subCategory": "Alt Kategori (isteğe bağlı)",
+      "roomType": "Oda Türü (isteğe bağlı)",
+      "year": "Yapım Yılı",
+      "images": "Görsel URL'leri (virgülle ayrılmış)",
+      "beforeImage": "Önce Görsel URL'si (isteğe bağlı)",
+      "afterImage": "Sonra Görsel URL'si (isteğe bağlı)",
+      "price": "Fiyat (USD) (isteğe bağlı)",
+      "budget": "Bütçe Ölçeği (örn. Ultra-Lüks)",
+      "featured": "Anasayfada Göster",
+      "titleEn": "Başlık (İngilizce)",
+      "titleAr": "Başlık (Arapça)",
+      "titleTr": "Başlık (Türkçe)",
+      "descEn": "Açıklama (İngilizce)",
+      "descAr": "Açıklama (Arapça)",
+      "descTr": "Açıklama (Türkçe)",
+      "locEn": "Konum (İngilizce)",
+      "locAr": "Konum (Arapça)",
+      "locTr": "Konum (Türkçe)",
+      "matEn": "Malzemeler (İngilizce)",
+      "matAr": "Malzemeler (Arapça)",
+      "matTr": "Malzemeler (Türkçe)",
+      "styleEn": "Tarz (İngilizce)",
+      "styleAr": "Tarz (Arapça)",
+      "styleTr": "Tarz (Türkçe)",
+      "save": "Kaydet",
+      "cancel": "İptal",
+      "author": "Yazar Adı",
+      "quoteEn": "Alıntı (İngilizce)",
+      "quoteAr": "Alıntı (Arapça)",
+      "quoteTr": "Alıntı (Türkçe)",
+      "roleEn": "Görev/Rol (İngilizce)",
+      "roleAr": "Görev/Rol (Arapça)",
+      "roleTr": "Görev/Rol (Türkçe)"
+    }
+  },
+  "footer": {
+    "about": "Aura Interiors, dünya çapında ultra lüks konut ve ticari projelere odaklanan özel bir mimarlık ve iç tasarım stüdyosudur.",
+    "rights": "Tüm hakları saklıdır.",
+    "contact": "İletişim",
+    "hours": "Atölye Saatleri",
+    "hoursVal": "Pzt - Cum: 09:00 - 18:00"
+  }
+}

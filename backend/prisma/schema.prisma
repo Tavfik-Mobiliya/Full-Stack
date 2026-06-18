@@ -1,0 +1,74 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Project {
+  id            Int      @id @default(autoincrement())
+  slug          String   @unique
+  category      String   // "Interior" or "Furniture"
+  subCategory   String?  // e.g. "Residential", "Hospitality", "Workspace", "Chair", "Table", "Lighting"
+  roomType      String?  // e.g. "Living Room", "Bedroom", "Kitchen"
+  year          Int
+  images        String[] // Array of image URLs
+  specs         Json?    // key-value specs
+  beforeImage   String?  // For before/after slider
+  afterImage    String?  // For before/after slider
+  price         Decimal? // For furniture pricing
+  budget        String?  // e.g. "Premium", "Ultra-Luxury", "Bespoke"
+  featured      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Trilingual Translations
+  titleEn       String
+  titleAr       String
+  titleTr       String
+  
+  descriptionEn String
+  descriptionAr String
+  descriptionTr String
+
+  locationEn    String
+  locationAr    String
+  locationTr    String
+
+  materialEn    String?
+  materialAr    String?
+  materialTr    String?
+
+  styleEn       String?
+  styleAr       String?
+  styleTr       String?
+}
+
+model Testimonial {
+  id        Int      @id @default(autoincrement())
+  author    String
+  category  String   @default("General") // "Interior", "Furniture", "General"
+  createdAt DateTime @default(now())
+
+  // Trilingual Translations
+  quoteEn   String
+  quoteAr   String
+  quoteTr   String
+
+  roleEn    String
+  roleAr    String
+  roleTr    String
+}
+
+model Inquiry {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  type      String   @default("Contact") // "WhatsApp", "Appointment", "Catalog", "Contact"
+  details   Json?    // Extra metadata for appointment date, catalog type, etc.
+  createdAt DateTime @default(now())
+}
