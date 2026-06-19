@@ -1,0 +1,355 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>The Obsidian Loft | AURA INTERIORS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .before-after-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 4px;
+            height: 100vh;
+            background: #ffffff;
+            cursor: ew-resize;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .custom-cursor {
+            pointer-events: none;
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border: 1px solid #000;
+            border-radius: 50%;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f9f9f9",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#1a1c1c",
+                        "secondary-fixed-dim": "#e9c349",
+                        "outline": "#747878",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#444748",
+                        "background": "#f9f9f9",
+                        "primary": "#000000",
+                        "on-secondary": "#ffffff",
+                        "outline-variant": "#c4c7c7",
+                        "on-background": "#1a1c1c",
+                        "tertiary": "#000000",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "surface-dim": "#dadada",
+                        "inverse-on-surface": "#f0f1f1",
+                        "surface-container-high": "#e8e8e8",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#ffe088",
+                        "inverse-primary": "#c8c6c5",
+                        "secondary-container": "#fed65b",
+                        "primary-container": "#1c1b1b",
+                        "inverse-surface": "#2f3131",
+                        "on-tertiary-container": "#838480",
+                        "on-primary-fixed-variant": "#474646",
+                        "on-primary-container": "#858383",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#5f5e5e",
+                        "surface-container-low": "#f3f3f4",
+                        "secondary": "#735c00",
+                        "tertiary-container": "#1a1c19",
+                        "tertiary-fixed": "#e3e3de",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#745c00",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "surface-container": "#eeeeee",
+                        "primary-fixed": "#e5e2e1",
+                        "surface-variant": "#e2e2e2",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#241a00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "80px",
+                        "container-max": "1440px",
+                        "margin-mobile": "20px",
+                        "unit": "8px",
+                        "gutter": "32px",
+                        "section-gap": "120px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-sm": ["Playfair Display"],
+                        "headline-md": ["Playfair Display"],
+                        "display-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "headline-md": ["32px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container-low/80 backdrop-blur-xl border-b border-outline/10">
+<div class="flex justify-between items-center px-margin-desktop py-6 w-full max-w-container-max mx-auto">
+<a class="font-headline-md text-headline-md uppercase tracking-widest text-primary dark:text-primary-fixed" href="#">tavfik</a>
+<div class="hidden md:flex items-center gap-10">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Showroom</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Collections</a>
+<a class="text-primary dark:text-primary-fixed font-bold border-b border-primary dark:border-primary-fixed pb-1 font-body-md text-body-md" href="#">Projects</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors font-body-md text-body-md" href="#">Our Story</a>
+</div>
+<div class="flex items-center gap-8">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">search</button>
+<button class="px-8 py-3 bg-primary text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-80 transition-opacity active:scale-95">Inquire</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<header class="relative h-[100vh] w-full overflow-hidden flex items-end">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-[2s] hover:scale-105" data-alt="A sprawling, high-fidelity luxury minimalist living room in a Milan penthouse. The space features floor-to-ceiling windows overlooking a sunset city skyline, monolithic charcoal furniture, and a centerpiece coffee table made of Honed Nero Marquina Marble. The lighting is soft and cinematic, highlighting the rich textures of smoked European oak floors and brushed bronze accents. The overall aesthetic is one of exclusive, high-end serenity and architectural precision." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAm4KjsL5An7q99ffV1eOLQrAYl3i5_tKltU3UacKxG6edqkF51VtxiSbP7dWTQ3DVGHOMhJoYbISidQpYEjL1CQcbV6rlhaP4IAQ92FImLXUq5RdLW8iJ1kH-pgrX90Ned2HBO0XKckHZScEZv-_RbRIZ7eifUnXgiu3AdOx2sxNcW2RUKECITk8LK_j20x8s9joHBSER9o-il-JUMb6oMvbQXonfnXy2weXPA7chAh3gn_z5g_NKy-SDKSNnMidDP_h2wyXokQryR')">
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+</div>
+<div class="relative z-10 w-full max-w-container-max mx-auto px-margin-desktop pb-24 text-white">
+<div class="max-w-2xl">
+<span class="font-label-caps text-label-caps uppercase tracking-widest mb-4 block text-secondary-fixed">Milan, Italy</span>
+<h1 class="font-display-lg text-display-lg mb-8">The Obsidian Loft</h1>
+<div class="flex items-center gap-6">
+<button class="px-10 py-5 bg-secondary-fixed text-on-secondary-fixed font-label-caps text-label-caps uppercase tracking-widest hover:brightness-110 transition-all flex items-center gap-3">
+                        Request Similar Design
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<div class="h-px w-24 bg-white/30 hidden md:block"></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Design Philosophy & Specs -->
+<section class="py-section-gap max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-7 pr-12 scroll-reveal visible">
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-outline mb-6 block">Concept</span>
+<h2 class="font-headline-md text-headline-md mb-8">The Art of Shadow Play</h2>
+<div class="space-y-6 text-on-surface-variant font-body-lg text-body-lg">
+<p class="">The Obsidian Loft is an exercise in atmospheric tension. By utilizing a monochromatic foundation, we allowed the natural Milanese light to dictate the mood of the space. Every surface was chosen for its tactile response to illumination.</p>
+<p class="">Rather than relying on ornamentation, the project finds its voice through the juxtaposition of raw and refined textures. Shadow is not treated as an absence of light, but as a primary material in itself, carving out depth in the expansive atrium.</p>
+</div>
+</div>
+<div class="md:col-span-5 border-l border-outline/10 pl-12 scroll-reveal visible" style="transition-delay: 200ms;">
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-outline mb-10 block">Specifications</span>
+<div class="space-y-12">
+<div>
+<h4 class="font-label-caps text-label-caps text-outline uppercase mb-2">Client Needs</h4>
+<p class="font-headline-sm text-headline-sm">A private gallery-residence for an international art collector.</p>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div>
+<h4 class="font-label-caps text-label-caps text-outline uppercase mb-2">Timeline</h4>
+<p class="font-body-lg text-body-lg">14 Months</p>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-outline uppercase mb-2">Recognition</h4>
+<p class="font-body-lg text-body-lg">ADI Design Index 2023</p>
+</div>
+</div>
+<div>
+<h4 class="font-label-caps text-label-caps text-outline uppercase mb-4">Materials Used</h4>
+<ul class="space-y-3">
+<li class="flex items-center gap-4 text-on-surface">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-md text-body-md">Honed Nero Marquina Marble</span>
+</li>
+<li class="flex items-center gap-4 text-on-surface">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-md text-body-md">Smoked European Oak</span>
+</li>
+<li class="flex items-center gap-4 text-on-surface">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-md text-body-md">Brushed Bronze Accents</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- The Transformation (Before/After Slider) -->
+<section class="relative h-[80vh] overflow-hidden group">
+<div class="absolute inset-0 w-full h-full">
+<!-- After Image -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center" data-alt="A professionally staged, luxury minimalist atrium in the Obsidian Loft after renovation. Features architectural lighting, a floating sculptural staircase in black steel, and massive floor-to-ceiling glass panels. The mood is high-end, clean, and futuristic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBMT7jzls1uLcbpYZ53gt5J4XMhjqROlH4XcytlQqzOdrMUEKXM_JTuvri1jhyqtNzFp5tw7ZfWL6kLdDoagowaWbpBMlhtPiUsROa6rpzAnn3XH_QpzVNkACXWyJCAODNaGKf-nE5pPLx5HLDnzNak-rvD8ixwB2MU92yN1iRr06GONkWnKxKGFS27lzDG7MNspmg14Eams1umcoyEBMPwD2JENmA3EsY1_HKvsoljqdll19Zy2MU_lSrMgOBKiy1GxD5lHW2qD3sj')">
+</div>
+<!-- Before Image (Clipped) -->
+<div class="absolute inset-0 w-full h-full bg-cover bg-center overflow-hidden" data-alt="The raw, industrial concrete shell of the Obsidian Loft atrium before renovation. Dusty, abandoned construction site with exposed wiring and old concrete pillars in Milan. Drab grey lighting and cluttered debris." id="before-image" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBuJhzBrt_MWdujg3OOTHMT6S_iQiy-ZAvHm-zHy6vM41aVbTvmsCZFqrPTBmv-dG6DmrhlHoA8szbCTJPYmm52HR4wBIWIbxsJOF8Y4xCM9oyGVfvUErgcQdMNH0lSZmy10usKiLUIa2wAteThLMzIh9Cv2qUj38kEcgG8sq0JOgXdLoZ6AGbq4ZfPt0lxDVcWR3n7JME7qV9NZQkio_z3tE-JG2HFO_Es6lxKcOGw9C7ECtEsVCnM_IVBw2VFKqPounmUbY7lnEjB'); width: 50%;">
+</div>
+<!-- Slider Line -->
+<div class="absolute inset-y-0 left-1/2 w-0.5 bg-white z-20 cursor-ew-resize flex items-center justify-center" id="slider-line">
+<div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-xl">
+<span class="material-symbols-outlined text-primary">unfold_more_double</span>
+</div>
+</div>
+<input class="absolute inset-0 w-full h-full opacity-0 z-30 cursor-ew-resize before-after-slider" id="ba-slider" max="100" min="0" type="range" value="50">
+<!-- Labels -->
+<div class="absolute top-10 left-10 z-20 px-6 py-2 bg-black/20 backdrop-blur-md text-white font-label-caps text-label-caps uppercase">Before</div>
+<div class="absolute top-10 right-10 z-20 px-6 py-2 bg-black/20 backdrop-blur-md text-white font-label-caps text-label-caps uppercase">After</div>
+</div>
+</section>
+<!-- Detail Gallery -->
+<section class="py-section-gap max-w-container-max mx-auto px-margin-desktop">
+<div class="mb-16 flex justify-between items-end scroll-reveal visible">
+<div>
+<span class="font-label-caps text-label-caps uppercase tracking-widest text-outline mb-4 block">Capturing Detail</span>
+<h2 class="font-headline-md text-headline-md">An Editorial Perspective</h2>
+</div>
+<p class="max-w-md text-on-surface-variant font-body-md text-body-md pb-1 border-b border-outline/10">
+                Each fixture was custom-commissioned to align with the geometric purity of the architecture.
+            </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 h-[1200px]">
+<!-- Asymmetric Grid -->
+<div class="md:col-span-8 h-full space-y-8">
+<div class="h-2/3 relative group overflow-hidden scroll-reveal visible">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="An ultra-luxury bedroom in the Obsidian Loft featuring a low-profile platform bed with charcoal velvet linens. A large panoramic window frames the Milan skyline at dusk. Architectural cove lighting creates a soft ambient glow along the ceiling perimeter." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBNieoRU_-Vl-FioQn88swOtgkyeicDcQGlgAzpQbtMXAtOSHEokOVHGDyeqdStZ5l7CVAJ-dG55H3Md7n98-9FVpe7zodTudOhzb9tzDnuSrKZJMwZxkVwGYucU-057b3gDqkz84CLawgKI_5kfjP_2j_P9eyDupRMLmmzbCNEu1001VaW5Mlnp6GL0oN3ezrudUDgf86SnqNabB1LKiJVB85dCQp6WfDv2kCirwJtK0UE9KyaCBYfS-foNTw-fwNTWPZuqqp9QvKH')"></div>
+<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<span class="px-8 py-4 bg-white text-primary font-label-caps text-label-caps uppercase">View Master Suite</span>
+</div>
+</div>
+<div class="h-1/3 grid grid-cols-2 gap-8">
+<div class="relative group overflow-hidden scroll-reveal visible" style="transition-delay: 100ms;">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Extreme close-up of custom kitchen fixtures in brushed bronze against a matte black marble backsplash. Minimalist faucet design with sharp, clean lines and subtle water reflections. Light-mode aesthetic with high contrast." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCNHYOM09GPNvGk8niNfvQbExH1y31_Yq4XUrxO31OGGneBldUZjGI5LorkCvcE3TMojJwsp9MLg_403obxbY8RDkeja8KJGjjVYj8l5HIP2JBC5m2mVr-Ew1KORO83Yy_QuHEDVF2HX5wKoR8XR1mNBei3b9QuYlH8pMFMJakOYAplNCzOegSeS8X86CvWhlIcBneMsJwoiYfMNpMEb1WboUMEtFxrvI25No1Ih2VX4a6l4l-JrAG_F2HnLoIaYreczRsUrzsKmQKw')"></div>
+</div>
+<div class="relative group overflow-hidden scroll-reveal visible" style="transition-delay: 200ms;">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Architectural lighting detail showing a recessed linear LED strip illuminating a textured charcoal wall. The play of light and shadow creates a rhythmic pattern across the surface. Professional architectural photography style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCv_y-5DrXYJthi-K9Eon45sb7Ovq_Ts-8znHt0EXT-ohe7fx4QSoGRk6A5fBafSlKqTHy9fVQV0P8pVQbHZHc1janUct5e4L9O5Isl2E9yRy0wz-gRGV6BfoUoQai7oqurX3sets-DGZ65NvZRuFFGyQSwJmynsnj4ls1uuMxoxvkQLn_SHmiFrmq-WnTpo20o6XVuynOU9X2mvW0edJCuPONaUuwCRVlYA4MMEyzvjJtqko-vHGJg-Cf9S1TdMg9zjwOMWmGKadc2')"></div>
+</div>
+</div>
+</div>
+<div class="md:col-span-4 h-full scroll-reveal visible" style="transition-delay: 300ms;">
+<div class="w-full h-full bg-cover bg-center relative group overflow-hidden" data-alt="A sunset dining view in the Obsidian Loft. A monolithic dark oak table is set with minimalist ceramic tableware. High-back leather chairs surround the table, with the golden hour sunlight casting long, dramatic shadows across the room." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCmJ2Ob2WfUtpQp5KrmSX9ICqL_TvPnR5mtNyXUQCcSZFLXEnIrdFKuZCoc2Q8mZBjoyUh0bhux9bh7krusC3_esiyrSIkEMYf6U2VcRTDGOe-OVBEO6zl2PXI7dWFOkl2fZ1M6TNwrvBX-H4yX7s5wNdtRi0zovG1HSXz9pmML734kNWQtR7pgbUh0P_b5Y9bFch8UMf8hmbhHN_tjK5A2U3ZthjdEnLWk-QC_SV887HIvnhwJOhsM7i7jmfLrupXrqEeEJHTp7Rzg')">
+<div class="absolute bottom-10 left-10 right-10 p-8 bg-surface/90 backdrop-blur-md opacity-0 translate-y-10 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+<h3 class="font-headline-sm text-headline-sm mb-2">Sunset Atrium</h3>
+<p class="text-on-surface-variant font-body-md text-body-md">The precise orientation of the penthouse allows for two hours of direct golden light daily.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer CTA -->
+<section class="py-section-gap bg-surface-container-low">
+<div class="max-w-container-max mx-auto px-margin-desktop text-center">
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-12 scroll-reveal visible">Bring this vision to your space.</h2>
+<div class="flex flex-col md:flex-row justify-center items-center gap-6 scroll-reveal visible" style="transition-delay: 200ms;">
+<button class="w-full md:w-auto px-12 py-5 bg-primary text-on-primary font-label-caps text-label-caps uppercase tracking-widest hover:opacity-80 transition-opacity">Request a Consultation</button>
+<button class="w-full md:w-auto px-12 py-5 border border-primary text-primary font-label-caps text-label-caps uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all">Download Full Specs</button>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline/10">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-12 w-full max-w-container-max mx-auto gap-8">
+<div class="font-headline-md text-headline-md text-primary dark:text-primary-fixed uppercase tracking-widest">tavfik</div>
+<div class="flex gap-10">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps" href="#">Press</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-label-caps text-label-caps" href="#">Contact</a>
+</div>
+<div class="text-on-surface-variant font-label-sm text-[10px] uppercase tracking-tighter">
+                © 2024 AURA INTERIORS. ALL RIGHTS RESERVED.
+            </div>
+</div>
+</footer>
+<script>
+        // Before/After Slider Logic
+        const slider = document.getElementById('ba-slider');
+        const beforeImage = document.getElementById('before-image');
+        const sliderLine = document.getElementById('slider-line');
+
+        slider.addEventListener('input', (e) => {
+            const value = e.target.value;
+            beforeImage.style.width = `${value}%`;
+            sliderLine.style.left = `${value}%`;
+        });
+
+        // Scroll Reveal Intersection Observer
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // Subtle Page Interaction - Custom Cursor Effect for Luxury Feel
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor hidden md:block';
+        document.body.appendChild(cursor);
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.transform = `translate(${e.clientX - 12}px, ${e.clientY - 12}px)`;
+        });
+
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform += ' scale(2)';
+                cursor.style.backgroundColor = 'rgba(0,0,0,0.05)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = cursor.style.transform.replace(' scale(2)', '');
+                cursor.style.backgroundColor = 'transparent';
+            });
+        });
+    </script><div class="custom-cursor hidden md:block" style="transform: translate(950px, 399px); background-color: transparent;"></div>
+
+
+</body></html>

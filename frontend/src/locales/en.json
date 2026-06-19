@@ -14,6 +14,12 @@
     "explore": "Explore Galleries",
     "book": "Book Consultation"
   },
+  "stats": {
+    "projects": "Projects Delivered",
+    "awards": "Global Awards",
+    "studios": "Design Studios",
+    "artistry": "Years of Artistry"
+  },
   "categories": {
     "all": "All Works",
     "residential": "Residential",
@@ -44,7 +50,16 @@
     "year": "Year",
     "material": "Material",
     "style": "Style",
-    "price": "Price"
+    "price": "Price",
+    "concept": "Concept",
+    "clientNeeds": "Client Needs",
+    "timeline": "Timeline",
+    "recognition": "Recognition",
+    "materialsUsed": "Materials Used",
+    "requestSimilar": "Request Similar Design",
+    "bringVision": "Bring this vision to your space",
+    "downloadSpecs": "Download Full Specs",
+    "conceptTitle": "The Art of Custom Living"
   },
   "testimonials": {
     "title": "Client Testimonials",

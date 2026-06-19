@@ -31,7 +31,8 @@ export const Navbar: React.FC = () => {
     setLangDropdownOpen(false);
   }, [pathname]);
 
-  const navItems = [
+  const isAdmin = pathname?.startsWith("/admin");
+  const navItems = isAdmin ? [] : [
     { name: t("nav.projects"), path: "/projects" },
     { name: t("nav.collections"), path: "/collections" },
     { name: t("nav.about"), path: "/about" },

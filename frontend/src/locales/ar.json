@@ -14,6 +14,12 @@
     "explore": "اكتشف المعارض",
     "book": "احجز استشارة"
   },
+  "stats": {
+    "projects": "المشاريع المنجزة",
+    "awards": "الجوائز العالمية",
+    "studios": "استوديوهات التصميم",
+    "artistry": "سنوات من الفن والإبداع"
+  },
   "categories": {
     "all": "جميع الأعمال",
     "residential": "سكني",
@@ -44,7 +50,16 @@
     "year": "السنة",
     "material": "المادة",
     "style": "النمط",
-    "price": "السعر"
+    "price": "السعر",
+    "concept": "الفكرة",
+    "clientNeeds": "احتياجات العميل",
+    "timeline": "الجدول الزمني",
+    "recognition": "التقدير والجوائز",
+    "materialsUsed": "المواد المستخدمة",
+    "requestSimilar": "طلب تصميم مماثل",
+    "bringVision": "أحضر هذه الرؤية إلى مساحتك",
+    "downloadSpecs": "تحميل المواصفات الكاملة",
+    "conceptTitle": "فن العيش المخصص"
   },
   "testimonials": {
     "title": "آراء العملاء",

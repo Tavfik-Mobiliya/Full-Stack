@@ -76,6 +76,72 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
     }
   };
 
+  useEffect(() => {
+    if (loading || !project) return;
+    if (typeof window === "undefined" || window.innerWidth < 768) return;
+
+    const cursor = document.createElement("div");
+    cursor.className = "custom-cursor hidden md:block";
+    cursor.style.position = "fixed";
+    cursor.style.pointerEvents = "none";
+    cursor.style.width = "24px";
+    cursor.style.height = "24px";
+    cursor.style.border = "1px solid #D4AF37";
+    cursor.style.borderRadius = "50%";
+    cursor.style.zIndex = "9999";
+    cursor.style.transition = "transform 0.1s ease, background-color 0.2s ease, border-color 0.2s ease";
+    document.body.appendChild(cursor);
+
+    const onMouseMove = (e: MouseEvent) => {
+      cursor.style.transform = `translate(${e.clientX - 12}px, ${e.clientY - 12}px)`;
+    };
+
+    document.addEventListener("mousemove", onMouseMove);
+
+    const handleMouseEnter = () => {
+      cursor.style.transform += " scale(2)";
+      cursor.style.backgroundColor = "rgba(212, 175, 55, 0.15)";
+      cursor.style.borderColor = "#D4AF37";
+    };
+
+    const handleMouseLeave = () => {
+      cursor.style.transform = cursor.style.transform.replace(" scale(2)", "");
+      cursor.style.backgroundColor = "transparent";
+      cursor.style.borderColor = "#D4AF37";
+    };
+
+    const interactiveElements = document.querySelectorAll("button, a, input, textarea, select");
+    interactiveElements.forEach((el) => {
+      el.addEventListener("mouseenter", handleMouseEnter);
+      el.addEventListener("mouseleave", handleMouseLeave);
+    });
+
+    return () => {
+      document.removeEventListener("mousemove", onMouseMove);
+      if (document.body.contains(cursor)) {
+        document.body.removeChild(cursor);
+      }
+      interactiveElements.forEach((el) => {
+        el.removeEventListener("mouseenter", handleMouseEnter);
+        el.removeEventListener("mouseleave", handleMouseLeave);
+      });
+    };
+  }, [loading, project]);
+
+  const getSpecValue = (key: string, fallback: string) => {
+    if (!project || !project.specs) return fallback;
+    const foundKey = Object.keys(project.specs).find(k => k.toLowerCase() === key.toLowerCase());
+    if (foundKey) return project.specs[foundKey];
+    return fallback;
+  };
+
+  const scrollToInquiry = () => {
+    const inquirySec = document.getElementById("inquiry-section");
+    if (inquirySec) {
+      inquirySec.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex flex-col min-h-screen bg-background text-on-surface">
@@ -112,226 +178,346 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
   const location = getLocalized(project, "location", language);
   const material = getLocalized(project, "material", language);
   const style = getLocalized(project, "style", language);
+  const galleryImages = project && project.images ? project.images.slice(1) : [];
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-on-surface">
       <Navbar />
 
-      <main className="flex-1 pt-32 pb-24 px-6 max-w-7xl mx-auto w-full">
-        {/* Back Link */}
-        <Link
-          href={project.category === "Interior" ? "/projects" : "/collections"}
-          className="inline-flex items-center space-x-2 rtl:space-x-reverse text-xs uppercase tracking-widest text-on-surface-variant/60 hover:text-gold transition-colors mb-12"
-        >
-          <ArrowLeft size={14} className="rtl:rotate-180" />
-          <span>{t("project.back")}</span>
-        </Link>
-
-        {/* Project Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16">
-          <div className="lg:col-span-8 space-y-6">
-            <div className="flex flex-wrap gap-3">
-              <span className="bg-gold/10 border border-gold/20 text-gold px-3 py-1 rounded text-[10px] tracking-widest uppercase">
-                {project.category}
-              </span>
-              {project.subCategory && (
-                <span className="bg-surface-container-high border border-outline-variant/30 text-on-surface-variant px-3 py-1 rounded text-[10px] tracking-widest uppercase">
-                  {project.subCategory}
-                </span>
-              )}
-            </div>
-            <h1 className="font-serif text-4xl md:text-6xl text-on-surface font-bold leading-tight">
+      {/* Hero Header */}
+      <header className="relative h-[80vh] w-full overflow-hidden flex items-end">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={project.images && project.images[0] ? project.images[0] : "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1600"}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-[2s] hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+        </div>
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pb-16 text-white flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+          <div className="max-w-2xl">
+            <span className="font-label-caps text-xs uppercase tracking-[0.2em] mb-3 block text-gold">
+              {location} &bull; {project.year}
+            </span>
+            <h1 className="font-serif text-4xl md:text-6xl mb-6 font-light leading-tight">
               {title}
             </h1>
-            <p className="text-on-surface-variant/90 text-lg font-light leading-relaxed max-w-3xl">
-              {description}
-            </p>
-          </div>
-
-          {/* Quick Specifications Metadata */}
-          <div className="lg:col-span-4 glass-panel p-6 rounded-lg h-fit space-y-4">
-            <h3 className="text-xs uppercase tracking-widest text-gold font-bold border-b border-outline-variant/30 pb-3">
-              Project Overview
-            </h3>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center justify-between">
-                <span className="text-on-surface-variant/60 flex items-center space-x-2 rtl:space-x-reverse">
-                  <MapPin size={14} />
-                  <span>{t("project.location")}</span>
-                </span>
-                <span className="text-on-surface font-medium">{location}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-on-surface-variant/60 flex items-center space-x-2 rtl:space-x-reverse">
-                  <Calendar size={14} />
-                  <span>{t("project.year")}</span>
-                </span>
-                <span className="text-on-surface font-medium">{project.year}</span>
-              </div>
-              {material && (
-                <div className="flex items-center justify-between">
-                  <span className="text-on-surface-variant/60 flex items-center space-x-2 rtl:space-x-reverse">
-                    <Tag size={14} />
-                    <span>{t("project.material")}</span>
-                  </span>
-                  <span className="text-on-surface font-medium text-right max-w-[180px] truncate">{material}</span>
-                </div>
-              )}
-              {style && (
-                <div className="flex items-center justify-between">
-                  <span className="text-on-surface-variant/60 flex items-center space-x-2 rtl:space-x-reverse">
-                    <Info size={14} />
-                    <span>{t("project.style")}</span>
-                  </span>
-                  <span className="text-on-surface font-medium">{style}</span>
-                </div>
-              )}
-              {project.price && (
-                <div className="flex items-center justify-between border-t border-outline-variant/30 pt-3">
-                  <span className="text-gold uppercase tracking-wider font-semibold text-xs">
-                    {t("project.price")}
-                  </span>
-                  <span className="text-gold font-bold text-base">
-                    ${parseFloat(project.price).toLocaleString()}
-                  </span>
-                </div>
-              )}
+            <div className="flex items-center gap-6">
+              <button 
+                onClick={scrollToInquiry}
+                className="px-8 py-4 bg-gold hover:bg-gold/90 text-black font-label-caps text-xs uppercase tracking-widest transition-all rounded-none font-semibold flex items-center gap-3"
+              >
+                {t("project.requestSimilar")}
+                <ArrowLeft className="rotate-180" size={14} />
+              </button>
+              <div className="h-px w-24 bg-white/30 hidden md:block"></div>
             </div>
           </div>
+          
+          <Link
+            href={project.category === "Interior" ? "/projects" : "/collections"}
+            className="inline-flex items-center space-x-2 rtl:space-x-reverse text-xs uppercase tracking-widest text-white/70 hover:text-gold transition-colors pb-1 border-b border-white/20 hover:border-gold"
+          >
+            <ArrowLeft size={14} className="rtl:rotate-180" />
+            <span>{t("project.back")}</span>
+          </Link>
         </div>
+      </header>
 
-        {/* Gallery & Interactive Slider */}
-        <div className="space-y-12 mb-16">
-          {/* Main active image */}
-          {activeImage && (
-            <div className="relative aspect-video w-full rounded-lg overflow-hidden border border-outline-variant/30">
-              <img
-                src={activeImage}
-                alt={title}
-                className="w-full h-full object-cover"
-              />
+      <main className="flex-1 w-full pb-24">
+        {/* Design Concept & Specifications */}
+        <section className="py-24 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-12 gap-12">
+          <div className="md:col-span-7 pr-0 md:pr-12">
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-on-surface-variant/60 mb-4 block font-semibold">
+              {t("project.concept")}
+            </span>
+            <h2 className="font-serif text-3xl md:text-4xl text-on-surface font-light mb-8">
+              {t("project.conceptTitle")}
+            </h2>
+            <div className="space-y-6 text-on-surface-variant text-base leading-relaxed font-light">
+              <p>{description}</p>
             </div>
-          )}
+          </div>
+          <div className="md:col-span-5 md:border-l border-outline-variant/30 md:pl-12 rtl:border-l-0 md:rtl:border-r">
+            <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-on-surface-variant/60 mb-8 block font-semibold">
+              {t("project.specs")}
+            </span>
+            <div className="space-y-8">
+              <div>
+                <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant/50 mb-2 font-medium">
+                  {t("project.clientNeeds")}
+                </h4>
+                <p className="font-serif text-lg md:text-xl text-on-surface leading-snug">
+                  {getSpecValue("Client Needs", getSpecValue("احتياجات العميل", getSpecValue("Müşteri İhtiyaçları", "A bespoke private sanctuary matching the brand's architectural identity."))) || "A bespoke private sanctuary matching the brand's architectural identity."}
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-8">
+                <div>
+                  <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant/50 mb-2 font-medium">
+                    {t("project.timeline")}
+                  </h4>
+                  <p className="text-base text-on-surface">
+                    {getSpecValue("Timeline", getSpecValue("الجدول الزمني", getSpecValue("Zaman Çizelgesi", "12 Months"))) || "12 Months"}
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant/50 mb-2 font-medium">
+                    {t("project.recognition")}
+                  </h4>
+                  <p className="text-base text-on-surface">
+                    {getSpecValue("Recognition", getSpecValue("التقدير والجوائز", getSpecValue("Ödüller & Başarılar", "Featured Design Showcase 2024"))) || "Featured Design Showcase 2024"}
+                  </p>
+                </div>
+              </div>
 
-          {/* Thumbnail list */}
-          {project.images && project.images.length > 1 && (
-            <div className="flex gap-4 overflow-x-auto pb-2">
-              {project.images.map((img: string, index: number) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveImage(img)}
-                  className={`relative w-28 aspect-video rounded overflow-hidden flex-shrink-0 border transition-all ${
-                    activeImage === img ? "border-gold scale-95" : "border-outline-variant hover:border-gold/30"
-                  }`}
-                >
-                  <img src={img} alt={`${title} ${index}`} className="w-full h-full object-cover" />
-                </button>
-              ))}
+              {material && (
+                <div>
+                  <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant/50 mb-4 font-medium">
+                    {t("project.materialsUsed")}
+                  </h4>
+                  <ul className="space-y-2.5">
+                    {material.split(",").map((mat: string, idx: number) => (
+                      <li key={idx} className="flex items-center gap-3 text-on-surface text-sm font-light">
+                        <span className="w-1.5 h-1.5 rounded-full bg-gold"></span>
+                        <span>{mat.trim()}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              {style && (
+                <div>
+                  <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant/50 mb-2 font-medium">
+                    {t("project.style")}
+                  </h4>
+                  <p className="text-base text-on-surface">
+                    {style}
+                  </p>
+                </div>
+              )}
+              
+              {project.price && (
+                <div className="border-t border-outline-variant/30 pt-4">
+                  <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-gold mb-2 font-semibold">
+                    {t("project.price")}
+                  </h4>
+                  <p className="font-serif text-2xl text-gold font-bold">
+                    ${parseFloat(project.price).toLocaleString()}
+                  </p>
+                </div>
+              )}
             </div>
-          )}
+          </div>
+        </section>
 
-          {/* Before / After Slider */}
-          {project.beforeImage && project.afterImage && (
-            <div className="space-y-6 pt-8 border-t border-outline-variant/30">
-              <h2 className="font-serif text-2xl text-on-surface font-semibold text-center">
+        {/* Before / After Metamorphosis */}
+        {project.beforeImage && project.afterImage && (
+          <section className="relative w-full max-w-7xl mx-auto px-6 mb-24">
+            <div className="mb-12 text-center">
+              <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-on-surface-variant/60 mb-3 block font-semibold">
+                TRANSFORMATION
+              </span>
+              <h2 className="font-serif text-3xl md:text-4xl text-on-surface font-light">
                 {t("project.beforeAfter")}
               </h2>
+            </div>
+            <div className="border border-outline-variant/30 rounded-none overflow-hidden">
               <BeforeAfter beforeImage={project.beforeImage} afterImage={project.afterImage} />
             </div>
-          )}
-        </div>
-
-        {/* Custom Specifications specs details if present */}
-        {project.specs && Object.keys(project.specs).length > 0 && (
-          <div className="mb-16 pt-12 border-t border-outline-variant/30">
-            <h2 className="font-serif text-2xl text-on-surface font-semibold mb-6">
-              {t("project.specs")}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {Object.entries(project.specs).map(([key, value]) => (
-                <div key={key} className="glass-panel p-6 rounded">
-                  <span className="text-xs uppercase tracking-widest text-on-surface-variant/50 block mb-2">{key}</span>
-                  <span className="text-on-surface font-serif text-lg font-medium">{String(value)}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+          </section>
         )}
 
-        {/* Inquiry Form Call to Action */}
-        <section className="pt-12 border-t border-outline-variant/30">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 space-y-4">
-              <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold block">
+        {/* Asymmetric Detail Gallery */}
+        {galleryImages.length > 0 && (
+          <section className="py-16 max-w-7xl mx-auto px-6">
+            <div className="mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+              <div>
+                <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-on-surface-variant/60 mb-3 block font-semibold">
+                  CAPTURING DETAIL
+                </span>
+                <h2 className="font-serif text-3xl md:text-4xl text-on-surface font-light">
+                  An Editorial Perspective
+                </h2>
+              </div>
+              <p className="max-w-md text-on-surface-variant/80 text-sm leading-relaxed pb-2 border-b border-outline-variant/20 font-light">
+                Each detail is custom-curated and executed to align with the geometric purity of the architectural concept.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:h-[900px] mb-12">
+              {/* Left Side (Col-span 8) */}
+              <div className="md:col-span-8 flex flex-col gap-8 h-full">
+                {/* Primary Gallery Image (2/3 height on desktop) */}
+                {galleryImages[0] && (
+                  <div className="md:h-2/3 relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-video md:aspect-auto flex-1">
+                    <img
+                      src={galleryImages[0]}
+                      alt="Gallery view"
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <span className="px-8 py-4 bg-white text-black font-label-caps text-xs uppercase tracking-widest rounded-none shadow-md">
+                        VIEW MASTER WORK
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Secondary Bottom Row (1/3 height) */}
+                {(galleryImages[1] || galleryImages[2]) && (
+                  <div className="grid grid-cols-2 gap-8 md:h-1/3">
+                    {galleryImages[1] && (
+                      <div className="relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-square md:aspect-auto">
+                        <img
+                          src={galleryImages[1]}
+                          alt="Detail view 1"
+                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
+                    {galleryImages[2] && (
+                      <div className="relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-square md:aspect-auto">
+                        <img
+                          src={galleryImages[2]}
+                          alt="Detail view 2"
+                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Right Side (Col-span 4) */}
+              {galleryImages[3] && (
+                <div className="md:col-span-4 h-full relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-[3/4] md:aspect-auto">
+                  <img
+                    src={galleryImages[3]}
+                    alt="Atrium view"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  />
+                  <div className="absolute bottom-6 left-6 right-6 p-6 bg-background/95 backdrop-blur-md opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 border border-outline-variant/20">
+                    <h3 className="font-serif text-lg text-on-surface mb-2 font-medium">Design Focus</h3>
+                    <p className="text-on-surface-variant text-xs leading-relaxed font-light">
+                      The precision layout allows for maximum capture of natural illumination throughout the seasons.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Fallback list for remaining images (if more than 4) */}
+            {galleryImages.length > 4 && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+                {galleryImages.slice(4).map((img: string, idx: number) => (
+                  <div key={idx} className="relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-video">
+                    <img
+                      src={img}
+                      alt={`Additional detail ${idx + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Footer CTA & Inquiry Form Section */}
+        <section id="inquiry-section" className="py-24 bg-surface-container-low border-t border-outline-variant/20">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16 max-w-2xl mx-auto">
+              <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-gold mb-3 block font-semibold">
                 ACQUISITIONS & INQUIRIES
               </span>
-              <h2 className="font-serif text-3xl text-on-surface font-bold">
-                {t("project.inquire")}
+              <h2 className="font-serif text-3xl md:text-5xl text-on-surface font-light mb-6">
+                {t("project.bringVision")}
               </h2>
-              <p className="text-on-surface-variant/80 text-sm leading-relaxed">
+              <p className="text-on-surface-variant/80 text-sm leading-relaxed font-light">
                 Connect with our showroom concierges to request physical material samples, customization options, or catalog details.
               </p>
             </div>
 
-            <div className="lg:col-span-7 glass-panel p-8 rounded-lg">
-              <form onSubmit={handleInquirySubmit} className="space-y-6">
-                
-                {success && (
-                  <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded text-sm animate-fade-in-up">
-                    {success}
-                  </div>
-                )}
-
-                {error && (
-                  <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded text-sm animate-fade-in-up">
-                    {error}
-                  </div>
-                )}
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex flex-col space-y-2">
-                    <label className="text-xs uppercase tracking-widest text-on-surface-variant/80">{t("concierge.name")}</label>
-                    <input
-                      type="text"
-                      required
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-sm focus:outline-none focus:border-gold transition-all"
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <label className="text-xs uppercase tracking-widest text-on-surface-variant/80">{t("concierge.email")}</label>
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-sm focus:outline-none focus:border-gold transition-all"
-                    />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mt-12">
+              <div className="lg:col-span-4 space-y-6">
+                <div className="p-6 bg-background border border-outline-variant/20 rounded-none space-y-6">
+                  <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold border-b border-outline-variant/20 pb-2">
+                    Showroom Assistance
+                  </h4>
+                  <p className="text-sm text-on-surface-variant leading-relaxed font-light">
+                    Our ateliers in Istanbul and Milan are available for private walkthroughs by appointment.
+                  </p>
+                  <div className="space-y-4 pt-2">
+                    <button 
+                      onClick={() => window.print()}
+                      className="w-full py-3 border border-on-surface text-on-surface hover:bg-on-surface hover:text-background font-label-caps text-xs uppercase tracking-widest transition-all rounded-none font-semibold"
+                    >
+                      {t("project.downloadSpecs")}
+                    </button>
                   </div>
                 </div>
+              </div>
 
-                <div className="flex flex-col space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-on-surface-variant/80">{t("concierge.message")}</label>
-                  <textarea
-                    required
-                    rows={4}
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-sm focus:outline-none focus:border-gold transition-all resize-none"
-                  />
-                </div>
+              <div className="lg:col-span-8 p-8 bg-background border border-outline-variant/20 rounded-none">
+                <form onSubmit={handleInquirySubmit} className="space-y-8">
+                  {success && (
+                    <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-none text-sm animate-fade-in-up">
+                      {success}
+                    </div>
+                  )}
 
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 disabled:bg-primary/50 text-on-primary py-4 px-6 rounded text-xs uppercase tracking-widest font-semibold transition-colors shadow-lg"
-                >
-                  <Send size={14} />
-                  <span>{submitting ? t("concierge.submitting") : t("concierge.submit")}</span>
-                </button>
+                  {error && (
+                    <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-none text-sm animate-fade-in-up">
+                      {error}
+                    </div>
+                  )}
 
-              </form>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="flex flex-col space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-on-surface-variant/70 font-semibold">{t("concierge.name")}</label>
+                      <input
+                        type="text"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="bg-transparent border-b border-outline-variant/50 focus:border-gold py-2 text-on-surface text-sm focus:outline-none transition-all rounded-none"
+                      />
+                    </div>
+                    <div className="flex flex-col space-y-2">
+                      <label className="text-[10px] uppercase tracking-widest text-on-surface-variant/70 font-semibold">{t("concierge.email")}</label>
+                      <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="bg-transparent border-b border-outline-variant/50 focus:border-gold py-2 text-on-surface text-sm focus:outline-none transition-all rounded-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col space-y-2">
+                    <label className="text-[10px] uppercase tracking-widest text-on-surface-variant/70 font-semibold">{t("concierge.message")}</label>
+                    <textarea
+                      required
+                      rows={4}
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      className="bg-transparent border-b border-outline-variant/50 focus:border-gold py-2 text-on-surface text-sm focus:outline-none transition-all resize-none rounded-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="w-full inline-flex items-center justify-center space-x-2 bg-on-surface hover:bg-on-surface/90 disabled:bg-on-surface/50 text-background py-4 px-6 rounded-none text-xs uppercase tracking-widest font-semibold transition-colors"
+                  >
+                    <Send size={14} />
+                    <span>{submitting ? t("concierge.submitting") : t("concierge.submit")}</span>
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </section>

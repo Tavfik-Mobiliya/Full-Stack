@@ -14,6 +14,12 @@
     "explore": "Galerileri Keşfet",
     "book": "Danışmanlık Randevusu Al"
   },
+  "stats": {
+    "projects": "Teslim Edilen Projeler",
+    "awards": "Küresel Ödüller",
+    "studios": "Tasarım Stüdyoları",
+    "artistry": "Sanat Dolu Yıllar"
+  },
   "categories": {
     "all": "Tüm Eserler",
     "residential": "Konut",
@@ -44,7 +50,16 @@
     "year": "Yıl",
     "material": "Malzeme",
     "style": "Tarz",
-    "price": "Fiyat"
+    "price": "Fiyat",
+    "concept": "Konsept",
+    "clientNeeds": "Müşteri İhtiyaçları",
+    "timeline": "Zaman Çizelgesi",
+    "recognition": "Ödüller & Başarılar",
+    "materialsUsed": "Kullanılan Malzemeler",
+    "requestSimilar": "Benzer Tasarım Talep Et",
+    "bringVision": "Bu vizyonu alanınıza taşıyın",
+    "downloadSpecs": "Tüm Özellikleri İndir",
+    "conceptTitle": "Kişiye Özel Yaşam Sanatı"
   },
   "testimonials": {
     "title": "Müşteri Yorumları",

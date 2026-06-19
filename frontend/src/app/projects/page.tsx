@@ -79,6 +79,42 @@ export default function ProjectsPage() {
           </h1>
         </div>
 
+        {/* Stats Section */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 py-12 border-y border-outline-variant/20 mb-16 text-center animate-fade-in-up">
+          <div className="flex flex-col items-center">
+            <span className="font-serif text-4xl md:text-5xl font-semibold text-gold mb-2 tracking-tight">
+              140+
+            </span>
+            <span className="text-[10px] md:text-[11px] uppercase tracking-widest text-on-surface-variant/75 font-medium px-4">
+              {t("stats.projects")}
+            </span>
+          </div>
+          <div className="flex flex-col items-center md:border-l md:border-outline-variant/20 md:rtl:border-l-0 md:rtl:border-r">
+            <span className="font-serif text-4xl md:text-5xl font-semibold text-gold mb-2 tracking-tight">
+              12
+            </span>
+            <span className="text-[10px] md:text-[11px] uppercase tracking-widest text-on-surface-variant/75 font-medium px-4">
+              {t("stats.awards")}
+            </span>
+          </div>
+          <div className="flex flex-col items-center md:border-l md:border-outline-variant/20 md:rtl:border-l-0 md:rtl:border-r">
+            <span className="font-serif text-4xl md:text-5xl font-semibold text-gold mb-2 tracking-tight">
+              8
+            </span>
+            <span className="text-[10px] md:text-[11px] uppercase tracking-widest text-on-surface-variant/75 font-medium px-4">
+              {t("stats.studios")}
+            </span>
+          </div>
+          <div className="flex flex-col items-center md:border-l md:border-outline-variant/20 md:rtl:border-l-0 md:rtl:border-r">
+            <span className="font-serif text-4xl md:text-5xl font-semibold text-gold mb-2 tracking-tight">
+              24
+            </span>
+            <span className="text-[10px] md:text-[11px] uppercase tracking-widest text-on-surface-variant/75 font-medium px-4">
+              {t("stats.artistry")}
+            </span>
+          </div>
+        </div>
+
         {/* Filter Toolbar */}
         <div className="glass-panel p-6 rounded-lg mb-12 flex flex-col lg:flex-row gap-6 items-stretch lg:items-center justify-between">
           <form onSubmit={handleSearchSubmit} className="flex-1 relative flex items-center">

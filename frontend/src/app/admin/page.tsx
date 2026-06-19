@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProjects, apiTestimonials, apiInquiries, apiAuth } from "@/utils/api";
 import { Plus, Edit, Trash2, SlidersHorizontal, MessageSquare, BookOpen, Star, FileText } from "lucide-react";
@@ -396,7 +395,6 @@ export default function AdminPage() {
             </form>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
@@ -1110,8 +1108,6 @@ export default function AdminPage() {
           </>
         )}
       </main>
-
-      <Footer />
     </div>
   );
 }
