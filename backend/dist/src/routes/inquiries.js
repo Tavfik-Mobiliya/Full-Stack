@@ -5,9 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma"));
+const authMiddleware_1 = require("../middleware/authMiddleware");
 const router = (0, express_1.Router)();
 // GET all inquiries (for admin review)
-router.get("/", async (req, res, next) => {
+router.get("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const inquiries = await prisma_1.default.inquiry.findMany({
             orderBy: { createdAt: "desc" },
@@ -43,7 +44,7 @@ router.post("/", async (req, res, next) => {
     }
 });
 // DELETE inquiry by ID
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
         const existing = await prisma_1.default.inquiry.findUnique({ where: { id } });

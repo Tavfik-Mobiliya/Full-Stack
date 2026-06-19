@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import prisma from "../prisma";
+import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = Router();
 
@@ -24,7 +25,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // POST create testimonial
-router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr } = req.body;
 
@@ -48,7 +49,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // PUT update testimonial by ID
-router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = parseInt(req.params.id as string);
     const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr } = req.body;
@@ -80,7 +81,7 @@ router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // DELETE testimonial by ID
-router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.delete("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = parseInt(req.params.id as string);
 

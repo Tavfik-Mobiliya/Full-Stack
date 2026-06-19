@@ -32,11 +32,9 @@ export const Navbar: React.FC = () => {
   }, [pathname]);
 
   const navItems = [
-    { name: t("nav.home"), path: "/" },
     { name: t("nav.projects"), path: "/projects" },
     { name: t("nav.collections"), path: "/collections" },
-    { name: t("nav.concierge"), path: "/#concierge" },
-    { name: t("nav.admin"), path: "/admin" },
+    { name: t("nav.about"), path: "/about" },
   ];
 
   const languages = [
@@ -56,10 +54,10 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex flex-col">
-          <span className="font-serif text-2xl font-semibold tracking-wider text-champagne hover:text-gold transition-colors">
+          <span className="font-serif text-2xl font-semibold tracking-wider text-on-surface hover:text-gold transition-colors">
             AURA
           </span>
-          <span className="text-[9px] uppercase tracking-[0.25em] text-silver/60">
+          <span className="text-[9px] uppercase tracking-[0.25em] text-on-surface-variant/60">
             Atelier of Space
           </span>
         </Link>
@@ -73,7 +71,7 @@ export const Navbar: React.FC = () => {
                 key={item.path}
                 href={item.path}
                 className={`text-sm uppercase tracking-widest font-medium transition-colors hover:text-gold ${
-                  isActive ? "text-gold border-b border-gold" : "text-silver"
+                  isActive ? "text-gold border-b border-gold" : "text-on-surface-variant"
                 }`}
               >
                 {item.name}
@@ -87,7 +85,7 @@ export const Navbar: React.FC = () => {
           {/* Theme Toggler */}
           <button
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="p-2 text-silver hover:text-gold transition-colors focus:outline-none cursor-pointer"
+            className="p-2 text-on-surface-variant hover:text-gold transition-colors focus:outline-none cursor-pointer"
             aria-label="Toggle Theme"
           >
             {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
@@ -97,7 +95,7 @@ export const Navbar: React.FC = () => {
           <div className="relative">
             <button
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="flex items-center space-x-2 text-silver hover:text-gold text-xs uppercase tracking-widest transition-colors py-2 px-3 rounded border border-silver/10 hover:border-gold/30 bg-deep-charcoal/30"
+              className="flex items-center space-x-2 text-on-surface-variant hover:text-gold text-xs uppercase tracking-widest transition-colors py-2 px-3 rounded border border-outline-variant/30 hover:border-gold/30 bg-surface-container-low/50"
             >
               <Globe size={14} className="text-gold" />
               <span>{languages.find((l) => l.code === language)?.name}</span>
@@ -118,7 +116,7 @@ export const Navbar: React.FC = () => {
                       setLangDropdownOpen(false);
                     }}
                     className={`w-full text-start px-4 py-2 hover:bg-gold/10 hover:text-gold transition-colors ${
-                      language === lang.code ? "text-gold font-medium" : "text-silver"
+                      language === lang.code ? "text-gold font-medium" : "text-on-surface-variant"
                     }`}
                   >
                     {lang.name}
@@ -131,7 +129,7 @@ export const Navbar: React.FC = () => {
           {/* Mobile menu trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-silver hover:text-gold focus:outline-none"
+            className="md:hidden p-2 text-on-surface-variant hover:text-gold focus:outline-none"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -140,7 +138,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer Overlay */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 top-[72px] z-40 bg-ink-black/95 backdrop-blur-md md:hidden flex flex-col px-8 py-12 animate-fade-in-up">
+        <div className="fixed inset-0 top-[72px] z-40 bg-background/95 backdrop-blur-md md:hidden flex flex-col px-8 py-12 animate-fade-in-up border-t border-outline-variant/20">
           <div className="flex flex-col space-y-6">
             {navItems.map((item) => {
               const isActive = pathname === item.path;
@@ -150,7 +148,7 @@ export const Navbar: React.FC = () => {
                   href={item.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`text-xl uppercase tracking-widest font-serif transition-colors py-2 ${
-                    isActive ? "text-gold border-b border-gold/30" : "text-silver"
+                    isActive ? "text-gold border-b border-gold/30" : "text-on-surface-variant"
                   }`}
                 >
                   {item.name}
@@ -159,8 +157,8 @@ export const Navbar: React.FC = () => {
             })}
           </div>
 
-          <div className="mt-auto border-t border-silver/10 pt-8 flex flex-col space-y-4">
-            <span className="text-xs uppercase tracking-widest text-silver/40">Select Language</span>
+          <div className="mt-auto border-t border-outline-variant/20 pt-8 flex flex-col space-y-4">
+            <span className="text-xs uppercase tracking-widest text-on-surface-variant/40">Select Language</span>
             <div className="flex flex-wrap gap-3">
               {languages.map((lang) => (
                 <button
@@ -172,7 +170,7 @@ export const Navbar: React.FC = () => {
                   className={`px-4 py-2 text-xs uppercase tracking-widest rounded border transition-all ${
                     language === lang.code
                       ? "border-gold text-gold bg-gold/5"
-                      : "border-silver/20 text-silver hover:border-gold/30"
+                      : "border-outline-variant/30 text-on-surface-variant hover:border-gold/30"
                   }`}
                 >
                   {lang.name}

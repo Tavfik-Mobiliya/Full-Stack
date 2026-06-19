@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from "express";
 import prisma from "../prisma";
+import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = Router();
 
@@ -116,7 +117,7 @@ router.get("/:slug", async (req: Request, res: Response, next: NextFunction) => 
 });
 
 // POST create project
-router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {
       slug,
@@ -194,7 +195,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // PUT update project by ID
-router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = parseInt(req.params.id as string);
     const {
@@ -283,7 +284,7 @@ router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // DELETE project by ID
-router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.delete("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = parseInt(req.params.id as string);
 

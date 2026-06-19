@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma"));
+const authMiddleware_1 = require("../middleware/authMiddleware");
 const router = (0, express_1.Router)();
 // GET all projects (with filtering)
 router.get("/", async (req, res, next) => {
@@ -98,7 +99,7 @@ router.get("/:slug", async (req, res, next) => {
     }
 });
 // POST create project
-router.post("/", async (req, res, next) => {
+router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const { slug, category, subCategory, roomType, year, images, specs, beforeImage, afterImage, price, budget, featured, titleEn, titleAr, titleTr, descriptionEn, descriptionAr, descriptionTr, locationEn, locationAr, locationTr, materialEn, materialAr, materialTr, styleEn, styleAr, styleTr, } = req.body;
         // Validate slug uniqueness
@@ -145,7 +146,7 @@ router.post("/", async (req, res, next) => {
     }
 });
 // PUT update project by ID
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
         const { slug, category, subCategory, roomType, year, images, specs, beforeImage, afterImage, price, budget, featured, titleEn, titleAr, titleTr, descriptionEn, descriptionAr, descriptionTr, locationEn, locationAr, locationTr, materialEn, materialAr, materialTr, styleEn, styleAr, styleTr, } = req.body;
@@ -202,7 +203,7 @@ router.put("/:id", async (req, res, next) => {
     }
 });
 // DELETE project by ID
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
         const existing = await prisma_1.default.project.findUnique({ where: { id } });

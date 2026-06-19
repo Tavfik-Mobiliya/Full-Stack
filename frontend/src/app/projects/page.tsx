@@ -65,7 +65,7 @@ export default function ProjectsPage() {
   const budgets = ["Premium", "Ultra-Luxury", "Bespoke"];
 
   return (
-    <div className="flex flex-col min-h-screen bg-ink-black text-silver">
+    <div className="flex flex-col min-h-screen bg-background text-on-surface">
       <Navbar />
 
       <main className="flex-1 pt-32 pb-24 px-6 max-w-7xl mx-auto w-full">
@@ -74,7 +74,7 @@ export default function ProjectsPage() {
           <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold block mb-2 animate-fade-in-up">
             ARCHITECTURAL GALLERY
           </span>
-          <h1 className="font-serif text-4xl md:text-6xl text-champagne font-bold animate-fade-in-up">
+          <h1 className="font-serif text-4xl md:text-6xl text-on-surface font-bold animate-fade-in-up">
             {t("nav.projects")}
           </h1>
         </div>
@@ -87,12 +87,12 @@ export default function ProjectsPage() {
               placeholder={t("filters.search")}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-ink-black/40 border border-silver/10 rounded-l px-4 py-3 pl-10 rtl:pl-4 rtl:pr-10 text-silver text-sm focus:outline-none focus:border-gold transition-all"
+              className="w-full bg-surface-container-low border border-outline-variant rounded-l px-4 py-3 pl-10 rtl:pl-4 rtl:pr-10 text-on-surface text-sm focus:outline-none focus:border-gold transition-all"
             />
-            <Search size={16} className="absolute left-3.5 rtl:left-auto rtl:right-3.5 text-silver/40" />
+            <Search size={16} className="absolute left-3.5 rtl:left-auto rtl:right-3.5 text-on-surface-variant/40" />
             <button
               type="submit"
-              className="bg-gold hover:bg-gold/90 text-ink-black px-6 py-3 text-xs uppercase tracking-widest font-semibold rounded-r transition-colors"
+              className="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 text-xs uppercase tracking-widest font-semibold rounded-r transition-colors"
             >
               Search
             </button>
@@ -103,11 +103,11 @@ export default function ProjectsPage() {
             <select
               value={roomType}
               onChange={(e) => setRoomType(e.target.value)}
-              className="bg-ink-black/40 border border-silver/10 rounded px-4 py-3 text-silver text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
+              className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
             >
               <option value="">Room Type</option>
               {roomTypes.map((type) => (
-                <option key={type} value={type} className="bg-deep-charcoal text-silver">
+                <option key={type} value={type} className="bg-surface text-on-surface">
                   {type}
                 </option>
               ))}
@@ -117,11 +117,11 @@ export default function ProjectsPage() {
             <select
               value={style}
               onChange={(e) => setStyle(e.target.value)}
-              className="bg-ink-black/40 border border-silver/10 rounded px-4 py-3 text-silver text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
+              className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
             >
               <option value="">Aesthetic Style</option>
               {styles.map((s) => (
-                <option key={s} value={s} className="bg-deep-charcoal text-silver">
+                <option key={s} value={s} className="bg-surface text-on-surface">
                   {s}
                 </option>
               ))}
@@ -131,11 +131,11 @@ export default function ProjectsPage() {
             <select
               value={budget}
               onChange={(e) => setBudget(e.target.value)}
-              className="bg-ink-black/40 border border-silver/10 rounded px-4 py-3 text-silver text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
+              className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
             >
               <option value="">Budget Scale</option>
               {budgets.map((b) => (
-                <option key={b} value={b} className="bg-deep-charcoal text-silver">
+                <option key={b} value={b} className="bg-surface text-on-surface">
                   {b}
                 </option>
               ))}
@@ -144,7 +144,7 @@ export default function ProjectsPage() {
             {/* Reset */}
             <button
               onClick={handleReset}
-              className="inline-flex items-center space-x-1 rtl:space-x-reverse text-xs uppercase tracking-widest text-silver/50 hover:text-gold transition-colors py-3 px-4 rounded border border-silver/10 hover:border-gold/20"
+              className="inline-flex items-center space-x-1 rtl:space-x-reverse text-xs uppercase tracking-widest text-on-surface-variant/70 hover:text-gold transition-colors py-3 px-4 rounded border border-outline-variant hover:border-gold/20"
             >
               <RotateCcw size={12} />
               <span>Reset</span>
@@ -161,7 +161,7 @@ export default function ProjectsPage() {
           </div>
         ) : projects.length === 0 ? (
           <div className="py-24 text-center glass-panel rounded-lg">
-            <span className="text-sm text-silver/50 uppercase tracking-widest">
+            <span className="text-sm text-on-surface-variant/50 uppercase tracking-widest">
               No matching masterpieces found.
             </span>
           </div>
@@ -170,7 +170,7 @@ export default function ProjectsPage() {
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="group flex flex-col bg-deep-charcoal border border-silver/5 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20"
+                className="group flex flex-col bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20 shadow-md hover:shadow-lg"
               >
                 <div className="relative aspect-video w-full overflow-hidden">
                   <img
@@ -179,27 +179,27 @@ export default function ProjectsPage() {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60" />
-                  <div className="absolute top-4 left-4 bg-ink-black/60 backdrop-blur-md px-3 py-1 rounded text-[10px] tracking-widest text-gold uppercase">
+                  <div className="absolute top-4 left-4 bg-background/80 border border-outline-variant/30 backdrop-blur-md px-3 py-1 rounded text-[10px] tracking-widest text-gold uppercase">
                     {project.subCategory || "Residential"}
                   </div>
                 </div>
                 <div className="p-6 flex flex-col flex-1 space-y-4">
-                  <span className="text-xs text-silver/45 tracking-widest uppercase block">
+                  <span className="text-xs text-on-surface-variant/60 tracking-widest uppercase block">
                     {getLocalized(project, "location", language)} &bull; {project.year}
                   </span>
-                  <h3 className="font-serif text-xl text-champagne font-semibold group-hover:text-gold transition-colors">
+                  <h3 className="font-serif text-xl text-on-surface font-semibold group-hover:text-gold transition-colors">
                     {getLocalized(project, "title", language)}
                   </h3>
-                  <p className="text-sm text-silver/70 line-clamp-2 leading-relaxed">
+                  <p className="text-sm text-on-surface-variant/80 line-clamp-2 leading-relaxed">
                     {getLocalized(project, "description", language)}
                   </p>
-                  <div className="pt-4 mt-auto border-t border-silver/5 flex items-center justify-between">
-                    <span className="text-xs tracking-widest text-silver/50 uppercase">
+                  <div className="pt-4 mt-auto border-t border-outline-variant/30 flex items-center justify-between">
+                    <span className="text-xs tracking-widest text-on-surface-variant/60 uppercase">
                       {project.budget || "Bespoke"}
                     </span>
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="inline-flex items-center text-xs tracking-widest uppercase text-gold hover:text-champagne font-semibold transition-colors"
+                      className="inline-flex items-center text-xs tracking-widest uppercase text-gold hover:text-primary font-semibold transition-colors"
                     >
                       <span>EXPLORE DETAILS</span>
                       <ArrowUpRight size={14} className="ml-1 rtl:mr-1" />

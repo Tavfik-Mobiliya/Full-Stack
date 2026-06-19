@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma"));
+const authMiddleware_1 = require("../middleware/authMiddleware");
 const router = (0, express_1.Router)();
 // GET all testimonials (optional filter by category)
 router.get("/", async (req, res, next) => {
@@ -25,7 +26,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 // POST create testimonial
-router.post("/", async (req, res, next) => {
+router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr } = req.body;
         const newTestimonial = await prisma_1.default.testimonial.create({
@@ -47,7 +48,7 @@ router.post("/", async (req, res, next) => {
     }
 });
 // PUT update testimonial by ID
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
         const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr } = req.body;
@@ -76,7 +77,7 @@ router.put("/:id", async (req, res, next) => {
     }
 });
 // DELETE testimonial by ID
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
         const existing = await prisma_1.default.testimonial.findUnique({ where: { id } });

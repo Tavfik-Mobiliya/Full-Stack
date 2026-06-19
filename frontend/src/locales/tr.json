@@ -1,8 +1,9 @@
 {
   "nav": {
     "home": "Anasayfa",
-    "projects": "İç Mimari",
-    "collections": "Mobilya",
+    "projects": "Ürünler",
+    "collections": "Koleksiyonlar",
+    "about": "Hakkımızda",
     "concierge": "Konsiyerj",
     "admin": "Yönetici Paneli"
   },

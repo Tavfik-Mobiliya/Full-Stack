@@ -4,12 +4,20 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { apiProjects, apiTestimonials, apiInquiries } from "@/utils/api";
+import { apiProjects, apiTestimonials, apiInquiries, apiAuth } from "@/utils/api";
 import { Plus, Edit, Trash2, SlidersHorizontal, MessageSquare, BookOpen, Star, FileText } from "lucide-react";
 
 export default function AdminPage() {
   const { language, t } = useLanguage();
   const [activeTab, setActiveTab] = useState<"projects" | "inquiries" | "testimonials">("projects");
+
+  // Auth states
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [emailInput, setEmailInput] = useState("");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [authError, setAuthError] = useState("");
+  const [submittingAuth, setSubmittingAuth] = useState(false);
 
   // Data lists
   const [projects, setProjects] = useState<any[]>([]);
@@ -80,8 +88,36 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    loadDashboardData();
+    const loggedIn = apiAuth.isLoggedIn();
+    setIsLoggedIn(loggedIn);
+    setCheckingAuth(false);
+    if (loggedIn) {
+      loadDashboardData();
+    }
   }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setAuthError("");
+    setSubmittingAuth(true);
+    try {
+      await apiAuth.login(emailInput, passwordInput);
+      setIsLoggedIn(true);
+      loadDashboardData();
+    } catch (err: any) {
+      setAuthError(err.message || "Failed to sign in. Please check credentials.");
+    } finally {
+      setSubmittingAuth(false);
+    }
+  };
+
+  const handleLogout = () => {
+    apiAuth.logout();
+    setIsLoggedIn(false);
+    setProjects([]);
+    setInquiries([]);
+    setTestimonials([]);
+  };
 
   // Project Submit Handler
   const handleProjectSubmit = async (e: React.FormEvent) => {
@@ -287,20 +323,106 @@ export default function AdminPage() {
     }
   };
 
+  if (checkingAuth) {
+    return (
+      <div className="flex flex-col min-h-screen bg-ink-black text-silver justify-center items-center">
+        <span className="text-xs uppercase tracking-[0.3em] text-gold animate-pulse">
+          Authenticating Curator Session...
+        </span>
+      </div>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <div className="flex flex-col min-h-screen bg-background text-on-surface">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center pt-32 pb-24 px-6">
+          <div className="glass-panel p-8 md:p-12 rounded-lg border border-gold/15 shadow-2xl max-w-md w-full animate-fade-in-up">
+            <div className="text-center mb-8">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-gold font-semibold block mb-2">
+                SECURE ARCHIVE
+              </span>
+              <h1 className="font-serif text-3xl text-on-surface font-bold">
+                Curator Login
+              </h1>
+              <p className="text-on-surface/50 text-xs mt-2">
+                Authorized design personnel access only.
+              </p>
+            </div>
+            
+            <form onSubmit={handleLogin} className="space-y-6">
+              {authError && (
+                <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded text-xs">
+                  {authError}
+                </div>
+              )}
+              
+              <div className="flex flex-col space-y-2">
+                <label className="text-xs uppercase tracking-widest text-on-surface/70 font-medium">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-sm focus:outline-none focus:border-gold transition-all"
+                  placeholder="admin@aura.com"
+                />
+              </div>
+
+              <div className="flex flex-col space-y-2">
+                <label className="text-xs uppercase tracking-widest text-on-surface/70 font-medium">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-sm focus:outline-none focus:border-gold transition-all"
+                  placeholder="••••••••"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={submittingAuth}
+                className="w-full inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-on-primary py-4 px-6 rounded text-xs uppercase tracking-widest font-semibold transition-all shadow-lg disabled:opacity-50 cursor-pointer"
+              >
+                <span>{submittingAuth ? "Verifying..." : "Enter Atelier"}</span>
+              </button>
+            </form>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-ink-black text-silver">
       <Navbar />
 
       <main className="flex-1 pt-32 pb-24 px-6 max-w-7xl mx-auto w-full">
         {/* Title */}
-        <div className="mb-12">
-          <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold block mb-2">
-            CURATION STUDIO
-          </span>
-          <h1 className="font-serif text-4xl md:text-5xl text-champagne font-bold">
-            {t("admin.title")}
-          </h1>
-          <p className="text-silver/60 text-sm mt-2">{t("admin.subtitle")}</p>
+        <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-12 gap-6">
+          <div>
+            <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold block mb-2">
+              CURATION STUDIO
+            </span>
+            <h1 className="font-serif text-4xl md:text-5xl text-champagne font-bold">
+              {t("admin.title")}
+            </h1>
+            <p className="text-silver/60 text-sm mt-2">{t("admin.subtitle")}</p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="w-fit border border-silver/20 hover:border-red-400 hover:text-red-400 text-silver/60 px-5 py-2.5 text-xs uppercase tracking-widest font-semibold rounded transition-colors"
+          >
+            Log Out
+          </button>
         </div>
 
         {/* Tab Controls */}

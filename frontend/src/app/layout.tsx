@@ -26,8 +26,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${hanken.variable} h-full antialiased`}>
-      <body className="min-h-full bg-ink-black text-[#e5e2e1] flex flex-col font-sans">
+    <html lang="en" className={`${playfair.variable} ${hanken.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var saved = localStorage.getItem('preferred_theme');
+                  var theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
+                  document.documentElement.classList.remove('light', 'dark');
+                  document.documentElement.classList.add(theme);
+                } catch (e) {}
+              })();
+            `
+          }}
+        />
+      </head>
+      <body className="min-h-full bg-background text-on-surface flex flex-col font-sans">
         <LanguageProvider>
           {children}
         </LanguageProvider>

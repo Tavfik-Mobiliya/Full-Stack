@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import projectRoutes from "./routes/projects";
 import testimonialRoutes from "./routes/testimonials";
 import inquiryRoutes from "./routes/inquiries";
+import authRoutes from "./routes/auth";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.get("/api/health", (req, res) => {
 app.use("/api/projects", projectRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/inquiries", inquiryRoutes);
+app.use("/api/auth", authRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

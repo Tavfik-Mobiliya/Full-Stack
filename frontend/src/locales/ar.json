@@ -1,8 +1,9 @@
 {
   "nav": {
     "home": "الرئيسية",
-    "projects": "التصاميم الداخلية",
-    "collections": "الأثاث",
+    "projects": "المنتجات",
+    "collections": "المجموعات",
+    "about": "من نحن",
     "concierge": "الكونسيرج",
     "admin": "لوحة التحكم"
   },

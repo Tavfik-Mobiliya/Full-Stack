@@ -3,10 +3,17 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050/a
 export async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
   
-  const headers = {
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    ...options.headers,
+    ...options.headers as Record<string, string>,
   };
+
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("admin_token");
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+  }
 
   const config = {
     ...options,
@@ -117,4 +124,27 @@ export const apiInquiries = {
       method: "DELETE",
     });
   },
+};
+
+// Auth APIs
+export const apiAuth = {
+  login: async (email: string, password: string) => {
+    const data = await fetchAPI("/auth/login", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+    });
+    if (data.token) {
+      localStorage.setItem("admin_token", data.token);
+    }
+    return data;
+  },
+  logout: () => {
+    localStorage.removeItem("admin_token");
+  },
+  isLoggedIn: () => {
+    if (typeof window !== "undefined") {
+      return !!localStorage.getItem("admin_token");
+    }
+    return false;
+  }
 };

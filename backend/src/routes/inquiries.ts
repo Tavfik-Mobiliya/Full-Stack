@@ -1,10 +1,11 @@
 import { Router, Request, Response, NextFunction } from "express";
 import prisma from "../prisma";
+import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = Router();
 
 // GET all inquiries (for admin review)
-router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+router.get("/", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const inquiries = await prisma.inquiry.findMany({
       orderBy: { createdAt: "desc" },
@@ -44,7 +45,7 @@ router.post("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // DELETE inquiry by ID
-router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.delete("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = parseInt(req.params.id as string);
 

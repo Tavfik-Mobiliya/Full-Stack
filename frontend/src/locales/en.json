@@ -1,8 +1,9 @@
 {
   "nav": {
     "home": "Home",
-    "projects": "Interiors",
-    "collections": "Furniture",
+    "projects": "Products",
+    "collections": "Collections",
+    "about": "About Us",
     "concierge": "Concierge",
     "admin": "Admin Panel"
   },
