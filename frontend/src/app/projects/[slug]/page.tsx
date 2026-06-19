@@ -34,7 +34,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
       .getBySlug(slug)
       .then((data) => {
         setProject(data);
-        if (data.images && data.images.length > 0) {
+        if (data && data.images && data.images.length > 0) {
           setActiveImage(data.images[0]);
         }
       })
@@ -76,57 +76,6 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
     }
   };
 
-  useEffect(() => {
-    if (loading || !project) return;
-    if (typeof window === "undefined" || window.innerWidth < 768) return;
-
-    const cursor = document.createElement("div");
-    cursor.className = "custom-cursor hidden md:block";
-    cursor.style.position = "fixed";
-    cursor.style.pointerEvents = "none";
-    cursor.style.width = "24px";
-    cursor.style.height = "24px";
-    cursor.style.border = "1px solid #D4AF37";
-    cursor.style.borderRadius = "50%";
-    cursor.style.zIndex = "9999";
-    cursor.style.transition = "transform 0.1s ease, background-color 0.2s ease, border-color 0.2s ease";
-    document.body.appendChild(cursor);
-
-    const onMouseMove = (e: MouseEvent) => {
-      cursor.style.transform = `translate(${e.clientX - 12}px, ${e.clientY - 12}px)`;
-    };
-
-    document.addEventListener("mousemove", onMouseMove);
-
-    const handleMouseEnter = () => {
-      cursor.style.transform += " scale(2)";
-      cursor.style.backgroundColor = "rgba(212, 175, 55, 0.15)";
-      cursor.style.borderColor = "#D4AF37";
-    };
-
-    const handleMouseLeave = () => {
-      cursor.style.transform = cursor.style.transform.replace(" scale(2)", "");
-      cursor.style.backgroundColor = "transparent";
-      cursor.style.borderColor = "#D4AF37";
-    };
-
-    const interactiveElements = document.querySelectorAll("button, a, input, textarea, select");
-    interactiveElements.forEach((el) => {
-      el.addEventListener("mouseenter", handleMouseEnter);
-      el.addEventListener("mouseleave", handleMouseLeave);
-    });
-
-    return () => {
-      document.removeEventListener("mousemove", onMouseMove);
-      if (document.body.contains(cursor)) {
-        document.body.removeChild(cursor);
-      }
-      interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", handleMouseEnter);
-        el.removeEventListener("mouseleave", handleMouseLeave);
-      });
-    };
-  }, [loading, project]);
 
   const getSpecValue = (key: string, fallback: string) => {
     if (!project || !project.specs) return fallback;

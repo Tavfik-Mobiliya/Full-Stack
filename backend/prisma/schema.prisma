@@ -44,6 +44,9 @@ model Project {
   styleEn       String?
   styleAr       String?
   styleTr       String?
+
+  collectionId  Int?
+  collection    Collection? @relation(fields: [collectionId], references: [id])
 }
 
 model Testimonial {
@@ -51,6 +54,7 @@ model Testimonial {
   author    String
   category  String   @default("General") // "Interior", "Furniture", "General"
   createdAt DateTime @default(now())
+  rating    Int      @default(5)
 
   // Trilingual Translations
   quoteEn   String
@@ -71,4 +75,16 @@ model Inquiry {
   type      String   @default("Contact") // "WhatsApp", "Appointment", "Catalog", "Contact"
   details   Json?    // Extra metadata for appointment date, catalog type, etc.
   createdAt DateTime @default(now())
+}
+
+model Collection {
+  id        Int       @id @default(autoincrement())
+  nameEn    String
+  nameAr    String
+  nameTr    String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relation
+  projects  Project[]
 }

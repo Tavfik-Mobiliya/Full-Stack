@@ -16,6 +16,7 @@ async function main() {
       {
         author: "Elif & Kerem Al-Sayed",
         category: "Interior",
+        rating: 5,
         quoteEn: "Aura Interiors didn't just design a house; they curated a sanctuary that perfectly reflects our heritage and our modern life. Every detail is a testament to their architectural excellence.",
         quoteAr: "لم تقم أورا إنتيريورز بتصميم منزل فحسب، بل أشرفوا على تنسيق ملاذ يعكس تراثنا وحياتنا المعاصرة بشكل مثالي. كل تفصيل هو شهادة على تميزهم المعماري.",
         quoteTr: "Aura Interiors sadece bir ev tasarlamadı; mirasımızı ve modern yaşamımızı mükemmel bir şekilde yansıtan bir sığınak kurdu. Her detay mimari mükemmelliklerinin bir kanıtıdır.",
@@ -26,6 +27,7 @@ async function main() {
       {
         author: "Sarah Jenkins",
         category: "Furniture",
+        rating: 5,
         quoteEn: "The Obsidian dining table is a sculpture. The craftsmanship is breathtaking. It is the centerpiece of our home and garners compliments from every guest.",
         quoteAr: "طاولة طعام أوبسيديان هي عبارة عن تحفة منحوتة. الحرفية تحبس الأنفاس. إنها القطعة المركزية في منزلنا وتنال إعجاب كل ضيف.",
         quoteTr: "Obsidian yemek masası adeta bir heykel. İşçilik nefes kesici. Evimizin baş köşesinde yer alıyor ve her misafirden övgü alıyor.",

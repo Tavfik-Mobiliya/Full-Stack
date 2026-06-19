@@ -6,6 +6,7 @@ import projectRoutes from "./routes/projects";
 import testimonialRoutes from "./routes/testimonials";
 import inquiryRoutes from "./routes/inquiries";
 import authRoutes from "./routes/auth";
+import collectionRoutes from "./routes/collections";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/collections", collectionRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {

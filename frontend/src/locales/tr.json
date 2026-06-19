@@ -90,10 +90,13 @@
     "title": "Küratör Paneli",
     "subtitle": "Dijital Showroom portföyünü ve konsiyerj taleplerini yönetin.",
     "projectsTab": "Proje Portföyü",
+    "collectionsTab": "Koleksiyonlar",
     "inquiriesTab": "Konsiyerj Talepleri",
     "testimonialsTab": "Müşteri Yorumları",
     "addProject": "Yeni Eser Ekle",
     "editProject": "Eseri Düzenle",
+    "addCollection": "Koleksiyon Ekle",
+    "editCollection": "Koleksiyonu Düzenle",
     "addTestimonial": "Yorum Ekle",
     "editTestimonial": "Yorumu Düzenle",
     "deleteConfirm": "Bu öğeyi silmek istediğinizden emin misiniz?",
@@ -105,7 +108,9 @@
       "author": "Yazar",
       "sender": "Gönderen",
       "message": "Mesaj",
-      "date": "Tarih"
+      "date": "Tarih",
+      "rating": "Puan",
+      "name": "İsim"
     },
     "form": {
       "slug": "Kısa Ad (URL belirteci)",
@@ -137,12 +142,17 @@
       "save": "Kaydet",
       "cancel": "İptal",
       "author": "Yazar Adı",
+      "rating": "Değerlendirme (1-5)",
       "quoteEn": "Alıntı (İngilizce)",
       "quoteAr": "Alıntı (Arapça)",
       "quoteTr": "Alıntı (Türkçe)",
       "roleEn": "Görev/Rol (İngilizce)",
       "roleAr": "Görev/Rol (Arapça)",
-      "roleTr": "Görev/Rol (Türkçe)"
+      "roleTr": "Görev/Rol (Türkçe)",
+      "collection": "Koleksiyon (Tercih edilen)",
+      "nameEn": "Koleksiyon Adı (İngilizce)",
+      "nameAr": "Koleksiyon Adı (Arapça)",
+      "nameTr": "Koleksiyon Adı (Türkçe)"
     }
   },
   "footer": {

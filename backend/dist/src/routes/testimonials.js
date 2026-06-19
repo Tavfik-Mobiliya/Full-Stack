@@ -28,11 +28,12 @@ router.get("/", async (req, res, next) => {
 // POST create testimonial
 router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
-        const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr } = req.body;
+        const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr, rating } = req.body;
         const newTestimonial = await prisma_1.default.testimonial.create({
             data: {
                 author,
                 category: category || "General",
+                rating: rating !== undefined ? parseInt(rating, 10) : 5,
                 quoteEn,
                 quoteAr,
                 quoteTr,
@@ -51,7 +52,7 @@ router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
 router.put("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
-        const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr } = req.body;
+        const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr, rating } = req.body;
         const existing = await prisma_1.default.testimonial.findUnique({ where: { id } });
         if (!existing) {
             res.status(404).json({ error: "Testimonial not found" });
@@ -62,6 +63,7 @@ router.put("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
             data: {
                 author,
                 category,
+                rating: rating !== undefined ? parseInt(rating, 10) : undefined,
                 quoteEn,
                 quoteAr,
                 quoteTr,

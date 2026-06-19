@@ -16,7 +16,8 @@ import {
   BookOpen, 
   Calendar, 
   LayoutGrid,
-  Sparkles
+  Sparkles,
+  Star
 } from "lucide-react";
 
 // Mockup-matching fallback projects
@@ -379,6 +380,15 @@ export default function HomePage() {
               <blockquote className="font-serif text-2xl md:text-4xl text-on-surface max-w-4xl mx-auto italic mb-10 leading-relaxed">
                 "{getLocalized(testimonials[0], "quote", language)}"
               </blockquote>
+              <div className="flex justify-center items-center space-x-1 text-gold mb-6">
+                {Array.from({ length: 5 }).map((_, idx) => (
+                  <Star
+                    key={idx}
+                    size={20}
+                    fill={idx < (testimonials[0].rating || 5) ? "currentColor" : "none"}
+                  />
+                ))}
+              </div>
               <div className="text-xs font-semibold text-on-surface-variant tracking-[0.3em] uppercase">
                 {testimonials[0].author} • {getLocalized(testimonials[0], "role", language)}
               </div>

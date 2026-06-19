@@ -3,12 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { useLanguage } from "@/context/LanguageContext";
-import { apiProjects, apiTestimonials, apiInquiries, apiAuth } from "@/utils/api";
-import { Plus, Edit, Trash2, SlidersHorizontal, MessageSquare, BookOpen, Star, FileText } from "lucide-react";
+import { apiProjects, apiTestimonials, apiInquiries, apiAuth, apiCollections } from "@/utils/api";
+import { Plus, Edit, Trash2, SlidersHorizontal, MessageSquare, BookOpen, Star, FileText, FolderOpen } from "lucide-react";
 
 export default function AdminPage() {
   const { language, t } = useLanguage();
-  const [activeTab, setActiveTab] = useState<"projects" | "inquiries" | "testimonials">("projects");
+  const [activeTab, setActiveTab] = useState<"projects" | "collections" | "inquiries" | "testimonials">("projects");
 
   // Auth states
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +20,7 @@ export default function AdminPage() {
 
   // Data lists
   const [projects, setProjects] = useState<any[]>([]);
+  const [collections, setCollections] = useState<any[]>([]);
   const [inquiries, setInquiries] = useState<any[]>([]);
   const [testimonials, setTestimonials] = useState<any[]>([]);
 
@@ -56,12 +57,21 @@ export default function AdminPage() {
   const [styleAr, setStyleAr] = useState("");
   const [styleTr, setStyleTr] = useState("");
   const [specsText, setSpecsText] = useState("");
+  const [projectCollectionId, setProjectCollectionId] = useState("");
+
+  // Form states (Collections)
+  const [collectionFormOpen, setCollectionFormOpen] = useState(false);
+  const [editingCollectionId, setEditingCollectionId] = useState<number | null>(null);
+  const [collectionNameEn, setCollectionNameEn] = useState("");
+  const [collectionNameAr, setCollectionNameAr] = useState("");
+  const [collectionNameTr, setCollectionNameTr] = useState("");
 
   // Form states (Testimonials)
   const [testimonialFormOpen, setTestimonialFormOpen] = useState(false);
   const [editingTestimonialId, setEditingTestimonialId] = useState<number | null>(null);
   const [author, setAuthor] = useState("");
   const [testimonialCategory, setTestimonialCategory] = useState("General");
+  const [rating, setRating] = useState<number>(5);
   const [quoteEn, setQuoteEn] = useState("");
   const [quoteAr, setQuoteAr] = useState("");
   const [quoteTr, setQuoteTr] = useState("");
@@ -75,6 +85,8 @@ export default function AdminPage() {
     try {
       const projs = await apiProjects.getAll();
       setProjects(projs);
+      const cols = await apiCollections.getAll();
+      setCollections(cols);
       const inqs = await apiInquiries.getAll();
       setInquiries(inqs);
       const tests = await apiTestimonials.getAll();
@@ -159,7 +171,19 @@ export default function AdminPage() {
       styleAr: styleAr || null,
       styleTr: styleTr || null,
       specs: parsedSpecs,
+      collectionId: projectCollectionId ? parseInt(projectCollectionId) : null,
     };
+
+    if (!projectCollectionId) {
+      const confirmProceed = confirm(
+        language === "ar"
+          ? "يفضل تحديد مجموعة للمشروع. هل تريد الاستمرار بدون مجموعة؟"
+          : language === "tr"
+          ? "Projeyi bir koleksiyona atamanız önerilir. Koleksiyon olmadan devam etmek istiyor musunuz?"
+          : "Assigning a collection to the project is preferred. Do you want to proceed without one?"
+      );
+      if (!confirmProceed) return;
+    }
 
     try {
       if (editingProjectId) {
@@ -204,6 +228,7 @@ export default function AdminPage() {
     setStyleAr(p.styleAr || "");
     setStyleTr(p.styleTr || "");
     setSpecsText(p.specs ? JSON.stringify(p.specs, null, 2) : "");
+    setProjectCollectionId(p.collectionId ? p.collectionId.toString() : "");
     setProjectFormOpen(true);
   };
 
@@ -246,6 +271,7 @@ export default function AdminPage() {
     setStyleAr("");
     setStyleTr("");
     setSpecsText("");
+    setProjectCollectionId("");
   };
 
   // Testimonial Submit Handler
@@ -254,6 +280,7 @@ export default function AdminPage() {
     const payload = {
       author,
       category: testimonialCategory,
+      rating,
       quoteEn,
       quoteAr,
       quoteTr,
@@ -280,6 +307,7 @@ export default function AdminPage() {
     setEditingTestimonialId(t.id);
     setAuthor(t.author);
     setTestimonialCategory(t.category);
+    setRating(t.rating || 5);
     setQuoteEn(t.quoteEn);
     setQuoteAr(t.quoteAr);
     setQuoteTr(t.quoteTr);
@@ -303,12 +331,61 @@ export default function AdminPage() {
     setEditingTestimonialId(null);
     setAuthor("");
     setTestimonialCategory("General");
+    setRating(5);
     setQuoteEn("");
     setQuoteAr("");
     setQuoteTr("");
     setRoleEn("");
     setRoleAr("");
     setRoleTr("");
+  };
+
+  // Collection CRUD Handlers
+  const handleCollectionSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const payload = {
+      nameEn: collectionNameEn,
+      nameAr: collectionNameAr,
+      nameTr: collectionNameTr,
+    };
+
+    try {
+      if (editingCollectionId) {
+        await apiCollections.update(editingCollectionId, payload);
+      } else {
+        await apiCollections.create(payload);
+      }
+      setCollectionFormOpen(false);
+      resetCollectionForm();
+      loadDashboardData();
+    } catch (err: any) {
+      alert(err.message || "Failed to submit collection.");
+    }
+  };
+
+  const handleEditCollection = (c: any) => {
+    setEditingCollectionId(c.id);
+    setCollectionNameEn(c.nameEn);
+    setCollectionNameAr(c.nameAr);
+    setCollectionNameTr(c.nameTr);
+    setCollectionFormOpen(true);
+  };
+
+  const handleDeleteCollection = async (id: number) => {
+    if (!confirm(t("admin.deleteConfirm"))) return;
+    try {
+      await apiCollections.delete(id);
+      loadDashboardData();
+    } catch (err: any) {
+      alert(err.message || "Failed to delete collection");
+    }
+  };
+
+  const resetCollectionForm = () => {
+    setEditingCollectionId(null);
+    setCollectionNameEn("");
+    setCollectionNameAr("");
+    setCollectionNameTr("");
   };
 
   // Inquiry Handler
@@ -436,6 +513,16 @@ export default function AdminPage() {
           </button>
 
           <button
+            onClick={() => setActiveTab("collections")}
+            className={`flex items-center space-x-2 rtl:space-x-reverse pb-4 text-sm uppercase tracking-widest font-semibold transition-colors ${
+              activeTab === "collections" ? "text-gold border-b-2 border-gold" : "text-silver/50 hover:text-gold"
+            }`}
+          >
+            <FolderOpen size={16} />
+            <span>{t("admin.collectionsTab")}</span>
+          </button>
+
+          <button
             onClick={() => setActiveTab("inquiries")}
             className={`flex items-center space-x-2 rtl:space-x-reverse pb-4 text-sm uppercase tracking-widest font-semibold transition-colors ${
               activeTab === "inquiries" ? "text-gold border-b-2 border-gold" : "text-silver/50 hover:text-gold"
@@ -491,7 +578,7 @@ export default function AdminPage() {
                     </h2>
                     <form onSubmit={handleProjectSubmit} className="space-y-6">
                       {/* First row */}
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div className="flex flex-col space-y-2">
                           <label className="text-xs text-silver/70">{t("admin.form.slug")}</label>
                           <input
@@ -523,6 +610,21 @@ export default function AdminPage() {
                             placeholder="e.g. Residential, Table"
                             className="bg-ink-black/40 border border-silver/10 rounded px-4 py-2 text-silver text-sm focus:outline-none focus:border-gold"
                           />
+                        </div>
+                        <div className="flex flex-col space-y-2">
+                          <label className="text-xs text-silver/70">{t("admin.form.collection")}</label>
+                          <select
+                            value={projectCollectionId}
+                            onChange={(e) => setProjectCollectionId(e.target.value)}
+                            className="bg-ink-black/40 border border-silver/10 rounded px-4 py-2 text-silver text-sm focus:outline-none focus:border-gold"
+                          >
+                            <option value="" className="bg-deep-charcoal text-silver">-- None --</option>
+                            {collections.map((col) => (
+                              <option key={col.id} value={col.id} className="bg-deep-charcoal text-silver">
+                                {col.nameEn} ({col.nameAr})
+                              </option>
+                            ))}
+                          </select>
                         </div>
                       </div>
 
@@ -825,6 +927,7 @@ export default function AdminPage() {
                       <tr>
                         <th className="px-6 py-4 text-start">{t("admin.table.title")}</th>
                         <th className="px-6 py-4 text-start">{t("admin.table.category")}</th>
+                        <th className="px-6 py-4 text-start">{t("admin.form.collection")}</th>
                         <th className="px-6 py-4 text-start">Year</th>
                         <th className="px-6 py-4 text-start">Price / Budget</th>
                         <th className="px-6 py-4 text-end">{t("admin.table.actions")}</th>
@@ -835,6 +938,9 @@ export default function AdminPage() {
                         <tr key={p.id} className="hover:bg-deep-charcoal/30 transition-colors">
                           <td className="px-6 py-4 font-medium text-champagne whitespace-nowrap">{p.titleEn}</td>
                           <td className="px-6 py-4 text-silver/65">{p.category}</td>
+                          <td className="px-6 py-4 text-silver/65 font-serif italic text-gold/90">
+                            {p.collection ? (language === "ar" ? p.collection.nameAr : language === "tr" ? p.collection.nameTr : p.collection.nameEn) : "--"}
+                          </td>
                           <td className="px-6 py-4 text-silver/65">{p.year}</td>
                           <td className="px-6 py-4 text-gold/80 font-medium">
                             {p.price ? `$${parseFloat(p.price).toLocaleString()}` : p.budget || "Bespoke"}
@@ -849,6 +955,132 @@ export default function AdminPage() {
                             </button>
                             <button
                               onClick={() => handleDeleteProject(p.id)}
+                              className="text-silver/60 hover:text-red-400 transition-colors p-1"
+                              title="Delete"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* COLLECTIONS TAB */}
+            {activeTab === "collections" && (
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-serif text-silver/60">
+                    {collections.length} Total Collections
+                  </span>
+                  <button
+                    onClick={() => {
+                      resetCollectionForm();
+                      setCollectionFormOpen(true);
+                    }}
+                    className="inline-flex items-center space-x-2 rtl:space-x-reverse bg-gold hover:bg-gold/90 text-ink-black px-4 py-2 text-xs uppercase tracking-widest font-semibold rounded transition-colors"
+                  >
+                    <Plus size={14} />
+                    <span>{t("admin.addCollection")}</span>
+                  </button>
+                </div>
+
+                {collectionFormOpen && (
+                  <div className="glass-panel p-8 rounded-lg border border-gold/15 mb-8 animate-fade-in-up">
+                    <h2 className="font-serif text-2xl text-champagne mb-6">
+                      {editingCollectionId ? t("admin.editCollection") : t("admin.addCollection")}
+                    </h2>
+                    <form onSubmit={handleCollectionSubmit} className="space-y-6">
+                      {/* Translation rows */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="flex flex-col space-y-2">
+                          <label className="text-xs text-silver/70">{t("admin.form.nameEn")}</label>
+                          <input
+                            type="text"
+                            required
+                            value={collectionNameEn}
+                            onChange={(e) => setCollectionNameEn(e.target.value)}
+                            placeholder="e.g. Obsidian Gold Series"
+                            className="bg-ink-black/40 border border-silver/10 rounded px-4 py-2 text-silver text-sm focus:outline-none focus:border-gold"
+                          />
+                        </div>
+                        <div className="flex flex-col space-y-2">
+                          <label className="text-xs text-silver/70">{t("admin.form.nameAr")}</label>
+                          <input
+                            type="text"
+                            required
+                            value={collectionNameAr}
+                            onChange={(e) => setCollectionNameAr(e.target.value)}
+                            placeholder="مثال: سلسلة الذهب البركاني"
+                            className="bg-ink-black/40 border border-silver/10 rounded px-4 py-2 text-silver text-sm focus:outline-none focus:border-gold"
+                          />
+                        </div>
+                        <div className="flex flex-col space-y-2">
+                          <label className="text-xs text-silver/70">{t("admin.form.nameTr")}</label>
+                          <input
+                            type="text"
+                            required
+                            value={collectionNameTr}
+                            onChange={(e) => setCollectionNameTr(e.target.value)}
+                            placeholder="Örn: Obsidyen Altın Serisi"
+                            className="bg-ink-black/40 border border-silver/10 rounded px-4 py-2 text-silver text-sm focus:outline-none focus:border-gold"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="flex space-x-4 rtl:space-x-reverse pt-4">
+                        <button
+                          type="submit"
+                          className="bg-gold hover:bg-gold/90 text-ink-black px-6 py-2.5 text-xs uppercase tracking-widest font-semibold rounded transition-colors"
+                        >
+                          {t("admin.form.save")}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setCollectionFormOpen(false);
+                            resetCollectionForm();
+                          }}
+                          className="border border-silver/20 hover:border-silver text-silver px-6 py-2.5 text-xs uppercase tracking-widest font-semibold rounded transition-colors"
+                        >
+                          {t("admin.form.cancel")}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+
+                <div className="glass-panel rounded-lg overflow-x-auto">
+                  <table className="w-full text-sm text-start">
+                    <thead className="bg-ink-black/40 border-b border-silver/10 text-xs uppercase tracking-wider text-silver/40">
+                      <tr>
+                        <th className="px-6 py-4 text-start">{t("admin.table.name")} (En)</th>
+                        <th className="px-6 py-4 text-start">{t("admin.table.name")} (Ar)</th>
+                        <th className="px-6 py-4 text-start">{t("admin.table.name")} (Tr)</th>
+                        <th className="px-6 py-4 text-start">Linked Projects</th>
+                        <th className="px-6 py-4 text-end">{t("admin.table.actions")}</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-silver/5">
+                      {collections.map((col) => (
+                        <tr key={col.id} className="hover:bg-deep-charcoal/30 transition-colors">
+                          <td className="px-6 py-4 font-semibold text-champagne whitespace-nowrap">{col.nameEn}</td>
+                          <td className="px-6 py-4 text-silver/65">{col.nameAr}</td>
+                          <td className="px-6 py-4 text-silver/65">{col.nameTr}</td>
+                          <td className="px-6 py-4 text-silver/65">{(col.projects || []).length} items</td>
+                          <td className="px-6 py-4 text-end whitespace-nowrap space-x-2 rtl:space-x-reverse">
+                            <button
+                              onClick={() => handleEditCollection(col)}
+                              className="text-silver/60 hover:text-gold transition-colors p-1"
+                              title="Edit"
+                            >
+                              <Edit size={16} />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteCollection(col.id)}
                               className="text-silver/60 hover:text-red-400 transition-colors p-1"
                               title="Delete"
                             >
@@ -950,7 +1182,7 @@ export default function AdminPage() {
                     </h2>
                     <form onSubmit={handleTestimonialSubmit} className="space-y-6">
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="flex flex-col space-y-2">
                           <label className="text-xs text-silver/70">{t("admin.form.author")}</label>
                           <input
@@ -973,6 +1205,25 @@ export default function AdminPage() {
                             <option value="Interior" className="bg-deep-charcoal text-silver">Interior Design</option>
                             <option value="Furniture" className="bg-deep-charcoal text-silver">Furniture</option>
                           </select>
+                        </div>
+                        <div className="flex flex-col space-y-2">
+                          <label className="text-xs text-silver/70">{t("admin.form.rating")}</label>
+                          <div className="flex items-center space-x-1 py-2">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <button
+                                key={star}
+                                type="button"
+                                onClick={() => setRating(star)}
+                                className="text-gold focus:outline-none"
+                              >
+                                <Star
+                                  size={20}
+                                  fill={star <= rating ? "currentColor" : "none"}
+                                  className="transition-colors hover:scale-110"
+                                />
+                              </button>
+                            ))}
+                          </div>
                         </div>
                       </div>
 
@@ -1072,6 +1323,7 @@ export default function AdminPage() {
                       <tr>
                         <th className="px-6 py-4 text-start">{t("admin.table.author")}</th>
                         <th className="px-6 py-4 text-start">Role</th>
+                        <th className="px-6 py-4 text-start">{t("admin.table.rating")}</th>
                         <th className="px-6 py-4 text-start">Quote (En)</th>
                         <th className="px-6 py-4 text-end">{t("admin.table.actions")}</th>
                       </tr>
@@ -1081,6 +1333,17 @@ export default function AdminPage() {
                         <tr key={test.id} className="hover:bg-deep-charcoal/30 transition-colors">
                           <td className="px-6 py-4 font-semibold text-champagne whitespace-nowrap">{test.author}</td>
                           <td className="px-6 py-4 text-silver/65">{test.roleEn}</td>
+                          <td className="px-6 py-4 text-silver/65">
+                            <div className="flex items-center space-x-0.5 text-gold">
+                              {Array.from({ length: 5 }).map((_, idx) => (
+                                <Star
+                                  key={idx}
+                                  size={14}
+                                  fill={idx < (test.rating || 5) ? "currentColor" : "none"}
+                                />
+                              ))}
+                            </div>
+                          </td>
                           <td className="px-6 py-4 text-silver/65 max-w-xs truncate">{test.quoteEn}</td>
                           <td className="px-6 py-4 text-end whitespace-nowrap space-x-2 rtl:space-x-reverse">
                             <button

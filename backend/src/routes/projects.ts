@@ -89,6 +89,9 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     const projects = await prisma.project.findMany({
       where,
       orderBy: { createdAt: "desc" },
+      include: {
+        collection: true,
+      },
     });
 
     res.json(projects);
@@ -103,6 +106,9 @@ router.get("/:slug", async (req: Request, res: Response, next: NextFunction) => 
     const slug = req.params.slug as string;
     const project = await prisma.project.findUnique({
       where: { slug },
+      include: {
+        collection: true,
+      },
     });
 
     if (!project) {
@@ -147,6 +153,7 @@ router.post("/", authMiddleware, async (req: Request, res: Response, next: NextF
       styleEn,
       styleAr,
       styleTr,
+      collectionId,
     } = req.body;
 
     // Validate slug uniqueness
@@ -185,6 +192,7 @@ router.post("/", authMiddleware, async (req: Request, res: Response, next: NextF
         styleEn,
         styleAr,
         styleTr,
+        collectionId: collectionId ? parseInt(collectionId.toString(), 10) : null,
       },
     });
 
@@ -226,6 +234,7 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response, next: Nex
       styleEn,
       styleAr,
       styleTr,
+      collectionId,
     } = req.body;
 
     // Check if project exists
@@ -274,6 +283,7 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response, next: Nex
         styleEn,
         styleAr,
         styleTr,
+        collectionId: collectionId !== undefined ? (collectionId ? parseInt(collectionId.toString(), 10) : null) : undefined,
       },
     });
 

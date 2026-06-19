@@ -90,10 +90,13 @@
     "title": "Curator Dashboard",
     "subtitle": "Manage the Digital Showroom's portfolios and inquiries.",
     "projectsTab": "Project Portfolio",
+    "collectionsTab": "Collections",
     "inquiriesTab": "Concierge Inquiries",
     "testimonialsTab": "Client Reviews",
     "addProject": "Add Masterpiece",
     "editProject": "Edit Masterpiece",
+    "addCollection": "Add Collection",
+    "editCollection": "Edit Collection",
     "addTestimonial": "Add Testimonial",
     "editTestimonial": "Edit Testimonial",
     "deleteConfirm": "Are you sure you want to delete this item?",
@@ -105,7 +108,9 @@
       "author": "Author",
       "sender": "Sender",
       "message": "Message",
-      "date": "Date"
+      "date": "Date",
+      "rating": "Rating",
+      "name": "Name"
     },
     "form": {
       "slug": "Slug (URL identifier)",
@@ -137,12 +142,17 @@
       "save": "Save Entry",
       "cancel": "Cancel",
       "author": "Author Name",
+      "rating": "Rating (1-5)",
       "quoteEn": "Quote (English)",
       "quoteAr": "Quote (Arabic)",
       "quoteTr": "Quote (Turkish)",
       "roleEn": "Role (English)",
       "roleAr": "Role (Arabic)",
-      "roleTr": "Role (Turkish)"
+      "roleTr": "Role (Turkish)",
+      "collection": "Collection (Preferred)",
+      "nameEn": "Collection Name (English)",
+      "nameAr": "Collection Name (Arabic)",
+      "nameTr": "Collection Name (Turkish)"
     }
   },
   "footer": {

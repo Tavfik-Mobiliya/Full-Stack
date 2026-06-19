@@ -23,6 +23,9 @@ export async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   try {
     const response = await fetch(url, config);
     if (!response.ok) {
+      if (response.status === 404) {
+        return null;
+      }
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
     }
@@ -94,6 +97,33 @@ export const apiTestimonials = {
 
   delete: (id: number) => {
     return fetchAPI(`/testimonials/${id}`, {
+      method: "DELETE",
+    });
+  },
+};
+
+// Collections APIs
+export const apiCollections = {
+  getAll: () => {
+    return fetchAPI("/collections", { cache: "no-store" });
+  },
+
+  create: (data: any) => {
+    return fetchAPI("/collections", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
+
+  update: (id: number, data: any) => {
+    return fetchAPI(`/collections/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  },
+
+  delete: (id: number) => {
+    return fetchAPI(`/collections/${id}`, {
       method: "DELETE",
     });
   },

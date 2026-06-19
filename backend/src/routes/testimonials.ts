@@ -27,12 +27,13 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 // POST create testimonial
 router.post("/", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr } = req.body;
+    const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr, rating } = req.body;
 
     const newTestimonial = await prisma.testimonial.create({
       data: {
         author,
         category: category || "General",
+        rating: rating !== undefined ? parseInt(rating as string, 10) : 5,
         quoteEn,
         quoteAr,
         quoteTr,
@@ -52,7 +53,7 @@ router.post("/", authMiddleware, async (req: Request, res: Response, next: NextF
 router.put("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = parseInt(req.params.id as string);
-    const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr } = req.body;
+    const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr, rating } = req.body;
 
     const existing = await prisma.testimonial.findUnique({ where: { id } });
     if (!existing) {
@@ -65,6 +66,7 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response, next: Nex
       data: {
         author,
         category,
+        rating: rating !== undefined ? parseInt(rating as string, 10) : undefined,
         quoteEn,
         quoteAr,
         quoteTr,

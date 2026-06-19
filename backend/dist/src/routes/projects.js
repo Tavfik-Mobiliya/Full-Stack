@@ -74,6 +74,9 @@ router.get("/", async (req, res, next) => {
         const projects = await prisma_1.default.project.findMany({
             where,
             orderBy: { createdAt: "desc" },
+            include: {
+                collection: true,
+            },
         });
         res.json(projects);
     }
@@ -87,6 +90,9 @@ router.get("/:slug", async (req, res, next) => {
         const slug = req.params.slug;
         const project = await prisma_1.default.project.findUnique({
             where: { slug },
+            include: {
+                collection: true,
+            },
         });
         if (!project) {
             res.status(404).json({ error: "Project not found" });
@@ -101,7 +107,7 @@ router.get("/:slug", async (req, res, next) => {
 // POST create project
 router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
-        const { slug, category, subCategory, roomType, year, images, specs, beforeImage, afterImage, price, budget, featured, titleEn, titleAr, titleTr, descriptionEn, descriptionAr, descriptionTr, locationEn, locationAr, locationTr, materialEn, materialAr, materialTr, styleEn, styleAr, styleTr, } = req.body;
+        const { slug, category, subCategory, roomType, year, images, specs, beforeImage, afterImage, price, budget, featured, titleEn, titleAr, titleTr, descriptionEn, descriptionAr, descriptionTr, locationEn, locationAr, locationTr, materialEn, materialAr, materialTr, styleEn, styleAr, styleTr, collectionId, } = req.body;
         // Validate slug uniqueness
         const existing = await prisma_1.default.project.findUnique({ where: { slug } });
         if (existing) {
@@ -137,6 +143,7 @@ router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
                 styleEn,
                 styleAr,
                 styleTr,
+                collectionId: collectionId ? parseInt(collectionId.toString(), 10) : null,
             },
         });
         res.status(201).json(newProject);
@@ -149,7 +156,7 @@ router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
 router.put("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
     try {
         const id = parseInt(req.params.id);
-        const { slug, category, subCategory, roomType, year, images, specs, beforeImage, afterImage, price, budget, featured, titleEn, titleAr, titleTr, descriptionEn, descriptionAr, descriptionTr, locationEn, locationAr, locationTr, materialEn, materialAr, materialTr, styleEn, styleAr, styleTr, } = req.body;
+        const { slug, category, subCategory, roomType, year, images, specs, beforeImage, afterImage, price, budget, featured, titleEn, titleAr, titleTr, descriptionEn, descriptionAr, descriptionTr, locationEn, locationAr, locationTr, materialEn, materialAr, materialTr, styleEn, styleAr, styleTr, collectionId, } = req.body;
         // Check if project exists
         const existingProject = await prisma_1.default.project.findUnique({ where: { id } });
         if (!existingProject) {
@@ -194,6 +201,7 @@ router.put("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
                 styleEn,
                 styleAr,
                 styleTr,
+                collectionId: collectionId !== undefined ? (collectionId ? parseInt(collectionId.toString(), 10) : null) : undefined,
             },
         });
         res.json(updatedProject);
