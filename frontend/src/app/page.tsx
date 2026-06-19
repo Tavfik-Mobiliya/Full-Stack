@@ -63,9 +63,9 @@ const defaultProjects = [
 const defaultTestimonials = [
   {
     id: "t1",
-    quoteEn: "Aura Interiors didn't just design a house; they curated a sanctuary that perfectly reflects our heritage and our modern life. Every detail is a testament to their architectural excellence.",
-    quoteAr: "لم تقم أورا ديزاينز بمجرد تصميم منزل؛ بل قاموا برعاية ملاذ يعكس تراثنا وحياتنا الحديثة تمامًا. كل التفاصيل هي شهادة على تميزهم المعماري.",
-    quoteTr: "Aura Interiors sadece bir ev tasarlamadı; mirasımızı ve modern yaşamımızı mükemmel bir şekilde yansıtan bir sığınak yarattı. Her detay mimari mükemmelliklerinin bir kanıtı.",
+    quoteEn: "Tevfik Mobilya didn't just design a house; they curated a sanctuary that perfectly reflects our heritage and our modern life. Every detail is a testament to their architectural excellence.",
+    quoteAr: "لم تقم Tevfik Mobilya بمجرد تصميم منزل؛ بل قاموا برعاية ملاذ يعكس تراثنا وحياتنا الحديثة تمامًا. كل التفاصيل هي شهادة على تميزهم المعماري.",
+    quoteTr: "Tevfik Mobilya sadece bir ev tasarlamadı; mirasımızı ve modern yaşamımızı mükemmel bir şekilde yansıtan bir sığınak yarattı. Her detay mimari mükemmelliklerinin bir kanıtı.",
     author: "ELIF & KEREM AL-SAYED",
     roleEn: "PRIVATE ESTATE OWNERS",
     roleAr: "أصحاب عقارات خاصة",
@@ -172,7 +172,7 @@ export default function HomePage() {
   };
 
   const handleWhatsAppRedirect = () => {
-    const text = `Hello Aura Concierge, I would like to inquire about your luxury design services. Name: ${name || "Client"}. Email: ${email || "Not provided"}.`;
+    const text = `Hello Tevfik Mobilya Concierge, I would like to inquire about your luxury design services. Name: ${name || "Client"}. Email: ${email || "Not provided"}.`;
     const encodedText = encodeURIComponent(text);
     const waUrl = `https://wa.me/905551234567?text=${encodedText}`;
     window.open(waUrl, "_blank");
@@ -409,8 +409,8 @@ export default function HomePage() {
                   </div>
                   <div>
                     <span className="text-[10px] uppercase tracking-widest text-on-surface-variant/50 block">Email Us</span>
-                    <a href="mailto:concierge@aura-interiors.com" className="text-on-surface font-medium hover:text-primary transition-colors">
-                      concierge@aura-interiors.com
+                    <a href="mailto:[EMAIL_ADDRESS]" className="text-on-surface font-medium hover:text-primary transition-colors">
+                      [EMAIL_ADDRESS]
                     </a>
                   </div>
                 </div>

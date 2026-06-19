@@ -423,7 +423,7 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
             className="inline-flex items-center space-x-2 rtl:space-x-reverse text-xs uppercase tracking-widest text-on-surface-variant/60 hover:text-gold transition-colors"
           >
             <ArrowLeft size={14} className="rtl:rotate-180" />
-            <span>{language === "ar" ? "العودة إلى المنتجات" : language === "tr" ? "Ürünlere Geri Dön" : "Back to Products"}</span>
+            <span>{language === "ar" ? "العودة إلى المجموعات" : language === "tr" ? "Koleksiyonlara Geri Dön" : "Back to collections"}</span>
           </Link>
         </div>
 

@@ -12,13 +12,12 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
         {/* Brand Information */}
         <div className="md:col-span-2 flex flex-col space-y-6">
-          <Link href="/" className="flex flex-col w-fit">
-            <span className="font-serif text-3xl font-semibold tracking-wider text-primary hover:text-gold transition-colors">
-              AURA
-            </span>
-            <span className="text-[10px] uppercase tracking-[0.3em] text-on-surface-variant/60">
-              Atelier of Space
-            </span>
+          <Link href="/" className="flex items-center w-fit">
+            <img 
+              src="/logo.png" 
+              alt="TEVFIK" 
+              className="h-8 w-auto object-contain hover:opacity-90 transition-opacity"
+            />
           </Link>
           <p className="text-on-surface-variant text-sm leading-relaxed max-w-sm">
             {t("footer.about")}
@@ -73,7 +72,7 @@ export const Footer: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-6 border-t border-outline-variant/20 mt-16 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-on-surface-variant/55 space-y-4 md:space-y-0">
         <p>
-          &copy; {new Date().getFullYear()} AURA. {t("footer.rights")}
+          &copy; {new Date().getFullYear()} TEVFIK. {t("footer.rights")}
         </p>
         <div className="flex space-x-6 rtl:space-x-reverse">
           <Link href="/privacy" className="hover:text-gold transition-colors">

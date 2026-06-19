@@ -53,12 +53,14 @@ export const Navbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Brand Logo */}
-        <Link href="/" className="flex flex-col">
-          <span className="font-serif text-2xl font-semibold tracking-wider text-on-surface hover:text-gold transition-colors">
-            AURA
-          </span>
-          <span className="text-[9px] uppercase tracking-[0.25em] text-on-surface-variant/60">
-            Atelier of Space
+        <Link href="/" className="flex flex-col items-start justify-center">
+          <img 
+            src="/logo.png" 
+            alt="TEVFIK" 
+            className="h-8 w-auto object-contain hover:opacity-90 transition-opacity"
+          />
+          <span className="text-[8px] md:text-[9px] uppercase tracking-[0.15em] text-on-surface-variant/70 mt-1 block">
+            {t("nav.subtitle")}
           </span>
         </Link>
 

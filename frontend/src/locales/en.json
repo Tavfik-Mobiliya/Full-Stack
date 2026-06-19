@@ -5,10 +5,11 @@
     "collections": "Collections",
     "about": "About Us",
     "concierge": "Concierge",
-    "admin": "Admin Panel"
+    "admin": "Admin Panel",
+    "subtitle": "Furniture & Interior Design"
   },
   "hero": {
-    "title": "Aura Interiors",
+    "title": "Tevfik Mobilya",
     "subtitle": "Sculpting Light, Space & Matter into Living Sanctuaries",
     "explore": "Explore Galleries",
     "book": "Book Consultation"
@@ -130,7 +131,7 @@
     }
   },
   "footer": {
-    "about": "Aura Interiors is a bespoke architectural and interior design firm specializing in ultra-luxury residential and commercial projects worldwide.",
+    "about": "Tevfik Mobilya is a bespoke architectural and interior design firm specializing in ultra-luxury residential and commercial projects worldwide.",
     "rights": "All rights reserved.",
     "contact": "Contact",
     "hours": "Atelier Hours",

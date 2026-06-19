@@ -16,7 +16,7 @@ const hanken = Hanken_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Aura Interiors | Luxury Interior & Furniture Design Showroom",
+  title: "Tevfik Mobilya | Luxury Interior & Furniture Design Showroom",
   description: "Sculpting light, space & matter into living sanctuaries. Bespoke luxury architectural and interior design atelier.",
 };
 

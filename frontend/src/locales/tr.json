@@ -5,10 +5,11 @@
     "collections": "Koleksiyonlar",
     "about": "Hakkımızda",
     "concierge": "Konsiyerj",
-    "admin": "Yönetici Paneli"
+    "admin": "Yönetici Paneli",
+    "subtitle": "Mobilya ve İç Mimarlık"
   },
   "hero": {
-    "title": "Aura Interiors",
+    "title": "Tevfik Mobilya",
     "subtitle": "Işığı, Boşluğu ve Maddeyi Yaşayan Sığınaklara Dönüştürüyoruz",
     "explore": "Galerileri Keşfet",
     "book": "Danışmanlık Randevusu Al"
@@ -130,7 +131,7 @@
     }
   },
   "footer": {
-    "about": "Aura Interiors, dünya çapında ultra lüks konut ve ticari projelere odaklanan özel bir mimarlık ve iç tasarım stüdyosudur.",
+    "about": "Tevfik Mobilya, dünya çapında ultra lüks konut ve ticari projelere odaklanan özel bir mimarlık ve iç tasarım stüdyosudur.",
     "rights": "Tüm hakları saklıdır.",
     "contact": "İletişim",
     "hours": "Atölye Saatleri",

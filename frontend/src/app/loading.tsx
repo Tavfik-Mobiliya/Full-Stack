@@ -128,7 +128,7 @@ export default function LoadingPage() {
         {/* Identity & Subtitles */}
         <div className="space-y-4">
           <h1 className="font-serif text-3xl md:text-4xl tracking-[0.25em] text-on-surface uppercase select-none font-medium">
-            Aura Interiors
+            Tevfik Mobilya
           </h1>
           
           <div className="h-6 overflow-hidden flex items-center justify-center">
