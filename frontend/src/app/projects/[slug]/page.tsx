@@ -7,16 +7,16 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BeforeAfter } from "@/components/BeforeAfter";
 import { useLanguage } from "@/context/LanguageContext";
-import { apiProjects, apiInquiries } from "@/utils/api";
+import { apiProducts, apiInquiries } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
-import { Project } from "@/types/api";
+import { Product } from "@/types/api";
 import { Calendar, MapPin, Tag, Info, ArrowLeft, Send } from "lucide-react";
 
 export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
   const router = useRouter();
   const { language, t } = useLanguage();
-  const [project, setProject] = useState<Project | null>(null);
+  const [project, setProject] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState("");
 
@@ -31,7 +31,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
   useEffect(() => {
     if (!slug) return;
     setLoading(true);
-    apiProjects
+    apiProducts
       .getBySlug(slug)
       .then((data) => {
         setProject(data);
@@ -40,7 +40,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
         }
       })
       .catch((err) => {
-        console.error("Error fetching project details:", err);
+        console.error("Error fetching product details:", err);
       })
       .finally(() => setLoading(false));
   }, [slug]);
@@ -65,7 +65,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
         email,
         message,
         type: "Catalog",
-        details: { projectSlug: slug, projectName: project.titleEn },
+        details: { projectSlug: slug, projectName: project?.titleEn || "" },
       });
       setSuccess(t("concierge.success"));
       setName("");
@@ -258,7 +258,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                     {t("project.price")}
                   </h4>
                   <p className="font-serif text-2xl text-gold font-bold">
-                    ${parseFloat(project.price).toLocaleString()}
+                    ${parseFloat(String(project.price)).toLocaleString()}
                   </p>
                 </div>
               )}

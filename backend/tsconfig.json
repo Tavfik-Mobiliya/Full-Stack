@@ -8,10 +8,10 @@
     "strict": true,
     "skipLibCheck": true,
     "outDir": "./dist",
-    "types": ["node"],
+    "types": ["node", "jest"],
     "ignoreDeprecations": "6.0"
   },
-  "include": ["src/**/*", "prisma/**/*"]
+  "include": ["src/**/*", "api/**/*", "prisma/**/*"]
 }
 
 

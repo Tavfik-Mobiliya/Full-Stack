@@ -28,7 +28,7 @@ router.get("/", async (req, res, next) => {
             orderBy: { createdAt: "desc" },
             ...pagination,
             include: {
-                projects: true,
+                products: true,
             },
         });
         res.json(collections);
@@ -100,7 +100,7 @@ router.delete("/:id", authMiddleware_1.authMiddleware, async (req, res, next) =>
             return;
         }
         // Unlink any projects that belong to this collection first
-        await prisma_1.default.project.updateMany({
+        await prisma_1.default.product.updateMany({
             where: { collectionId: id },
             data: { collectionId: null },
         });

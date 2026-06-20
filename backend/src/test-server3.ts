@@ -1,10 +1,10 @@
 import express from "express";
-import projectRoutes from "./routes/projects";
+import projectRoutes from "./routes/products";
 import testimonialRoutes from "./routes/testimonials";
 import inquiryRoutes from "./routes/inquiries";
 
 const app = express();
-app.use("/api/projects", projectRoutes);
+app.use("/api/products", projectRoutes);
 app.use("/api/testimonials", testimonialRoutes);
 app.use("/api/inquiries", inquiryRoutes);
 

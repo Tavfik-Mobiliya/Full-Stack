@@ -7,7 +7,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Project {
+model Product {
   id            Int      @id @default(autoincrement())
   slug          String   @unique
   category      String   // "Interior" or "Furniture"
@@ -47,6 +47,10 @@ model Project {
 
   collectionId  Int?
   collection    Collection? @relation(fields: [collectionId], references: [id])
+
+  deals         DealProduct[]
+
+  @@map("Product")
 }
 
 model Testimonial {
@@ -86,5 +90,39 @@ model Collection {
   updatedAt DateTime  @updatedAt
 
   // Relation
-  projects  Project[]
+  products  Product[]
+}
+
+model Deal {
+  id            Int         @id @default(autoincrement())
+  slug          String      @unique
+  clientName    String?
+  coverImage    String?
+  images        String[]
+  year          Int
+  status        String      @default("Completed") // "Completed" | "In Progress" | "Upcoming"
+  featured      Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Trilingual Translations
+  titleEn       String
+  titleAr       String
+  titleTr       String
+
+  descriptionEn String
+  descriptionAr String
+  descriptionTr String
+
+  // Relations
+  products DealProduct[]
+}
+
+model DealProduct {
+  dealId    Int
+  productId Int
+  deal      Deal    @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@id([dealId, productId])
 }

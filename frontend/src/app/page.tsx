@@ -5,9 +5,9 @@ import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { apiProjects, apiTestimonials, apiInquiries } from "@/utils/api";
+import { apiProducts, apiTestimonials, apiInquiries } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
-import { InquiryPayload, Project, Testimonial } from "@/types/api";
+import { InquiryPayload, Product, Testimonial } from "@/types/api";
 import { 
   ArrowUpRight, 
   Mail, 
@@ -77,7 +77,7 @@ const defaultTestimonials = [
 
 export default function HomePage() {
   const { language, t, dir } = useLanguage();
-  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
+  const [featuredProjects, setFeaturedProjects] = useState<Product[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   
   // Concierge Form State
@@ -93,17 +93,17 @@ export default function HomePage() {
 
   // Load backend portfolios and testimonials
   useEffect(() => {
-    apiProjects
+    apiProducts
       .getAll({ featured: true })
       .then((data) => {
         if (data && data.length > 0) {
           setFeaturedProjects(data);
         } else {
-          setFeaturedProjects(defaultProjects);
+          setFeaturedProjects(defaultProjects as unknown as Product[]);
         }
       })
       .catch(() => {
-        setFeaturedProjects(defaultProjects);
+        setFeaturedProjects(defaultProjects as unknown as Product[]);
       });
 
     apiTestimonials
@@ -181,7 +181,7 @@ export default function HomePage() {
   };
 
   // Prepares repeating items to cover high-res screen marquees and loop seamlessly
-  const prepareMarqueeItems = (items: Project[]) => {
+  const prepareMarqueeItems = (items: Product[]) => {
     if (!items || items.length === 0) return [];
     let list = [...items];
     while (list.length < 8) {

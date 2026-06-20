@@ -5,7 +5,7 @@ const app = express();
 
 app.get("/", async (req, res) => {
   try {
-    const count = await prisma.project.count();
+    const count = await prisma.product.count();
     res.json({ count });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unexpected error";

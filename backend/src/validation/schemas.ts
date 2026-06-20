@@ -31,11 +31,11 @@ export const inquirySchema = z.object({
   email: nonEmptyString.email(),
   phone: optionalNullableString,
   message: nonEmptyString,
-  type: z.string().trim().default("Contact").optional(),
+  type: z.string().trim().default("Contact"),
   details: z.record(z.unknown()).optional(),
 });
 
-export const projectCreateSchema = z.object({
+export const productCreateSchema = z.object({
   slug: nonEmptyString,
   category: nonEmptyString,
   subCategory: optionalNullableString,
@@ -66,4 +66,21 @@ export const projectCreateSchema = z.object({
   collectionId: z.coerce.number().int().positive().optional().nullable(),
 });
 
-export const projectUpdateSchema = projectCreateSchema.partial();
+export const dealSchema = z.object({
+  slug: nonEmptyString,
+  clientName: optionalNullableString,
+  coverImage: optionalNullableString,
+  images: z.array(nonEmptyString).default([]),
+  year: z.coerce.number().int().min(1900).max(3000),
+  status: z.string().trim().default("Completed"),
+  featured: z.boolean().optional().default(false),
+  titleEn: nonEmptyString,
+  titleAr: nonEmptyString,
+  titleTr: nonEmptyString,
+  descriptionEn: nonEmptyString,
+  descriptionAr: nonEmptyString,
+  descriptionTr: nonEmptyString,
+  productIds: z.array(z.coerce.number().int().positive()).optional(),
+});
+
+export const productUpdateSchema = productCreateSchema.partial();

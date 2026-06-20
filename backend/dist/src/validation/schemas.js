@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.projectUpdateSchema = exports.projectCreateSchema = exports.inquirySchema = exports.testimonialSchema = exports.collectionSchema = exports.authLoginSchema = void 0;
+exports.productUpdateSchema = exports.dealSchema = exports.productCreateSchema = exports.inquirySchema = exports.testimonialSchema = exports.collectionSchema = exports.authLoginSchema = void 0;
 const zod_1 = require("zod");
 const nonEmptyString = zod_1.z.string().trim().min(1);
 const optionalNullableString = zod_1.z.string().trim().optional().nullable();
@@ -29,10 +29,10 @@ exports.inquirySchema = zod_1.z.object({
     email: nonEmptyString.email(),
     phone: optionalNullableString,
     message: nonEmptyString,
-    type: zod_1.z.string().trim().default("Contact").optional(),
+    type: zod_1.z.string().trim().default("Contact"),
     details: zod_1.z.record(zod_1.z.unknown()).optional(),
 });
-exports.projectCreateSchema = zod_1.z.object({
+exports.productCreateSchema = zod_1.z.object({
     slug: nonEmptyString,
     category: nonEmptyString,
     subCategory: optionalNullableString,
@@ -62,4 +62,20 @@ exports.projectCreateSchema = zod_1.z.object({
     styleTr: optionalNullableString,
     collectionId: zod_1.z.coerce.number().int().positive().optional().nullable(),
 });
-exports.projectUpdateSchema = exports.projectCreateSchema.partial();
+exports.dealSchema = zod_1.z.object({
+    slug: nonEmptyString,
+    clientName: optionalNullableString,
+    coverImage: optionalNullableString,
+    images: zod_1.z.array(nonEmptyString).default([]),
+    year: zod_1.z.coerce.number().int().min(1900).max(3000),
+    status: zod_1.z.string().trim().default("Completed"),
+    featured: zod_1.z.boolean().optional().default(false),
+    titleEn: nonEmptyString,
+    titleAr: nonEmptyString,
+    titleTr: nonEmptyString,
+    descriptionEn: nonEmptyString,
+    descriptionAr: nonEmptyString,
+    descriptionTr: nonEmptyString,
+    productIds: zod_1.z.array(zod_1.z.coerce.number().int().positive()).optional(),
+});
+exports.productUpdateSchema = exports.productCreateSchema.partial();

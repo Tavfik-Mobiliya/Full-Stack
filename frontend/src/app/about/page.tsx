@@ -9,12 +9,12 @@ import { Sparkles, Users, Award, ShieldCheck } from "lucide-react";
 const aboutData = {
   en: {
     subtitle: "Atelier of Space & Form",
-    title: "About Aura",
+    title: "About Tevfik Mobilya",
     storyTitle: "Our Story",
-    storyContent1: "Founded at the intersection of architecture, fine art, and luxury craft, Aura Interiors was established as a premier design house. We conceptualize, curate, and handcraft spaces that are not merely lived in, but experienced. Every project is an exploration of noble materials, sculptural weight, and the orchestration of light.",
+    storyContent1: "Founded at the intersection of architecture, fine art, and luxury craft, Tevfik Mobilya was established as a premier design house. We conceptualize, curate, and handcraft spaces that are not merely lived in, but experienced. Every project is an exploration of noble materials, sculptural weight, and the orchestration of light.",
     storyContent2: "From bespoke private estates in London and Dubai to collectible furniture series, our work is defined by a commitment to minimalist permanence. We strip away the unnecessary, allowing the innate beauty of walnut, marble, and brass to compose quiet, monumental poetry.",
     teamTitle: "The Creative Minds",
-    teamSubtitle: "Meet the curators of Aura's signature aesthetic.",
+    teamSubtitle: "Meet the curators of Tevfik Mobilya's signature aesthetic.",
     team: [
       {
         name: "Alessandra Rossi",
@@ -35,7 +35,7 @@ const aboutData = {
         image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600",
       }
     ],
-    partnersTitle: "Noble Collaborations",
+    partnersTitle: "Collaborations",
     partnersSubtitle: "We partner with the world's most prestigious material ateliers to ensure absolute quality.",
     values: [
       {
@@ -57,12 +57,12 @@ const aboutData = {
   },
   ar: {
     subtitle: "أتيليه المساحة والشكل",
-    title: "حول أورا",
+    title: "حول توفيق موبيليا",
     storyTitle: "قصتنا",
-    storyContent1: "تأسست شركة أورا للتصاميم عند نقطة التقاء الهندسة المعمارية والفنون الجميلة والحرف اليدوية الفاخرة، لتكون دار التصميم الرائدة. نحن نتصور وننسق ونصنع يدويًا مساحات لا يقتصر العيش فيها فحسب، بل يتم اختبارها وتجربتها. كل مشروع هو استكشاف للمواد النبيلة، والوزن النحتي، وتناغم الضوء.",
+    storyContent1: "تأسست شركة توفيق موبيليا عند نقطة التقاء الهندسة المعمارية والفنون الجميلة والحرف اليدوية الفاخرة، لتكون دار التصميم الرائدة. نحن نتصور وننسق ونصنع يدويًا مساحات لا يقتصر العيش فيها فحسب، بل يتم اختبارها وتجربتها. كل مشروع هو استكشاف للمواد النبيلة، والوزن النحتي، وتناغم الضوء.",
     storyContent2: "من العقارات الخاصة المخصصة في لندن ودبي إلى سلاسل الأثاث القابلة للاقتناء، يتم تحديد عملنا من خلال الالتزام بالبساطة الخالدة. نحن نجرد غير الضروري، مما يسمح للجمال الفطري لخشب الجوز والرخام والنحاس بتأليف قصائد معمارية هادئة وهائلة.",
     teamTitle: "العقول الإبداعية",
-    teamSubtitle: "تعرف على القيمين على الجمالية المميزة لأورا.",
+    teamSubtitle: "تعرف على القيمين على الجمالية المميزة لتوفيق موبيليا.",
     team: [
       {
         name: "أليساندرا روسي",
@@ -83,7 +83,7 @@ const aboutData = {
         image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600",
       }
     ],
-    partnersTitle: "تعاون نبيل",
+    partnersTitle: "تعاون",
     partnersSubtitle: "نحن نشارك أرقى مصانع المواد في العالم لضمان الجودة المطلقة.",
     values: [
       {
@@ -105,12 +105,12 @@ const aboutData = {
   },
   tr: {
     subtitle: "Boşluk ve Form Atölyesi",
-    title: "Aura Hakkında",
+    title: "Tevfik Mobilya Hakkında",
     storyTitle: "Hikayemiz",
-    storyContent1: "Mimarlık, güzel sanatlar ve lüks zanaatın kesişiminde kurulan Aura Interiors, seçkin bir tasarım evi olarak hayata geçti. Biz, sadece içinde yaşanılan değil, deneyimlenen mekanları tasarlıyor, küratörlüğünü yapıyor ve el işçiliğiyle üretiyoruz. Her proje, soylu malzemelerin, heykelsi ağırlığın ve ışığın orkestrasyonunun bir keşfidir.",
+    storyContent1: "Mimarlık, güzel sanatlar ve lüks zanaatın kesişiminde kurulan Tevfik Mobilya, seçkin bir tasarım evi olarak hayata geçti. Biz, sadece içinde yaşanılan değil, deneyimlenen mekanları tasarlıyor, küratörlüğünü yapıyor ve el işçiliğiyle üretiyoruz. Her proje, soylu malzemelerin, heykelsi ağırlığın ve ışığın orkestrasyonunun bir keşfidir.",
     storyContent2: "Londra ve Dubai'deki özel malikanelerden koleksiyonluk mobilya serilerine kadar çalışmalarımız, minimalist kalıcılık taahhüdüyle tanımlanır. Gereksiz olanı arındırarak; ceviz, mermer ve pirincin doğuştan gelen güzelliğinin sessiz, anıtsal bir şiir yazmasına izin veriyoruz.",
     teamTitle: "Yaratıcı Zihinler",
-    teamSubtitle: "Aura'nın imza estetiğinin küratörleriyle tanışın.",
+    teamSubtitle: "Tevfik Mobilya'nın imza estetiğinin küratörleriyle tanışın.",
     team: [
       {
         name: "Alessandra Rossi",

@@ -8,7 +8,7 @@ const prisma_1 = __importDefault(require("./prisma"));
 const app = (0, express_1.default)();
 app.get("/", async (req, res) => {
     try {
-        const count = await prisma_1.default.project.count();
+        const count = await prisma_1.default.product.count();
         res.json({ count });
     }
     catch (err) {

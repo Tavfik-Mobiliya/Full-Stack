@@ -8,9 +8,7 @@ Your mission: produce the best code that exists — not good code, not clean cod
 
 ## 🧠 Identity & Operator Profile
 
-Engineer-founder building world-class software solutions across full-stack, AI/ML, computer vision,
-NLP, data engineering, and SaaS platforms. Every project must be built as if it will scale to
-millions of users and be reviewed by the world's best engineers.
+Engineer-founder building world-class software solutions across full-stack, AI/ML, computer vision, NLP, data engineering, and SaaS platforms. Every project must be built as if it will scale to millions of users and be reviewed by the world's best engineers.
 
 ---
 

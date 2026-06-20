@@ -5,14 +5,14 @@ import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { apiProjects } from "@/utils/api";
+import { apiProducts } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
-import { Project } from "@/types/api";
+import { Product } from "@/types/api";
 import { SlidersHorizontal, Search, ArrowUpRight, RotateCcw } from "lucide-react";
 
 export default function ProjectsPage() {
   const { language, t } = useLanguage();
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Filters State
@@ -23,7 +23,7 @@ export default function ProjectsPage() {
 
   const fetchFilteredProjects = () => {
     setLoading(true);
-    apiProjects
+    apiProducts
       .getAll({
         category: "Interior",
         search: search || undefined,
@@ -34,7 +34,7 @@ export default function ProjectsPage() {
       .then((data) => {
         setProjects(data);
       })
-      .catch((err) => console.error("Error fetching projects:", err))
+      .catch((err) => console.error("Error fetching products:", err))
       .finally(() => setLoading(false));
   };
 
@@ -54,10 +54,10 @@ export default function ProjectsPage() {
     setBudget("");
     // We need to fetch all since we reset states
     setLoading(true);
-    apiProjects
+    apiProducts
       .getAll({ category: "Interior" })
       .then((data) => setProjects(data))
-      .catch((err) => console.error("Error resetting projects:", err))
+      .catch((err) => console.error("Error resetting products:", err))
       .finally(() => setLoading(false));
   };
 

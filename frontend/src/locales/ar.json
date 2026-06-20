@@ -2,6 +2,7 @@
   "nav": {
     "home": "الرئيسية",
     "projects": "المنتجات",
+    "projectsDeals": "المشاريع",
     "collections": "المجموعات",
     "about": "من نحن",
     "concierge": "الكونسيرج",
@@ -89,12 +90,15 @@
   "admin": {
     "title": "لوحة التحكم للقيمين",
     "subtitle": "إدارة محفظة المعرض الرقمي واستفسارات العملاء.",
-    "projectsTab": "معرض المشاريع",
+    "projectsTab": "محفظة المنتجات",
+    "dealsTab": "مشاريع الصفقات",
     "collectionsTab": "المجموعات",
     "inquiriesTab": "استفسارات الكونسيرج",
     "testimonialsTab": "آراء العملاء",
     "addProject": "إضافة تحفة فنية",
     "editProject": "تعديل التحفة الفنية",
+    "addDeal": "إضافة مشروع صفقة",
+    "editDeal": "تعديل مشروع الصفقة",
     "addCollection": "إضافة مجموعة",
     "editCollection": "تعديل المجموعة",
     "addTestimonial": "إضافة رأي عميل",
@@ -152,7 +156,12 @@
       "collection": "المجموعة (مفضل)",
       "nameEn": "اسم المجموعة (بالإنجليزي)",
       "nameAr": "اسم المجموعة (بالعربي)",
-      "nameTr": "اسم المجموعة (بالتركي)"
+      "nameTr": "اسم المجموعة (بالتركي)",
+      "clientName": "اسم العميل",
+      "coverImage": "رابط صورة الغلاف",
+      "dealImages": "روابط صور المشروع (مفصولة بفواصل)",
+      "dealStatus": "الحالة",
+      "selectProducts": "اختر المنتجات"
     }
   },
   "footer": {

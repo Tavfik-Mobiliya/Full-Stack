@@ -3,11 +3,13 @@ import {
   AuthSession,
   Collection,
   CollectionPayload,
+  Deal,
+  DealPayload,
   Inquiry,
   InquiryPayload,
-  Project,
-  ProjectFilters,
-  ProjectPayload,
+  Product,
+  ProductFilters,
+  ProductPayload,
   Testimonial,
   TestimonialPayload,
 } from "@/types/api";
@@ -19,6 +21,20 @@ function toErrorMessage(error: unknown): string {
     return error.message;
   }
   return "Unknown error";
+}
+
+async function fetchWithRetry(url: string, config: RequestInit, retries: number): Promise<Response> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const response = await fetch(url, config);
+      return response;
+    } catch (err) {
+      if (attempt === retries) throw err;
+      const delay = [1000, 2000, 3000, 4000][attempt] ?? 5000;
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+  throw new Error("fetchWithRetry exhausted");
 }
 
 export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
@@ -36,7 +52,7 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
   };
 
   try {
-    const response = await fetch(url, config);
+    const response = await fetchWithRetry(url, config, 4);
     if (!response.ok) {
       if (response.status === 404) {
         return null;
@@ -51,9 +67,9 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
   }
 }
 
-// Projects APIs
-export const apiProjects = {
-  getAll: (filters: ProjectFilters = {}) => {
+// Products APIs
+export const apiProducts = {
+  getAll: (filters: ProductFilters = {}) => {
     const params = new URLSearchParams();
     Object.entries(filters).forEach(([key, val]) => {
       if (val !== undefined && val !== null && val !== "") {
@@ -61,29 +77,29 @@ export const apiProjects = {
       }
     });
     const queryString = params.toString() ? `?${params.toString()}` : "";
-    return fetchAPI<Project[]>(`/projects${queryString}`, { cache: "no-store" }).then((data) => data ?? []);
+    return fetchAPI<Product[]>(`/products${queryString}`, { cache: "no-store" }).then((data) => data ?? []);
   },
 
   getBySlug: (slug: string) => {
-    return fetchAPI<Project>(`/projects/${slug}`, { cache: "no-store" });
+    return fetchAPI<Product>(`/products/${slug}`, { cache: "no-store" });
   },
 
-  create: (data: ProjectPayload) => {
-    return fetchAPI<Project>("/projects", {
+  create: (data: ProductPayload) => {
+    return fetchAPI<Product>("/products", {
       method: "POST",
       body: JSON.stringify(data),
     });
   },
 
-  update: (id: number, data: ProjectPayload) => {
-    return fetchAPI<Project>(`/projects/${id}`, {
+  update: (id: number, data: ProductPayload) => {
+    return fetchAPI<Product>(`/products/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
     });
   },
 
   delete: (id: number) => {
-    return fetchAPI<{ message: string }>(`/projects/${id}`, {
+    return fetchAPI<{ message: string }>(`/products/${id}`, {
       method: "DELETE",
     });
   },
@@ -164,6 +180,40 @@ export const apiInquiries = {
   },
 };
 
+// Deals APIs
+export const apiDeals = {
+  getAll: (filters: { featured?: boolean } = {}) => {
+    const params = new URLSearchParams();
+    if (filters.featured) params.append("featured", "true");
+    const queryString = params.toString() ? `?${params.toString()}` : "";
+    return fetchAPI<{ data: Deal[]; total: number }>(`/deals${queryString}`, { cache: "no-store" }).then((res) => res?.data ?? []);
+  },
+
+  getBySlug: (slug: string) => {
+    return fetchAPI<Deal>(`/deals/${slug}`, { cache: "no-store" });
+  },
+
+  create: (data: DealPayload) => {
+    return fetchAPI<Deal>("/deals", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+  },
+
+  update: (id: number, data: DealPayload) => {
+    return fetchAPI<Deal>(`/deals/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+    });
+  },
+
+  delete: (id: number) => {
+    return fetchAPI<{ success: boolean }>(`/deals/${id}`, {
+      method: "DELETE",
+    });
+  },
+};
+
 // Auth APIs
 export const apiAuth = {
   login: async (email: string, password: string) => {
@@ -179,10 +229,16 @@ export const apiAuth = {
   },
   isLoggedIn: async (): Promise<boolean> => {
     try {
-      const response = await fetchAPI<AuthSession>("/auth/session", {
+      const url = `${API_BASE_URL}/auth/session`;
+      const response = await fetch(url, {
         method: "GET",
+        credentials: "include",
       });
-      return Boolean(response?.authenticated);
+      if (response.ok) {
+        const data = await response.json() as AuthSession;
+        return Boolean(data?.authenticated);
+      }
+      return false;
     } catch {
       return false;
     }

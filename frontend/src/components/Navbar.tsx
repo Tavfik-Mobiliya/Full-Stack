@@ -33,6 +33,7 @@ export const Navbar: React.FC = () => {
 
   const isAdmin = pathname?.startsWith("/admin");
   const navItems = isAdmin ? [] : [
+    { name: t("nav.projectsDeals"), path: "/deals" },
     { name: t("nav.projects"), path: "/projects" },
     { name: t("nav.collections"), path: "/collections" },
     { name: t("nav.about"), path: "/about" },

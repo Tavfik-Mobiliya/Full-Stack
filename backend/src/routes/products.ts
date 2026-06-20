@@ -3,7 +3,7 @@ import { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 import { authMiddleware } from "../middleware/authMiddleware";
 import { validateBody } from "../middleware/validate";
-import { projectCreateSchema, projectUpdateSchema } from "../validation/schemas";
+import { productCreateSchema, productUpdateSchema } from "../validation/schemas";
 
 const router = Router();
 
@@ -20,7 +20,7 @@ function parsePagination(pageRaw: unknown, pageSizeRaw: unknown): { skip: number
   };
 }
 
-// GET all projects (with filtering)
+// GET all products (with filtering)
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {
@@ -38,7 +38,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
       pageSize,
     } = req.query;
 
-    const where: Prisma.ProjectWhereInput = {};
+    const where: Prisma.ProductWhereInput = {};
     const pagination = parsePagination(page, pageSize);
 
     if (category) {
@@ -63,7 +63,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
       if (priceMax) where.price.lte = parseFloat(priceMax as string);
     }
 
-    const andConditions: Prisma.ProjectWhereInput[] = [];
+    const andConditions: Prisma.ProductWhereInput[] = [];
 
     if (search) {
       const searchStr = search as string;
@@ -105,7 +105,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
       where.AND = andConditions;
     }
 
-    const projects = await prisma.project.findMany({
+    const products = await prisma.product.findMany({
       where,
       orderBy: { createdAt: "desc" },
       ...pagination,
@@ -114,36 +114,36 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
       },
     });
 
-    res.json(projects);
+    res.json(products);
   } catch (error) {
     next(error);
   }
 });
 
-// GET single project by slug
+// GET single product by slug
 router.get("/:slug", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const slug = req.params.slug as string;
-    const project = await prisma.project.findUnique({
+    const product = await prisma.product.findUnique({
       where: { slug },
       include: {
         collection: true,
       },
     });
 
-    if (!project) {
-      res.status(404).json({ error: "Project not found" });
+    if (!product) {
+      res.status(404).json({ error: "Product not found" });
       return;
     }
 
-    res.json(project);
+    res.json(product);
   } catch (error) {
     next(error);
   }
 });
 
-// POST create project
-router.post("/", authMiddleware, validateBody(projectCreateSchema), async (req: Request, res: Response, next: NextFunction) => {
+// POST create product
+router.post("/", authMiddleware, validateBody(productCreateSchema), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {
       slug,
@@ -177,13 +177,13 @@ router.post("/", authMiddleware, validateBody(projectCreateSchema), async (req: 
     } = req.body;
 
     // Validate slug uniqueness
-    const existing = await prisma.project.findUnique({ where: { slug } });
+    const existing = await prisma.product.findUnique({ where: { slug } });
     if (existing) {
-      res.status(400).json({ error: "A project with this slug already exists" });
+      res.status(400).json({ error: "A product with this slug already exists" });
       return;
     }
 
-    const newProject = await prisma.project.create({
+    const newProduct = await prisma.product.create({
       data: {
         slug,
         category,
@@ -216,18 +216,18 @@ router.post("/", authMiddleware, validateBody(projectCreateSchema), async (req: 
       },
     });
 
-    res.status(201).json(newProject);
+    res.status(201).json(newProduct);
   } catch (error) {
     next(error);
   }
 });
 
-// PUT update project by ID
-router.put("/:id", authMiddleware, validateBody(projectUpdateSchema), async (req: Request, res: Response, next: NextFunction) => {
+// PUT update product by ID
+router.put("/:id", authMiddleware, validateBody(productUpdateSchema), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id);
     if (!Number.isInteger(id) || id <= 0) {
-      res.status(400).json({ error: "Invalid project id" });
+      res.status(400).json({ error: "Invalid product id" });
       return;
     }
     const {
@@ -261,23 +261,23 @@ router.put("/:id", authMiddleware, validateBody(projectUpdateSchema), async (req
       collectionId,
     } = req.body;
 
-    // Check if project exists
-    const existingProject = await prisma.project.findUnique({ where: { id } });
-    if (!existingProject) {
-      res.status(404).json({ error: "Project not found" });
+    // Check if product exists
+    const existingProduct = await prisma.product.findUnique({ where: { id } });
+    if (!existingProduct) {
+      res.status(404).json({ error: "Product not found" });
       return;
     }
 
     // Validate slug uniqueness if updated
-    if (slug && slug !== existingProject.slug) {
-      const existingSlug = await prisma.project.findUnique({ where: { slug } });
+    if (slug && slug !== existingProduct.slug) {
+      const existingSlug = await prisma.product.findUnique({ where: { slug } });
       if (existingSlug) {
-        res.status(400).json({ error: "A project with this slug already exists" });
+        res.status(400).json({ error: "A product with this slug already exists" });
         return;
       }
     }
 
-    const updatedProject = await prisma.project.update({
+    const updatedProduct = await prisma.product.update({
       where: { id },
       data: {
         slug,
@@ -311,29 +311,29 @@ router.put("/:id", authMiddleware, validateBody(projectUpdateSchema), async (req
       },
     });
 
-    res.json(updatedProject);
+    res.json(updatedProduct);
   } catch (error) {
     next(error);
   }
 });
 
-// DELETE project by ID
+// DELETE product by ID
 router.delete("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id);
     if (!Number.isInteger(id) || id <= 0) {
-      res.status(400).json({ error: "Invalid project id" });
+      res.status(400).json({ error: "Invalid product id" });
       return;
     }
 
-    const existing = await prisma.project.findUnique({ where: { id } });
+    const existing = await prisma.product.findUnique({ where: { id } });
     if (!existing) {
-      res.status(404).json({ error: "Project not found" });
+      res.status(404).json({ error: "Product not found" });
       return;
     }
 
-    await prisma.project.delete({ where: { id } });
-    res.json({ message: "Project deleted successfully" });
+    await prisma.product.delete({ where: { id } });
+    res.json({ message: "Product deleted successfully" });
   } catch (error) {
     next(error);
   }

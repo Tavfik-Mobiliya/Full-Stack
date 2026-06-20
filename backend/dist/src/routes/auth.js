@@ -20,12 +20,22 @@ function createAdminToken(email) {
         ...signOptions,
     });
 }
+function parseTtlToMs(ttl) {
+    const match = ttl.match(/^(\d+)([smhd])$/);
+    if (!match)
+        return 7 * 24 * 60 * 60 * 1000; // default 7 days
+    const value = parseInt(match[1]);
+    const unit = match[2];
+    const multipliers = { s: 1000, m: 60000, h: 3600000, d: 86400000 };
+    return value * (multipliers[unit] ?? 86400000);
+}
 function setAuthCookie(res, token) {
     res.cookie(env_1.env.authCookieName, token, {
         httpOnly: true,
         secure: env_1.isProduction,
         sameSite: "strict",
         path: "/",
+        maxAge: parseTtlToMs(env_1.env.authTokenTtl), // persist across browser restarts
     });
 }
 function clearAuthCookie(res) {

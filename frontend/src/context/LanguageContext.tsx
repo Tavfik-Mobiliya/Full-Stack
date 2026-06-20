@@ -8,7 +8,9 @@ import tr from "../locales/tr.json";
 export type Language = "en" | "ar" | "tr";
 export type Theme = "light" | "dark";
 
-type TranslationDict = Record<string, string | TranslationDict>;
+interface TranslationDict {
+  [key: string]: string | TranslationDict;
+}
 
 const dictionaries: Record<Language, TranslationDict> = {
   en: en as TranslationDict,

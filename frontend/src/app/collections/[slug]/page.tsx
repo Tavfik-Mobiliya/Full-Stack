@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { apiProjects, apiInquiries } from "@/utils/api";
+import { apiProducts, apiInquiries } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
-import { Project } from "@/types/api";
+import { Product } from "@/types/api";
 import { ArrowLeft, Send, Check, Download, ArrowRight, Sparkles } from "lucide-react";
 
 interface FinishOption {
@@ -263,9 +263,9 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
   const router = useRouter();
   const { language, t, dir, theme } = useLanguage();
 
-  const [collection, setCollection] = useState<Project | null>(null);
+  const [collection, setCollection] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [spatialProjects, setSpatialProjects] = useState<Project[]>([]);
+  const [spatialProjects, setSpatialProjects] = useState<Product[]>([]);
 
   // Interactive UI states
   const [activeFinish, setActiveFinish] = useState(0);
@@ -286,7 +286,7 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
     if (!slug) return;
     setLoading(true);
 
-    apiProjects
+    apiProducts
       .getBySlug(slug)
       .then((data) => {
         setCollection(data);
@@ -296,13 +296,13 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
       })
       .finally(() => setLoading(false));
 
-    // Fetch interior projects for spatial context (bento grid fallback)
-    apiProjects
+    // Fetch interior products for spatial context (bento grid fallback)
+    apiProducts
       .getAll({ category: "Interior" })
       .then((data) => {
         setSpatialProjects(data.slice(0, 2));
       })
-      .catch((err) => console.error("Error loading spatial projects:", err));
+      .catch((err) => console.error("Error loading spatial products:", err));
   }, [slug]);
 
   // Update default inquiry message when collection details or language changes
@@ -717,7 +717,7 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
                     {collection.price && (
                       <div className="flex justify-between items-center">
                         <span className="text-xs uppercase tracking-wider text-on-surface-variant/60">{language === "ar" ? "السعر المقدر" : language === "tr" ? "Tahmini Fiyat" : "Estimated Value"}</span>
-                        <span className="text-gold font-serif text-2xl font-bold">${parseFloat(collection.price).toLocaleString()}</span>
+                        <span className="text-gold font-serif text-2xl font-bold">${parseFloat(String(collection.price)).toLocaleString()}</span>
                       </div>
                     )}
                     {style && (

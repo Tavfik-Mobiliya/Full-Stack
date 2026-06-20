@@ -5,14 +5,14 @@ import Link from "next/link";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { apiProjects } from "@/utils/api";
+import { apiProducts } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
-import { Project } from "@/types/api";
+import { Product } from "@/types/api";
 import { SlidersHorizontal, Search, ArrowUpRight, RotateCcw } from "lucide-react";
 
 export default function CollectionsPage() {
   const { language, t } = useLanguage();
-  const [pieces, setPieces] = useState<Project[]>([]);
+  const [pieces, setPieces] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Filters State
@@ -24,7 +24,7 @@ export default function CollectionsPage() {
 
   const fetchFilteredPieces = () => {
     setLoading(true);
-    apiProjects
+    apiProducts
       .getAll({
         category: "Furniture",
         search: search || undefined,
@@ -56,7 +56,7 @@ export default function CollectionsPage() {
     setPriceMin("");
     setPriceMax("");
     setLoading(true);
-    apiProjects
+    apiProducts
       .getAll({ category: "Furniture" })
       .then((data) => setPieces(data))
       .catch((err) => console.error("Error resetting collections:", err))
@@ -210,7 +210,7 @@ export default function CollectionsPage() {
                   </p>
                   <div className="pt-4 mt-auto border-t border-outline-variant/30 flex items-center justify-between">
                     <span className="text-sm text-primary font-semibold tracking-wide">
-                      {piece.price ? `$${parseFloat(piece.price).toLocaleString()}` : "Price upon request"}
+                      {piece.price ? `$${parseFloat(String(piece.price)).toLocaleString()}` : "Price upon request"}
                     </span>
                     <Link
                       href={`/collections/${piece.slug}`}

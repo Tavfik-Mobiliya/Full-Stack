@@ -6,7 +6,7 @@ export type JsonValue =
   | JsonValue[]
   | { [key: string]: JsonValue };
 
-export interface Project {
+export interface Product {
   id: number;
   slug: string;
   category: string;
@@ -51,7 +51,7 @@ export interface Collection {
   nameTr: string;
   createdAt?: string;
   updatedAt?: string;
-  projects?: Project[];
+  products?: Product[];
 }
 
 export interface Inquiry {
@@ -88,7 +88,7 @@ export interface AuthResponse {
   message?: string;
 }
 
-export interface ProjectFilters {
+export interface ProductFilters {
   category?: string;
   subCategory?: string;
   roomType?: string;
@@ -112,7 +112,7 @@ export interface InquiryPayload {
   details?: Record<string, unknown>;
 }
 
-export interface ProjectPayload {
+export interface ProductPayload {
   slug: string;
   category: string;
   subCategory?: string | null;
@@ -147,6 +147,42 @@ export interface CollectionPayload {
   nameEn: string;
   nameAr: string;
   nameTr: string;
+}
+
+export interface Deal {
+  id: number;
+  slug: string;
+  clientName?: string | null;
+  coverImage?: string | null;
+  images: string[];
+  year: number;
+  status: string;
+  featured?: boolean;
+  titleEn: string;
+  titleAr: string;
+  titleTr: string;
+  descriptionEn: string;
+  descriptionAr: string;
+  descriptionTr: string;
+  products?: { product: Product }[];
+  createdAt?: string;
+}
+
+export interface DealPayload {
+  slug: string;
+  clientName?: string | null;
+  coverImage?: string | null;
+  images: string[];
+  year: number;
+  status?: string;
+  featured?: boolean;
+  titleEn: string;
+  titleAr: string;
+  titleTr: string;
+  descriptionEn: string;
+  descriptionAr: string;
+  descriptionTr: string;
+  productIds?: number[];
 }
 
 export interface TestimonialPayload {

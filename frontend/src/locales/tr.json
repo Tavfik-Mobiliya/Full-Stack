@@ -2,6 +2,7 @@
   "nav": {
     "home": "Anasayfa",
     "projects": "Ürünler",
+    "projectsDeals": "Projeler",
     "collections": "Koleksiyonlar",
     "about": "Hakkımızda",
     "concierge": "Konsiyerj",
@@ -89,12 +90,15 @@
   "admin": {
     "title": "Küratör Paneli",
     "subtitle": "Dijital Showroom portföyünü ve konsiyerj taleplerini yönetin.",
-    "projectsTab": "Proje Portföyü",
+    "projectsTab": "Ürün Portföyü",
+    "dealsTab": "Anlaşma Projeleri",
     "collectionsTab": "Koleksiyonlar",
     "inquiriesTab": "Konsiyerj Talepleri",
     "testimonialsTab": "Müşteri Yorumları",
     "addProject": "Yeni Eser Ekle",
     "editProject": "Eseri Düzenle",
+    "addDeal": "Anlaşma Projesi Ekle",
+    "editDeal": "Anlaşma Projesini Düzenle",
     "addCollection": "Koleksiyon Ekle",
     "editCollection": "Koleksiyonu Düzenle",
     "addTestimonial": "Yorum Ekle",
@@ -152,7 +156,12 @@
       "collection": "Koleksiyon (Tercih edilen)",
       "nameEn": "Koleksiyon Adı (İngilizce)",
       "nameAr": "Koleksiyon Adı (Arapça)",
-      "nameTr": "Koleksiyon Adı (Türkçe)"
+      "nameTr": "Koleksiyon Adı (Türkçe)",
+      "clientName": "Müşteri Adı",
+      "coverImage": "Kapak Görseli URL'si",
+      "dealImages": "Proje Görsel URL'leri (virgülle ayrılmış)",
+      "dealStatus": "Durum",
+      "selectProducts": "Ürünleri Seç"
     }
   },
   "footer": {
