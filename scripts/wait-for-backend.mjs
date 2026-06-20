@@ -19,8 +19,7 @@ function poll() {
       try {
         execSync("lsof -ti:3000 | xargs -r kill -9 2>/dev/null", { stdio: "ignore" });
       } catch {}
-      const child = spawn("npm", ["run", "dev"], {
-        cwd: "frontend",
+      const child = spawn("npm", ["run", "dev:frontend"], {
         stdio: "inherit",
         shell: true,
       });
