@@ -99,12 +99,16 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    const loggedIn = apiAuth.isLoggedIn();
-    setIsLoggedIn(loggedIn);
-    setCheckingAuth(false);
-    if (loggedIn) {
-      loadDashboardData();
-    }
+    const checkAuth = async () => {
+      const loggedIn = await apiAuth.isLoggedIn();
+      setIsLoggedIn(loggedIn);
+      setCheckingAuth(false);
+      if (loggedIn) {
+        loadDashboardData();
+      }
+    };
+
+    checkAuth();
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -122,8 +126,8 @@ export default function AdminPage() {
     }
   };
 
-  const handleLogout = () => {
-    apiAuth.logout();
+  const handleLogout = async () => {
+    await apiAuth.logout();
     setIsLoggedIn(false);
     setProjects([]);
     setInquiries([]);

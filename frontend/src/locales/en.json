@@ -161,5 +161,11 @@
     "contact": "Contact",
     "hours": "Atelier Hours",
     "hoursVal": "Mon - Fri: 09:00 - 18:00"
+  },
+  "welcome": {
+    "title": "Tevfik Mobilya",
+    "subtitle": "Furniture & Interior Design Showroom",
+    "cta": "Enter Showroom",
+    "selectLanguage": "Select Language"
   }
 }

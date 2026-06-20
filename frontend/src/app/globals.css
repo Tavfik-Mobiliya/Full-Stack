@@ -211,3 +211,31 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Custom Welcome Screen Animations */
+@keyframes welcome-slow-zoom {
+  0% {
+    transform: scale(1.02);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}
+
+.animate-slow-zoom {
+  animation: welcome-slow-zoom 20s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.8s infinite;
+}
+

@@ -8,16 +8,10 @@ export async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     ...options.headers as Record<string, string>,
   };
 
-  if (typeof window !== "undefined") {
-    const token = localStorage.getItem("admin_token");
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
-  }
-
   const config = {
     ...options,
     headers,
+    credentials: "include" as RequestCredentials,
   };
 
   try {
@@ -159,22 +153,24 @@ export const apiInquiries = {
 // Auth APIs
 export const apiAuth = {
   login: async (email: string, password: string) => {
-    const data = await fetchAPI("/auth/login", {
+    return fetchAPI("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
-    if (data.token) {
-      localStorage.setItem("admin_token", data.token);
-    }
-    return data;
   },
-  logout: () => {
-    localStorage.removeItem("admin_token");
+  logout: async () => {
+    return fetchAPI("/auth/logout", {
+      method: "POST",
+    });
   },
-  isLoggedIn: () => {
-    if (typeof window !== "undefined") {
-      return !!localStorage.getItem("admin_token");
+  isLoggedIn: async (): Promise<boolean> => {
+    try {
+      const response = await fetchAPI("/auth/session", {
+        method: "GET",
+      });
+      return Boolean(response?.authenticated);
+    } catch {
+      return false;
     }
-    return false;
   }
 };

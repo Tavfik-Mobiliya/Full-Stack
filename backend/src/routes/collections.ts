@@ -4,11 +4,27 @@ import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = Router();
 
+function parsePagination(pageRaw: unknown, pageSizeRaw: unknown): { skip: number; take: number } {
+  const page = Number(pageRaw ?? 1);
+  const pageSize = Number(pageSizeRaw ?? 20);
+
+  const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+  const safePageSize = Number.isFinite(pageSize) && pageSize > 0 ? Math.min(Math.floor(pageSize), 50) : 20;
+
+  return {
+    skip: (safePage - 1) * safePageSize,
+    take: safePageSize,
+  };
+}
+
 // GET all collections
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { page, pageSize } = req.query;
+    const pagination = parsePagination(page, pageSize);
     const collections = await prisma.collection.findMany({
       orderBy: { createdAt: "desc" },
+      ...pagination,
       include: {
         projects: true,
       },
@@ -46,7 +62,11 @@ router.post("/", authMiddleware, async (req: Request, res: Response, next: NextF
 // PUT update collection by ID
 router.put("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = parseInt(req.params.id as string);
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      res.status(400).json({ error: "Invalid collection id" });
+      return;
+    }
     const { nameEn, nameAr, nameTr } = req.body;
 
     const existing = await prisma.collection.findUnique({ where: { id } });
@@ -73,7 +93,11 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response, next: Nex
 // DELETE collection by ID
 router.delete("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = parseInt(req.params.id as string);
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      res.status(400).json({ error: "Invalid collection id" });
+      return;
+    }
 
     const existing = await prisma.collection.findUnique({ where: { id } });
     if (!existing) {

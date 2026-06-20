@@ -1,25 +1,48 @@
 import { Request, Response, NextFunction } from "express";
-
-// A secure static token for session validation
-export const ADMIN_SESSION_TOKEN = "aura-luxury-showroom-admin-session-token-2026";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { env } from "../config/env";
 
 export interface AuthenticatedRequest extends Request {
   isAdmin?: boolean;
 }
 
-export function authMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+interface AdminTokenPayload extends JwtPayload {
+  role?: string;
+}
+
+function extractToken(req: Request): string | null {
   const authHeader = req.headers.authorization;
-  
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Unauthorized. Admin session token is missing." });
+  if (authHeader?.startsWith("Bearer ")) {
+    return authHeader.split(" ")[1] ?? null;
   }
 
-  const token = authHeader.split(" ")[1];
-
-  if (token !== ADMIN_SESSION_TOKEN) {
-    return res.status(403).json({ error: "Forbidden. Invalid admin session token." });
+  const cookieToken = req.cookies?.[env.authCookieName];
+  if (typeof cookieToken === "string" && cookieToken.length > 0) {
+    return cookieToken;
   }
 
-  req.isAdmin = true;
-  next();
+  return null;
+}
+
+export function authMiddleware(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  const token = extractToken(req);
+
+  if (!token) {
+    res.status(401).json({ error: "Unauthorized. Authentication token is missing." });
+    return;
+  }
+
+  try {
+    const payload = jwt.verify(token, env.adminJwtSecret) as AdminTokenPayload;
+
+    if (payload.role !== "admin") {
+      res.status(403).json({ error: "Forbidden. Admin access is required." });
+      return;
+    }
+
+    req.isAdmin = true;
+    next();
+  } catch {
+    res.status(401).json({ error: "Unauthorized. Invalid or expired token." });
+  }
 }

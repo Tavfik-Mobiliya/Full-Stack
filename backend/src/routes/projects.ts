@@ -1,8 +1,22 @@
 import { Router, Request, Response, NextFunction } from "express";
+import { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 import { authMiddleware } from "../middleware/authMiddleware";
 
 const router = Router();
+
+function parsePagination(pageRaw: unknown, pageSizeRaw: unknown): { skip: number; take: number } {
+  const page = Number(pageRaw ?? 1);
+  const pageSize = Number(pageSizeRaw ?? 20);
+
+  const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+  const safePageSize = Number.isFinite(pageSize) && pageSize > 0 ? Math.min(Math.floor(pageSize), 50) : 20;
+
+  return {
+    skip: (safePage - 1) * safePageSize,
+    take: safePageSize,
+  };
+}
 
 // GET all projects (with filtering)
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
@@ -18,9 +32,12 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
       style,
       priceMin,
       priceMax,
+      page,
+      pageSize,
     } = req.query;
 
-    const where: any = {};
+    const where: Prisma.ProjectWhereInput = {};
+    const pagination = parsePagination(page, pageSize);
 
     if (category) {
       where.category = category as string;
@@ -44,7 +61,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
       if (priceMax) where.price.lte = parseFloat(priceMax as string);
     }
 
-    const andConditions: any[] = [];
+    const andConditions: Prisma.ProjectWhereInput[] = [];
 
     if (search) {
       const searchStr = search as string;
@@ -89,6 +106,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     const projects = await prisma.project.findMany({
       where,
       orderBy: { createdAt: "desc" },
+      ...pagination,
       include: {
         collection: true,
       },
@@ -205,7 +223,11 @@ router.post("/", authMiddleware, async (req: Request, res: Response, next: NextF
 // PUT update project by ID
 router.put("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = parseInt(req.params.id as string);
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      res.status(400).json({ error: "Invalid project id" });
+      return;
+    }
     const {
       slug,
       category,
@@ -296,7 +318,11 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response, next: Nex
 // DELETE project by ID
 router.delete("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = parseInt(req.params.id as string);
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      res.status(400).json({ error: "Invalid project id" });
+      return;
+    }
 
     const existing = await prisma.project.findUnique({ where: { id } });
     if (!existing) {
