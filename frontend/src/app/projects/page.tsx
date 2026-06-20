@@ -7,11 +7,12 @@ import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProjects } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
+import { Project } from "@/types/api";
 import { SlidersHorizontal, Search, ArrowUpRight, RotateCcw } from "lucide-react";
 
 export default function ProjectsPage() {
   const { language, t } = useLanguage();
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Filters State

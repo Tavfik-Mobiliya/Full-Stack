@@ -4,7 +4,20 @@ import React, { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProjects, apiTestimonials, apiInquiries, apiAuth, apiCollections } from "@/utils/api";
+import { Collection, CollectionPayload, Inquiry, Project, ProjectPayload, Testimonial, TestimonialPayload } from "@/types/api";
 import { Plus, Edit, Trash2, SlidersHorizontal, MessageSquare, BookOpen, Star, FileText, FolderOpen } from "lucide-react";
+
+function getErrorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error && error.message) {
+    return error.message;
+  }
+  return fallback;
+}
+
+function getDetailString(details: Record<string, unknown> | null | undefined, key: string): string {
+  const value = details?.[key];
+  return typeof value === "string" ? value : "";
+}
 
 export default function AdminPage() {
   const { language, t } = useLanguage();
@@ -19,10 +32,10 @@ export default function AdminPage() {
   const [submittingAuth, setSubmittingAuth] = useState(false);
 
   // Data lists
-  const [projects, setProjects] = useState<any[]>([]);
-  const [collections, setCollections] = useState<any[]>([]);
-  const [inquiries, setInquiries] = useState<any[]>([]);
-  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
   // Loading state
   const [loading, setLoading] = useState(true);
@@ -119,8 +132,8 @@ export default function AdminPage() {
       await apiAuth.login(emailInput, passwordInput);
       setIsLoggedIn(true);
       loadDashboardData();
-    } catch (err: any) {
-      setAuthError(err.message || "Failed to sign in. Please check credentials.");
+    } catch (err: unknown) {
+      setAuthError(getErrorMessage(err, "Failed to sign in. Please check credentials."));
     } finally {
       setSubmittingAuth(false);
     }
@@ -137,7 +150,7 @@ export default function AdminPage() {
   // Project Submit Handler
   const handleProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let parsedSpecs = {};
+    let parsedSpecs: Record<string, unknown> = {};
     try {
       if (specsText.trim()) {
         parsedSpecs = JSON.parse(specsText);
@@ -147,7 +160,7 @@ export default function AdminPage() {
       return;
     }
 
-    const payload = {
+    const payload: ProjectPayload = {
       slug,
       category,
       subCategory: subCategory || null,
@@ -198,12 +211,12 @@ export default function AdminPage() {
       setProjectFormOpen(false);
       resetProjectForm();
       loadDashboardData();
-    } catch (err: any) {
-      alert(err.message || "Failed to submit project.");
+    } catch (err: unknown) {
+      alert(getErrorMessage(err, "Failed to submit project."));
     }
   };
 
-  const handleEditProject = (p: any) => {
+  const handleEditProject = (p: Project) => {
     setEditingProjectId(p.id);
     setSlug(p.slug);
     setCategory(p.category);
@@ -215,7 +228,7 @@ export default function AdminPage() {
     setImages(p.images ? p.images.join(", ") : "");
     setBeforeImage(p.beforeImage || "");
     setAfterImage(p.afterImage || "");
-    setFeatured(p.featured);
+    setFeatured(Boolean(p.featured));
     setTitleEn(p.titleEn);
     setTitleAr(p.titleAr);
     setTitleTr(p.titleTr);
@@ -241,8 +254,8 @@ export default function AdminPage() {
     try {
       await apiProjects.delete(id);
       loadDashboardData();
-    } catch (err: any) {
-      alert(err.message || "Failed to delete project");
+    } catch (err: unknown) {
+      alert(getErrorMessage(err, "Failed to delete project"));
     }
   };
 
@@ -281,7 +294,7 @@ export default function AdminPage() {
   // Testimonial Submit Handler
   const handleTestimonialSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const payload = {
+    const payload: TestimonialPayload = {
       author,
       category: testimonialCategory,
       rating,
@@ -302,15 +315,15 @@ export default function AdminPage() {
       setTestimonialFormOpen(false);
       resetTestimonialForm();
       loadDashboardData();
-    } catch (err: any) {
-      alert(err.message || "Failed to submit testimonial.");
+    } catch (err: unknown) {
+      alert(getErrorMessage(err, "Failed to submit testimonial."));
     }
   };
 
-  const handleEditTestimonial = (t: any) => {
+  const handleEditTestimonial = (t: Testimonial) => {
     setEditingTestimonialId(t.id);
     setAuthor(t.author);
-    setTestimonialCategory(t.category);
+    setTestimonialCategory(t.category || "General");
     setRating(t.rating || 5);
     setQuoteEn(t.quoteEn);
     setQuoteAr(t.quoteAr);
@@ -326,8 +339,8 @@ export default function AdminPage() {
     try {
       await apiTestimonials.delete(id);
       loadDashboardData();
-    } catch (err: any) {
-      alert(err.message || "Failed to delete testimonial");
+    } catch (err: unknown) {
+      alert(getErrorMessage(err, "Failed to delete testimonial"));
     }
   };
 
@@ -347,7 +360,7 @@ export default function AdminPage() {
   // Collection CRUD Handlers
   const handleCollectionSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const payload = {
+    const payload: CollectionPayload = {
       nameEn: collectionNameEn,
       nameAr: collectionNameAr,
       nameTr: collectionNameTr,
@@ -362,12 +375,12 @@ export default function AdminPage() {
       setCollectionFormOpen(false);
       resetCollectionForm();
       loadDashboardData();
-    } catch (err: any) {
-      alert(err.message || "Failed to submit collection.");
+    } catch (err: unknown) {
+      alert(getErrorMessage(err, "Failed to submit collection."));
     }
   };
 
-  const handleEditCollection = (c: any) => {
+  const handleEditCollection = (c: Collection) => {
     setEditingCollectionId(c.id);
     setCollectionNameEn(c.nameEn);
     setCollectionNameAr(c.nameAr);
@@ -380,8 +393,8 @@ export default function AdminPage() {
     try {
       await apiCollections.delete(id);
       loadDashboardData();
-    } catch (err: any) {
-      alert(err.message || "Failed to delete collection");
+    } catch (err: unknown) {
+      alert(getErrorMessage(err, "Failed to delete collection"));
     }
   };
 
@@ -398,8 +411,8 @@ export default function AdminPage() {
     try {
       await apiInquiries.delete(id);
       loadDashboardData();
-    } catch (err: any) {
-      alert(err.message || "Failed to delete inquiry");
+    } catch (err: unknown) {
+      alert(getErrorMessage(err, "Failed to delete inquiry"));
     }
   };
 
@@ -947,7 +960,7 @@ export default function AdminPage() {
                           </td>
                           <td className="px-6 py-4 text-silver/65">{p.year}</td>
                           <td className="px-6 py-4 text-gold/80 font-medium">
-                            {p.price ? `$${parseFloat(p.price).toLocaleString()}` : p.budget || "Bespoke"}
+                            {p.price ? `$${parseFloat(String(p.price)).toLocaleString()}` : p.budget || "Bespoke"}
                           </td>
                           <td className="px-6 py-4 text-end whitespace-nowrap space-x-2 rtl:space-x-reverse">
                             <button
@@ -1127,21 +1140,29 @@ export default function AdminPage() {
                             {inq.phone && <p className="text-silver/40">{inq.phone}</p>}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
+                            {(() => {
+                              const preferredDate = getDetailString(inq.details, "preferredDate");
+                              const projectName = getDetailString(inq.details, "projectName");
+                              return (
+                                <>
                             <span className="bg-gold/10 border border-gold/20 text-gold text-[10px] tracking-wider px-2 py-0.5 rounded uppercase font-semibold">
                               {inq.type}
                             </span>
-                            {inq.details?.preferredDate && (
-                              <p className="text-[10px] text-silver/40 mt-1">Date: {inq.details.preferredDate}</p>
+                            {preferredDate && (
+                              <p className="text-[10px] text-silver/40 mt-1">Date: {preferredDate}</p>
                             )}
-                            {inq.details?.projectName && (
-                              <p className="text-[10px] text-silver/40 mt-1 truncate max-w-[120px]">Item: {inq.details.projectName}</p>
+                            {projectName && (
+                              <p className="text-[10px] text-silver/40 mt-1 truncate max-w-[120px]">Item: {projectName}</p>
                             )}
+                                </>
+                              );
+                            })()}
                           </td>
                           <td className="px-6 py-4 text-silver/70 max-w-sm whitespace-normal text-xs leading-relaxed">
                             {inq.message}
                           </td>
                           <td className="px-6 py-4 text-xs text-silver/40 whitespace-nowrap">
-                            {new Date(inq.createdAt).toLocaleDateString()}
+                            {inq.createdAt ? new Date(inq.createdAt).toLocaleDateString() : "-"}
                           </td>
                           <td className="px-6 py-4 text-end whitespace-nowrap">
                             <button

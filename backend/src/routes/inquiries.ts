@@ -1,6 +1,8 @@
 import { Router, Request, Response, NextFunction } from "express";
 import prisma from "../prisma";
 import { authMiddleware } from "../middleware/authMiddleware";
+import { validateBody } from "../middleware/validate";
+import { inquirySchema } from "../validation/schemas";
 
 const router = Router();
 
@@ -34,7 +36,7 @@ router.get("/", authMiddleware, async (req: Request, res: Response, next: NextFu
 });
 
 // POST submit a new inquiry
-router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", validateBody(inquirySchema), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, email, phone, message, type, details } = req.body;
 

@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProjects, apiTestimonials, apiInquiries } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
+import { InquiryPayload, Project, Testimonial } from "@/types/api";
 import { 
   ArrowUpRight, 
   Mail, 
@@ -23,7 +24,7 @@ import {
 // Mockup-matching fallback projects
 const defaultProjects = [
   {
-    id: "f1",
+    id: 1,
     slug: "belvedere-residence",
     images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuBWTf_0MVr4A6vKurPw_f0jfRLbaYlRclNTxTf6Db5Fc43izsK8Ldmm_ov0lupc3DA0Q7nmnYvAlTouQir8Z6UwH42q4LaytR2WvT7PaRlsmuRP_CabTwgR5LXnsGYKlqxmYGe7X5QKsKa5iNOVEzwU8Gh2jpPjpXEECnZ3wfdlQeLDKfHRwYGtP6WE6qNvFrnDrxiza5_D8jyoiFzbCUpUqTUItaC4SHdtw1TucNnC2mQit6WxmAk04GbylW435xIoawClpr7APnz5"],
     titleEn: "The Belvedere Residence",
@@ -35,7 +36,7 @@ const defaultProjects = [
     year: "2023",
   },
   {
-    id: "f2",
+    id: 2,
     slug: "emerald-hills",
     images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuDCWTzGauxDjD56yHXnX8ouetGrIcCALpB_0jkkzFINKXlEvfDodIbiaalsEeN7jad60xkQ4S1ZmdRUmDEfUVPctRfTJwpthuB1ycgR5wDisQiIOmRU6tcMdChws4eREGz0dd1OGRqfm2fYn7UpxTbtPtQx4EKuILlJfK1R8hKUUWdbne2CRa7PK3MD7XDr6HJkXY42Gje2TUB8HMKTY3n-ZzIzQjOagsfRpYkS2OY95pf9MVOoRdOgY9Jj4JKbmsTL8UMl-ZB79w1j"],
     titleEn: "Emerald Hills Villa",
@@ -47,7 +48,7 @@ const defaultProjects = [
     year: "2024",
   },
   {
-    id: "f3",
+    id: 3,
     slug: "bosphorus-penthouse",
     images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuB0rYtNJ5OC741aRcVw-FPniveLENKDmtmuzf6AMnucFd6ZV_mCOa0CQhcBIjHibA5PJ8PdQ7juDM3Ec9a7nRk5Qv6YjatCWmSbGcmEzaLek0M8VW6RO4Abk_T2-ksra-d8wP-Nq4PH4hfNA9Yrcag1_oG02AZvV0RizG9x1lCX6EdKsICC1riKWiXo5riCYWRWHj6jrlbIV0ksGBIPZhlaqYhqJqdOKRsjtcl33_lCatBKAqvK3AuW1Lyzu8IKWpukD-wS8E-a-9IN"],
     titleEn: "Bosphorus Penthouse",
@@ -63,7 +64,7 @@ const defaultProjects = [
 // Fallback signature reviews
 const defaultTestimonials = [
   {
-    id: "t1",
+    id: 1,
     quoteEn: "Tevfik Mobilya didn't just design a house; they curated a sanctuary that perfectly reflects our heritage and our modern life. Every detail is a testament to their architectural excellence.",
     quoteAr: "لم تقم Tevfik Mobilya بمجرد تصميم منزل؛ بل قاموا برعاية ملاذ يعكس تراثنا وحياتنا الحديثة تمامًا. كل التفاصيل هي شهادة على تميزهم المعماري.",
     quoteTr: "Tevfik Mobilya sadece bir ev tasarlamadı; mirasımızı ve modern yaşamımızı mükemmel bir şekilde yansıtan bir sığınak yarattı. Her detay mimari mükemmelliklerinin bir kanıtı.",
@@ -76,8 +77,8 @@ const defaultTestimonials = [
 
 export default function HomePage() {
   const { language, t, dir } = useLanguage();
-  const [featuredProjects, setFeaturedProjects] = useState<any[]>([]);
-  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   
   // Concierge Form State
   const [name, setName] = useState("");
@@ -165,7 +166,7 @@ export default function HomePage() {
       setPhone("");
       setMessage("");
       setMeetingDate("");
-    } catch (err: any) {
+    } catch {
       setErrorMsg(t("concierge.error"));
     } finally {
       setLoading(false);
@@ -180,7 +181,7 @@ export default function HomePage() {
   };
 
   // Prepares repeating items to cover high-res screen marquees and loop seamlessly
-  const prepareMarqueeItems = (items: any[]) => {
+  const prepareMarqueeItems = (items: Project[]) => {
     if (!items || items.length === 0) return [];
     let list = [...items];
     while (list.length < 8) {

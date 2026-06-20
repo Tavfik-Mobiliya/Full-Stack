@@ -7,6 +7,8 @@ const express_1 = require("express");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const env_1 = require("../config/env");
 const authMiddleware_1 = require("../middleware/authMiddleware");
+const validate_1 = require("../middleware/validate");
+const schemas_1 = require("../validation/schemas");
 const router = (0, express_1.Router)();
 function createAdminToken(email) {
     const signOptions = {
@@ -34,7 +36,7 @@ function clearAuthCookie(res) {
         path: "/",
     });
 }
-router.post("/login", (req, res) => {
+router.post("/login", (0, validate_1.validateBody)(schemas_1.authLoginSchema), (req, res) => {
     const { email, password } = req.body;
     if (typeof email !== "string" || typeof password !== "string") {
         res.status(400).json({ error: "Email and password are required." });

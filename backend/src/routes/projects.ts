@@ -2,6 +2,8 @@ import { Router, Request, Response, NextFunction } from "express";
 import { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 import { authMiddleware } from "../middleware/authMiddleware";
+import { validateBody } from "../middleware/validate";
+import { projectCreateSchema, projectUpdateSchema } from "../validation/schemas";
 
 const router = Router();
 
@@ -141,7 +143,7 @@ router.get("/:slug", async (req: Request, res: Response, next: NextFunction) => 
 });
 
 // POST create project
-router.post("/", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", authMiddleware, validateBody(projectCreateSchema), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const {
       slug,
@@ -221,7 +223,7 @@ router.post("/", authMiddleware, async (req: Request, res: Response, next: NextF
 });
 
 // PUT update project by ID
-router.put("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:id", authMiddleware, validateBody(projectUpdateSchema), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id);
     if (!Number.isInteger(id) || id <= 0) {

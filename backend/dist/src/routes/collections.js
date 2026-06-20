@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma"));
 const authMiddleware_1 = require("../middleware/authMiddleware");
+const validate_1 = require("../middleware/validate");
+const schemas_1 = require("../validation/schemas");
 const router = (0, express_1.Router)();
 function parsePagination(pageRaw, pageSizeRaw) {
     const page = Number(pageRaw ?? 1);
@@ -36,7 +38,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 // POST create collection
-router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
+router.post("/", authMiddleware_1.authMiddleware, (0, validate_1.validateBody)(schemas_1.collectionSchema), async (req, res, next) => {
     try {
         const { nameEn, nameAr, nameTr } = req.body;
         if (!nameEn || !nameAr || !nameTr) {
@@ -57,7 +59,7 @@ router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
     }
 });
 // PUT update collection by ID
-router.put("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
+router.put("/:id", authMiddleware_1.authMiddleware, (0, validate_1.validateBody)(schemas_1.collectionSchema), async (req, res, next) => {
     try {
         const id = Number(req.params.id);
         if (!Number.isInteger(id) || id <= 0) {

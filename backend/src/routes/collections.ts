@@ -1,6 +1,8 @@
 import { Router, Request, Response, NextFunction } from "express";
 import prisma from "../prisma";
 import { authMiddleware } from "../middleware/authMiddleware";
+import { validateBody } from "../middleware/validate";
+import { collectionSchema } from "../validation/schemas";
 
 const router = Router();
 
@@ -36,7 +38,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // POST create collection
-router.post("/", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", authMiddleware, validateBody(collectionSchema), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { nameEn, nameAr, nameTr } = req.body;
 
@@ -60,7 +62,7 @@ router.post("/", authMiddleware, async (req: Request, res: Response, next: NextF
 });
 
 // PUT update collection by ID
-router.put("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:id", authMiddleware, validateBody(collectionSchema), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id);
     if (!Number.isInteger(id) || id <= 0) {

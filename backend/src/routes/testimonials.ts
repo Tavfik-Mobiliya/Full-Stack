@@ -2,6 +2,8 @@ import { Router, Request, Response, NextFunction } from "express";
 import { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 import { authMiddleware } from "../middleware/authMiddleware";
+import { validateBody } from "../middleware/validate";
+import { testimonialSchema } from "../validation/schemas";
 
 const router = Router();
 
@@ -41,7 +43,7 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 // POST create testimonial
-router.post("/", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+router.post("/", authMiddleware, validateBody(testimonialSchema), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr, rating } = req.body;
 
@@ -66,7 +68,7 @@ router.post("/", authMiddleware, async (req: Request, res: Response, next: NextF
 });
 
 // PUT update testimonial by ID
-router.put("/:id", authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+router.put("/:id", authMiddleware, validateBody(testimonialSchema), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id);
     if (!Number.isInteger(id) || id <= 0) {

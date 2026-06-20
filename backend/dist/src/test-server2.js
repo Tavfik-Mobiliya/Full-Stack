@@ -12,7 +12,8 @@ app.get("/", async (req, res) => {
         res.json({ count });
     }
     catch (err) {
-        res.status(500).json({ error: err.message });
+        const message = err instanceof Error ? err.message : "Unexpected error";
+        res.status(500).json({ error: message });
     }
 });
 app.listen(5005, () => {

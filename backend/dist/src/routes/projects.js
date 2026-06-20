@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma"));
 const authMiddleware_1 = require("../middleware/authMiddleware");
+const validate_1 = require("../middleware/validate");
+const schemas_1 = require("../validation/schemas");
 const router = (0, express_1.Router)();
 function parsePagination(pageRaw, pageSizeRaw) {
     const page = Number(pageRaw ?? 1);
@@ -117,7 +119,7 @@ router.get("/:slug", async (req, res, next) => {
     }
 });
 // POST create project
-router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
+router.post("/", authMiddleware_1.authMiddleware, (0, validate_1.validateBody)(schemas_1.projectCreateSchema), async (req, res, next) => {
     try {
         const { slug, category, subCategory, roomType, year, images, specs, beforeImage, afterImage, price, budget, featured, titleEn, titleAr, titleTr, descriptionEn, descriptionAr, descriptionTr, locationEn, locationAr, locationTr, materialEn, materialAr, materialTr, styleEn, styleAr, styleTr, collectionId, } = req.body;
         // Validate slug uniqueness
@@ -165,7 +167,7 @@ router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
     }
 });
 // PUT update project by ID
-router.put("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
+router.put("/:id", authMiddleware_1.authMiddleware, (0, validate_1.validateBody)(schemas_1.projectUpdateSchema), async (req, res, next) => {
     try {
         const id = Number(req.params.id);
         if (!Number.isInteger(id) || id <= 0) {

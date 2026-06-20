@@ -8,7 +8,20 @@ import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProjects, apiInquiries } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
+import { Project } from "@/types/api";
 import { ArrowLeft, Send, Check, Download, ArrowRight, Sparkles } from "lucide-react";
+
+interface FinishOption {
+  name: string;
+  desc: string;
+}
+
+interface SeriesFragment {
+  name: string;
+  material: string;
+  price: string;
+  img: string;
+}
 
 // Trilingual static translations for the Obsidian Series details
 const obsidianTranslations = {
@@ -250,9 +263,9 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
   const router = useRouter();
   const { language, t, dir, theme } = useLanguage();
 
-  const [collection, setCollection] = useState<any>(null);
+  const [collection, setCollection] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
-  const [spatialProjects, setSpatialProjects] = useState<any[]>([]);
+  const [spatialProjects, setSpatialProjects] = useState<Project[]>([]);
 
   // Interactive UI states
   const [activeFinish, setActiveFinish] = useState(0);
@@ -325,7 +338,7 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
       setName("");
       setEmail("");
       setPhone("");
-    } catch (err: any) {
+    } catch {
       setError(t("concierge.error"));
     } finally {
       setSubmitting(false);
@@ -521,7 +534,7 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
                   {loc.finishesTitle}
                 </h3>
                 <div className="flex gap-6 mt-4">
-                  {loc.finishes.map((finish: any, index: number) => {
+                  {(loc.finishes as FinishOption[]).map((finish, index: number) => {
                     const finishColors = ["#0A0A0A", "#1A1A1A", "#2C2C2C"];
                     const isSelected = activeFinish === index;
                     return (
@@ -656,7 +669,7 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
 
             {isObsidian ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                {obsidianTranslations[language].fragments.map((frag: any, idx: number) => (
+                {(obsidianTranslations[language].fragments as SeriesFragment[]).map((frag, idx: number) => (
                   <div key={idx} className="flex flex-col group">
                     <div className="aspect-square bg-surface-container-low mb-6 overflow-hidden rounded border dark:border-outline-variant/30 border-on-surface/5 relative">
                       <img

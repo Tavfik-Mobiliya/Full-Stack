@@ -9,13 +9,14 @@ import { BeforeAfter } from "@/components/BeforeAfter";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProjects, apiInquiries } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
+import { Project } from "@/types/api";
 import { Calendar, MapPin, Tag, Info, ArrowLeft, Send } from "lucide-react";
 
 export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
   const router = useRouter();
   const { language, t } = useLanguage();
-  const [project, setProject] = useState<any>(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState("");
 
@@ -69,7 +70,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
       setSuccess(t("concierge.success"));
       setName("");
       setEmail("");
-    } catch (err: any) {
+    } catch {
       setError(t("concierge.error"));
     } finally {
       setSubmitting(false);
@@ -77,10 +78,14 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
   };
 
 
-  const getSpecValue = (key: string, fallback: string) => {
+  const getSpecValue = (key: string, fallback: string): string => {
     if (!project || !project.specs) return fallback;
-    const foundKey = Object.keys(project.specs).find(k => k.toLowerCase() === key.toLowerCase());
-    if (foundKey) return project.specs[foundKey];
+    const specsRecord = project.specs as Record<string, unknown>;
+    const foundKey = Object.keys(specsRecord).find((k) => k.toLowerCase() === key.toLowerCase());
+    if (foundKey) {
+      const value = specsRecord[foundKey];
+      return typeof value === "string" ? value : fallback;
+    }
     return fallback;
   };
 

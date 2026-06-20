@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma"));
 const authMiddleware_1 = require("../middleware/authMiddleware");
+const validate_1 = require("../middleware/validate");
+const schemas_1 = require("../validation/schemas");
 const router = (0, express_1.Router)();
 function parsePagination(pageRaw, pageSizeRaw) {
     const page = Number(pageRaw ?? 1);
@@ -33,7 +35,7 @@ router.get("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
     }
 });
 // POST submit a new inquiry
-router.post("/", async (req, res, next) => {
+router.post("/", (0, validate_1.validateBody)(schemas_1.inquirySchema), async (req, res, next) => {
     try {
         const { name, email, phone, message, type, details } = req.body;
         if (!name || !email || !message) {

@@ -2,6 +2,8 @@ import { Router, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { env, isProduction } from "../config/env";
 import { authMiddleware, AuthenticatedRequest } from "../middleware/authMiddleware";
+import { validateBody } from "../middleware/validate";
+import { authLoginSchema } from "../validation/schemas";
 
 const router = Router();
 
@@ -35,7 +37,7 @@ function clearAuthCookie(res: Response): void {
   });
 }
 
-router.post("/login", (req: Request, res: Response) => {
+router.post("/login", validateBody(authLoginSchema), (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   if (typeof email !== "string" || typeof password !== "string") {

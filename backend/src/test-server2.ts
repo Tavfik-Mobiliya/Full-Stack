@@ -7,8 +7,9 @@ app.get("/", async (req, res) => {
   try {
     const count = await prisma.project.count();
     res.json({ count });
-  } catch (err: any) {
-    res.status(500).json({ error: err.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Unexpected error";
+    res.status(500).json({ error: message });
   }
 });
 

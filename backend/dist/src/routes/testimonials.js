@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const prisma_1 = __importDefault(require("../prisma"));
 const authMiddleware_1 = require("../middleware/authMiddleware");
+const validate_1 = require("../middleware/validate");
+const schemas_1 = require("../validation/schemas");
 const router = (0, express_1.Router)();
 function parsePagination(pageRaw, pageSizeRaw) {
     const page = Number(pageRaw ?? 1);
@@ -38,7 +40,7 @@ router.get("/", async (req, res, next) => {
     }
 });
 // POST create testimonial
-router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
+router.post("/", authMiddleware_1.authMiddleware, (0, validate_1.validateBody)(schemas_1.testimonialSchema), async (req, res, next) => {
     try {
         const { author, category, quoteEn, quoteAr, quoteTr, roleEn, roleAr, roleTr, rating } = req.body;
         const newTestimonial = await prisma_1.default.testimonial.create({
@@ -61,7 +63,7 @@ router.post("/", authMiddleware_1.authMiddleware, async (req, res, next) => {
     }
 });
 // PUT update testimonial by ID
-router.put("/:id", authMiddleware_1.authMiddleware, async (req, res, next) => {
+router.put("/:id", authMiddleware_1.authMiddleware, (0, validate_1.validateBody)(schemas_1.testimonialSchema), async (req, res, next) => {
     try {
         const id = Number(req.params.id);
         if (!Number.isInteger(id) || id <= 0) {

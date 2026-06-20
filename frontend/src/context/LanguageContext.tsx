@@ -8,7 +8,13 @@ import tr from "../locales/tr.json";
 export type Language = "en" | "ar" | "tr";
 export type Theme = "light" | "dark";
 
-const dictionaries: Record<Language, any> = { en, ar, tr };
+type TranslationDict = Record<string, string | TranslationDict>;
+
+const dictionaries: Record<Language, TranslationDict> = {
+  en: en as TranslationDict,
+  ar: ar as TranslationDict,
+  tr: tr as TranslationDict,
+};
 
 interface LanguageContextProps {
   language: Language;
@@ -71,10 +77,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const t = (key: string): string => {
     const dict = dictionaries[language];
     const parts = key.split(".");
-    let current = dict;
+    let current: string | TranslationDict = dict;
 
     for (const part of parts) {
-      if (current && current[part] !== undefined) {
+      if (typeof current !== "string" && current[part] !== undefined) {
         current = current[part];
       } else {
         return key; // Fallback to key if not found
