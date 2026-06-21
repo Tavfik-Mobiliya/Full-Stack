@@ -23,15 +23,14 @@ function toErrorMessage(error: unknown): string {
   return "Unknown error";
 }
 
-async function fetchWithRetry(url: string, config: RequestInit, retries: number): Promise<Response> {
-  for (let attempt = 0; attempt <= retries; attempt++) {
+async function fetchWithRetry(url: string, config: RequestInit): Promise<Response | null> {
+  for (let attempt = 0; attempt < 3; attempt++) {
     try {
       const response = await fetch(url, config);
       return response;
     } catch (err) {
-      if (attempt === retries) throw err;
-      const delay = [1000, 2000, 3000, 4000][attempt] ?? 5000;
-      await new Promise((resolve) => setTimeout(resolve, delay));
+      if (attempt === 2) throw err;
+      await new Promise((resolve) => setTimeout(resolve, 500));
     }
   }
   throw new Error("fetchWithRetry exhausted");
@@ -51,8 +50,13 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
     credentials: "include" as RequestCredentials,
   };
 
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
+
   try {
-    const response = await fetchWithRetry(url, config, 4);
+    const response = await fetchWithRetry(url, { ...config, signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (!response) return null;
     if (!response.ok) {
       if (response.status === 404) {
         return null;
@@ -62,8 +66,9 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
     }
     return (await response.json()) as T;
   } catch (error) {
+    clearTimeout(timeoutId);
     console.error(`API Fetch Error [${endpoint}]: ${toErrorMessage(error)}`);
-    throw error instanceof Error ? error : new Error("Unknown API error");
+    return null;
   }
 }
 
