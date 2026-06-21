@@ -16,19 +16,11 @@ import { env } from "./config/env";
 const app = express();
 const apiRouter = express.Router();
 
-const allowedOrigins = new Set(env.corsOrigins);
-
 app.use(helmet());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.has(origin)) {
-        callback(null, true);
-        return;
-      }
-      callback(new Error("Origin is not allowed by CORS policy"));
-    },
+    origin: true,
     credentials: true,
   })
 );
