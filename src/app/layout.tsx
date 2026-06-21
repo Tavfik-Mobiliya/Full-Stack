@@ -3,8 +3,7 @@ import { Playfair_Display, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { WelcomeScreen } from "@/components/WelcomeScreen";
-
-import Script from "next/script";
+import { ThemeScript } from "@/components/ThemeScript";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -31,21 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${hanken.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
-        <Script
-          id="theme-initializer"
-          strategy="beforeInteractive"
-        >
-          {`
-            (function() {
-              try {
-                var saved = localStorage.getItem('preferred_theme');
-                var theme = saved === 'light' || saved === 'dark' ? saved : 'dark';
-                document.documentElement.classList.remove('light', 'dark');
-                document.documentElement.classList.add(theme);
-              } catch (e) {}
-            })();
-          `}
-        </Script>
+        <ThemeScript />
       </head>
       <body className="min-h-full bg-background text-on-surface flex flex-col font-sans">
         <LanguageProvider>
