@@ -5,17 +5,17 @@ import Image from "next/image";
 import { useLanguage, Language } from "@/context/LanguageContext";
 import { Globe, ArrowRight, ArrowLeft } from "lucide-react";
 
-function getInitialMounted(): boolean {
-  if (typeof window !== "undefined") {
-    return !sessionStorage.getItem("showroom_entered");
-  }
-  return false;
-}
-
 export const WelcomeScreen: React.FC = () => {
   const { language, setLanguage, t, dir } = useLanguage();
-  const [mounted, setMounted] = useState(getInitialMounted);
+  const [mounted, setMounted] = useState(false);
   const [dismissing, setDismissing] = useState(false);
+
+  useEffect(() => {
+    const hasEntered = sessionStorage.getItem("showroom_entered");
+    if (!hasEntered) {
+      setMounted(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (mounted) {
