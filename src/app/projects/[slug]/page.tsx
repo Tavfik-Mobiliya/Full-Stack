@@ -2,7 +2,7 @@
 
 import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BeforeAfter } from "@/components/BeforeAfter";
@@ -10,15 +10,13 @@ import { useLanguage } from "@/context/LanguageContext";
 import { apiProducts, apiInquiries } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
 import { Product } from "@/types/api";
-import { Calendar, MapPin, Tag, Info, ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Send } from "lucide-react";
 
 export default function ProjectDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
-  const router = useRouter();
   const { language, t } = useLanguage();
   const [project, setProject] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeImage, setActiveImage] = useState("");
 
   // Inquiry form states
   const [name, setName] = useState("");
@@ -30,28 +28,29 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
 
   useEffect(() => {
     if (!slug) return;
-    setLoading(true);
+    let cancelled = false;
+
     apiProducts
       .getBySlug(slug)
       .then((data) => {
+        if (cancelled) return;
         setProject(data);
-        if (data && data.images && data.images.length > 0) {
-          setActiveImage(data.images[0]);
+        if (data) {
+          const pTitle = getLocalized(data, "title", language);
+          setMessage(`Hello Aura, I am interested in inquiring about "${pTitle}". Please provide me with more information.`);
         }
       })
       .catch((err) => {
-        console.error("Error fetching product details:", err);
+        if (!cancelled) {
+          console.error("Error fetching product details:", err);
+        }
       })
-      .finally(() => setLoading(false));
-  }, [slug]);
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
 
-  // Set default message once project is loaded
-  useEffect(() => {
-    if (project) {
-      const pTitle = getLocalized(project, "title", language);
-      setMessage(`Hello Aura, I am interested in inquiring about "${pTitle}". Please provide me with more information.`);
-    }
-  }, [project, language]);
+    return () => { cancelled = true; };
+  }, [slug, language]);
 
   const handleInquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,10 +140,13 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
       {/* Hero Header */}
       <header className="relative h-[80vh] w-full overflow-hidden flex items-end">
         <div className="absolute inset-0 z-0">
-          <img
+          <Image
             src={project.images && project.images[0] ? project.images[0] : "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1600"}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-[2s] hover:scale-105"
+            fill
+            className="object-cover transition-transform duration-[2s] hover:scale-105"
+            sizes="100vw"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
         </div>
@@ -306,10 +308,12 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                 {/* Primary Gallery Image (2/3 height on desktop) */}
                 {galleryImages[0] && (
                   <div className="md:h-2/3 relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-video md:aspect-auto flex-1">
-                    <img
+                    <Image
                       src={galleryImages[0]}
                       alt="Gallery view"
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                      fill
+                      className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 66vw"
                     />
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <span className="px-8 py-4 bg-white text-black font-label-caps text-xs uppercase tracking-widest rounded-none shadow-md">
@@ -324,19 +328,23 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                   <div className="grid grid-cols-2 gap-8 md:h-1/3">
                     {galleryImages[1] && (
                       <div className="relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-square md:aspect-auto">
-                        <img
+                        <Image
                           src={galleryImages[1]}
                           alt="Detail view 1"
-                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                          fill
+                          className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                     )}
                     {galleryImages[2] && (
                       <div className="relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-square md:aspect-auto">
-                        <img
+                        <Image
                           src={galleryImages[2]}
                           alt="Detail view 2"
-                          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                          fill
+                          className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                     )}
@@ -347,10 +355,12 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
               {/* Right Side (Col-span 4) */}
               {galleryImages[3] && (
                 <div className="md:col-span-4 h-full relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-[3/4] md:aspect-auto">
-                  <img
+                  <Image
                     src={galleryImages[3]}
                     alt="Atrium view"
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw"
                   />
                   <div className="absolute bottom-6 left-6 right-6 p-6 bg-background/95 backdrop-blur-md opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 border border-outline-variant/20">
                     <h3 className="font-serif text-lg text-on-surface mb-2 font-medium">Design Focus</h3>
@@ -367,10 +377,12 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
                 {galleryImages.slice(4).map((img: string, idx: number) => (
                   <div key={idx} className="relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-video">
-                    <img
+                    <Image
                       src={img}
                       alt={`Additional detail ${idx + 1}`}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     />
                   </div>
                 ))}

@@ -2,21 +2,20 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProducts, apiTestimonials, apiInquiries } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
-import { InquiryPayload, Product, Testimonial } from "@/types/api";
+import { Product, Testimonial } from "@/types/api";
 import { 
-  ArrowUpRight, 
   Mail, 
   Phone, 
   Send, 
   MessageSquare, 
   BookOpen, 
   Calendar, 
-  LayoutGrid,
   Sparkles,
   Star
 } from "lucide-react";
@@ -76,7 +75,7 @@ const defaultTestimonials = [
 ];
 
 export default function HomePage() {
-  const { language, t, dir } = useLanguage();
+  const { language, t } = useLanguage();
   const [featuredProjects, setFeaturedProjects] = useState<Product[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   
@@ -240,10 +239,13 @@ export default function HomePage() {
         {/* Full-screen Hero Section */}
         <section className="relative h-screen w-full overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <img 
-              className="w-full h-full object-cover scale-105" 
+            <Image 
+              fill
+              className="object-cover scale-105" 
               alt="A grand, ultra-luxurious living room design showroom"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg-70ZBH9uCh-Q7hg84E5AtIta9Ku1C_Q6oD0QsvSBHaIFAwtG7RBkbLHMZ5tPXIoD3nH_ntNJ6tli560FWFoIO9SNW2zkcmfN37YhB__WfSFMrkMZWHj0UoUyS9spuQRRsnQcsPoDN-_dHkZC9DuJn9F-SgWjr60WrAtydVzg8Mz6kYrYiXS-FLD8yZo6-DTwrU_xzuE8uUjQpZ13o_XCTAcF9fJ4XlbA68-d9U_aWtintSc634CA_4_HAWwyzKnhQuyW955Lgd5"
+              sizes="100vw"
+              priority
             />
             <div className="absolute inset-0 hero-gradient"></div>
           </div>
@@ -278,10 +280,12 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:h-[700px]">
             {/* Interior Design */}
             <div className="group relative overflow-hidden h-[500px] md:h-full rounded-lg border border-outline-variant/30 reveal-on-scroll">
-              <img 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+              <Image 
+                fill
+                className="object-cover transition-transform duration-1000 group-hover:scale-110" 
                 alt="Minimalist luxury kitchen and dining interior design"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcT32eIqldwdS9JKEWnTT29cCnfwx9YU570iBeElcepVtY0e0aSiC56EXnD5Y5_wT6itTcLsNd5Qvw_sToZXZOitPQZpQFY7n0kwdJ3g_IUksZnPMy_Lr4MqcG6yfdXYPu29R6gxoObpmhb5at6MGMfoOii4vcNdCV7rIUhAPsMREEws8sa8aKaQL35z6aHF49kHNvj_51CSAXvB0EZC-jPq-pj20COSgziRwmX3onMUDrK4ME2Il6STvuSMfPzZJTlWo2byYVWGzX"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:bg-black/60 transition-all duration-500 flex flex-col justify-end p-12">
                 <h2 className="font-serif text-3xl md:text-5xl text-white mb-4">
@@ -301,10 +305,12 @@ export default function HomePage() {
 
             {/* Furniture Design */}
             <div className="group relative overflow-hidden h-[500px] md:h-full rounded-lg border border-outline-variant/30 reveal-on-scroll">
-              <img 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+              <Image 
+                fill
+                className="object-cover transition-transform duration-1000 group-hover:scale-110" 
                 alt="Bespoke furniture crafted as sculptural objects" 
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKfiav6kLsRC6faFNyR4P803O6AbAYV9OKvG1cMAOeIoUSqmmBM5CeSceQ3uGlepLCrZ-uNb1WZpIiKkk7Bqf26QrZBZp54N5ZqKesa12aVOdqD9JZmdfSWKehOBozox7b54hFvW4V2nd-LJB8WVd0Zg-tWTXifak4GpIHvIWReF9DZmzPX9dr4dD6uVEp2KwYmAVPwxS3XA7dxsa8TH-E8n0prw6k_-nc5Kh142iXsdlDEuo4K7BWjgB-j3NDyHvr9vPiCt1Ifl6r"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:bg-black/60 transition-all duration-500 flex flex-col justify-end p-12">
                 <h2 className="font-serif text-3xl md:text-5xl text-white mb-4">
@@ -352,11 +358,13 @@ export default function HomePage() {
                     href={`/projects/${project.slug}`}
                     className="w-[300px] md:w-[350px] flex-shrink-0 group cursor-pointer"
                   >
-                    <div className="aspect-[4/5] overflow-hidden mb-6 border border-outline-variant/30 rounded-lg">
-                      <img
+                    <div className="relative aspect-[4/5] overflow-hidden mb-6 border border-outline-variant/30 rounded-lg">
+                      <Image
                         src={project.images?.[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800"}
                         alt={getLocalized(project, "title", language)}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </div>
                     <p className="text-[10px] text-on-surface-variant mb-1 uppercase tracking-widest">
@@ -379,7 +387,7 @@ export default function HomePage() {
             <div className="max-w-7xl mx-auto px-6 text-center">
               <span className="font-serif text-5xl text-primary mb-8 block select-none">“</span>
               <blockquote className="font-serif text-2xl md:text-4xl text-on-surface max-w-4xl mx-auto italic mb-10 leading-relaxed">
-                "{getLocalized(testimonials[0], "quote", language)}"
+                &ldquo;{getLocalized(testimonials[0], "quote", language)}&rdquo;
               </blockquote>
               <div className="flex justify-center items-center space-x-1 text-gold mb-6">
                 {Array.from({ length: 5 }).map((_, idx) => (

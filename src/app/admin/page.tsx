@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProducts, apiTestimonials, apiInquiries, apiAuth, apiCollections, apiDeals } from "@/utils/api";
 import { Collection, CollectionPayload, Deal, DealPayload, Inquiry, Product, ProductPayload, Testimonial, TestimonialPayload } from "@/types/api";
@@ -657,9 +659,9 @@ export default function AdminPage() {
             >
               {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
             </button>
-            <a href="/" className="font-sans text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-all flex items-center gap-1">
+            <Link href="/" className="font-sans text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-all flex items-center gap-1">
               <ArrowLeft size={14} /> Back to Showroom
-            </a>
+            </Link>
           </div>
         </header>
 
@@ -845,9 +847,9 @@ export default function AdminPage() {
             >
               {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
             </button>
-            <a href="/" className="hidden lg:inline-block font-sans text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-all border-b border-transparent hover:border-primary pb-0.5">
+            <Link href="/" className="hidden lg:inline-block font-sans text-xs uppercase tracking-widest text-on-surface-variant hover:text-primary transition-all border-b border-transparent hover:border-primary pb-0.5">
               Showroom Page
-            </a>
+            </Link>
             {activeTab !== "inquiries" && (
               <button
                 onClick={() => {
@@ -1382,9 +1384,10 @@ export default function AdminPage() {
                         {projects.map((p) => (
                           <tr key={p.id} className="group hover:bg-surface-container-lowest transition-all">
                             <td className="py-6 px-4 pr-4">
-                              <div className="w-16 h-12 bg-surface-container overflow-hidden group-hover:scale-105 transition-transform duration-500 rounded-none border border-outline-variant/30">
-                                <img
-                                  className="w-full h-full object-cover"
+                              <div className="relative w-16 h-12 bg-surface-container overflow-hidden group-hover:scale-105 transition-transform duration-500 rounded-none border border-outline-variant/30">
+                                <Image
+                                  fill
+                                  className="object-cover"
                                   src={p.images?.[0] || "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=400"}
                                   alt={p.titleEn}
                                 />
@@ -1664,10 +1667,12 @@ export default function AdminPage() {
                         {deals.map((deal) => (
                           <tr key={deal.id} className="group hover:bg-surface-container-lowest transition-all">
                             <td className="py-6 px-4">
-                              <img
+                              <Image
                                 src={deal.coverImage || deal.images[0] || "/placeholder.jpg"}
                                 alt={deal.titleEn}
-                                className="w-16 h-10 object-cover rounded"
+                                width={64}
+                                height={40}
+                                className="object-cover rounded"
                               />
                             </td>
                             <td className="py-6 px-4 font-sans text-sm font-semibold text-primary">{deal.titleEn}</td>
@@ -1704,7 +1709,7 @@ export default function AdminPage() {
                         {deals.length === 0 && (
                           <tr>
                             <td colSpan={7} className="py-12 text-center text-sm text-on-surface-variant/50">
-                              No deal projects yet. Click "Add New" to create one.
+                              No deal projects yet. Click &ldquo;Add New&rdquo; to create one.
                             </td>
                           </tr>
                         )}

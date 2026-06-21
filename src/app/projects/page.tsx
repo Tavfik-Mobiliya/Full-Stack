@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, startTransition, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProducts } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
 import { Product } from "@/types/api";
-import { SlidersHorizontal, Search, ArrowUpRight, RotateCcw } from "lucide-react";
+import { Search, ArrowUpRight, RotateCcw } from "lucide-react";
 
 export default function ProjectsPage() {
   const { language, t } = useLanguage();
@@ -21,7 +22,7 @@ export default function ProjectsPage() {
   const [style, setStyle] = useState("");
   const [budget, setBudget] = useState("");
 
-  const fetchFilteredProjects = () => {
+  const fetchFilteredProjects = useCallback(() => {
     setLoading(true);
     apiProducts
       .getAll({
@@ -36,11 +37,13 @@ export default function ProjectsPage() {
       })
       .catch((err) => console.error("Error fetching products:", err))
       .finally(() => setLoading(false));
-  };
+  }, [search, roomType, style, budget]);
 
   useEffect(() => {
-    fetchFilteredProjects();
-  }, [roomType, style, budget]);
+    startTransition(() => {
+      fetchFilteredProjects();
+    });
+  }, [fetchFilteredProjects]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -210,10 +213,12 @@ export default function ProjectsPage() {
                 className="group flex flex-col bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20 shadow-md hover:shadow-lg"
               >
                 <div className="relative aspect-video w-full overflow-hidden">
-                  <img
+                  <Image
                     src={project.images[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800"}
                     alt={getLocalized(project, "title", language)}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60" />
                   <div className="absolute top-4 left-4 bg-background/80 border border-outline-variant/30 backdrop-blur-md px-3 py-1 rounded text-[10px] tracking-widest text-gold uppercase">

@@ -29,23 +29,25 @@ interface LanguageContextProps {
 
 const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);
 
+function getInitialLanguage(): Language {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem("preferred_lang") as Language;
+    if (saved && ["en", "ar", "tr"].includes(saved)) return saved;
+  }
+  return "en";
+}
+
+function getInitialTheme(): Theme {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem("preferred_theme") as Theme;
+    if (saved && ["light", "dark"].includes(saved)) return saved;
+  }
+  return "dark";
+}
+
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>("en");
-  const [theme, setThemeState] = useState<Theme>("dark"); // Default to dark luxury theme
-
-  useEffect(() => {
-    // Load language preference from localStorage if available
-    const savedLang = localStorage.getItem("preferred_lang") as Language;
-    if (savedLang && ["en", "ar", "tr"].includes(savedLang)) {
-      setLanguageState(savedLang);
-    }
-
-    // Load theme preference from localStorage if available
-    const savedTheme = localStorage.getItem("preferred_theme") as Theme;
-    if (savedTheme && ["light", "dark"].includes(savedTheme)) {
-      setThemeState(savedTheme);
-    }
-  }, []);
+  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);

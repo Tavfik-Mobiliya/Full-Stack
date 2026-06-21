@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState } from "react";
 
 interface BeforeAfterProps {
@@ -24,10 +25,12 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
   return (
     <div className="relative w-full aspect-video md:aspect-[21/9] rounded-lg overflow-hidden border border-silver/10 select-none bg-deep-charcoal">
       {/* After Image (Background) */}
-      <img
+      <Image
         src={afterImage}
         alt="After design"
-        className="absolute inset-0 w-full h-full object-cover"
+        fill
+        className="object-cover"
+        sizes="100vw"
       />
       <div className="absolute top-4 right-4 bg-ink-black/60 backdrop-blur-md px-3 py-1 rounded text-[10px] tracking-widest text-gold font-semibold uppercase">
         {afterLabel}
@@ -38,10 +41,12 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
         className="absolute inset-0 w-full h-full overflow-hidden"
         style={{ clipPath: `polygon(0 0, ${sliderPos}% 0, ${sliderPos}% 100%, 0 100%)` }}
       >
-        <img
+        <Image
           src={beforeImage}
           alt="Before design"
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          className="object-cover"
+          sizes="100vw"
         />
         <div className="absolute top-4 left-4 bg-ink-black/60 backdrop-blur-md px-3 py-1 rounded text-[10px] tracking-widest text-silver font-semibold uppercase">
           {beforeLabel}

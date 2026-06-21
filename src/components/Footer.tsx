@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 
 export const Footer: React.FC = () => {
@@ -13,10 +14,12 @@ export const Footer: React.FC = () => {
         {/* Brand Information */}
         <div className="md:col-span-2 flex flex-col space-y-6">
           <Link href="/" className="flex items-center w-fit">
-            <img 
+            <Image 
               src="/logo.png" 
               alt="TEVFIK" 
-              className="h-8 w-auto object-contain hover:opacity-90 transition-opacity"
+              width={32}
+              height={32}
+              className="object-contain hover:opacity-90 transition-opacity"
             />
           </Link>
           <p className="text-on-surface-variant text-sm leading-relaxed max-w-sm">

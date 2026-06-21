@@ -2,7 +2,7 @@
 
 import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
@@ -260,8 +260,7 @@ const generalTranslations = {
 
 export default function CollectionDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
-  const router = useRouter();
-  const { language, t, dir, theme } = useLanguage();
+  const { language, t } = useLanguage();
 
   const [collection, setCollection] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -284,40 +283,45 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
   // Load collection details
   useEffect(() => {
     if (!slug) return;
-    setLoading(true);
+    let cancelled = false;
 
     apiProducts
       .getBySlug(slug)
       .then((data) => {
+        if (cancelled) return;
         setCollection(data);
+        if (data) {
+          const title = getLocalized(data, "title", language);
+          if (language === "ar") {
+            setMessage(`مرحباً أورا، أنا مهتم بالاستفسار عن "${title}". يرجى تزويدي بمزيد من المعلومات.`);
+          } else if (language === "tr") {
+            setMessage(`Merhaba Aura, "${title}" hakkında bilgi almak istiyorum. Lütfen bana daha fazla bilgi verin.`);
+          } else {
+            setMessage(`Hello Aura, I am interested in inquiring about "${title}". Please provide me with more information.`);
+          }
+        }
       })
       .catch((err) => {
-        console.error("Error loading collection details:", err);
+        if (!cancelled) {
+          console.error("Error loading collection details:", err);
+        }
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
 
     // Fetch interior products for spatial context (bento grid fallback)
     apiProducts
       .getAll({ category: "Interior" })
       .then((data) => {
-        setSpatialProjects(data.slice(0, 2));
+        if (!cancelled) setSpatialProjects(data.slice(0, 2));
       })
-      .catch((err) => console.error("Error loading spatial products:", err));
-  }, [slug]);
+      .catch((err) => {
+        if (!cancelled) console.error("Error loading spatial products:", err);
+      });
 
-  // Update default inquiry message when collection details or language changes
-  useEffect(() => {
-    if (collection) {
-      const title = getLocalized(collection, "title", language);
-      if (language === "ar") {
-        setMessage(`مرحباً أورا، أنا مهتم بالاستفسار عن "${title}". يرجى تزويدي بمزيد من المعلومات.`);
-      } else if (language === "tr") {
-        setMessage(`Merhaba Aura, "${title}" hakkında bilgi almak istiyorum. Lütfen bana daha fazla bilgi verin.`);
-      } else {
-        setMessage(`Hello Aura, I am interested in inquiring about "${title}". Please provide me with more information.`);
-      }
-    }
-  }, [collection, language]);
+    return () => { cancelled = true; };
+  }, [slug, language]);
 
   const handleInquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -444,10 +448,13 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
         <section className="relative h-[85vh] md:h-[90vh] flex items-center justify-center px-6 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/25 to-background z-10"></div>
-            <img
-              className="w-full h-full object-cover grayscale transition-all duration-500 dark:brightness-75 brightness-110 dark:opacity-100 opacity-90"
+            <Image
+              fill
+              className="object-cover grayscale transition-all duration-500 dark:brightness-75 brightness-110 dark:opacity-100 opacity-90"
               src={collection.images[0] || "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=1200"}
               alt={title}
+              sizes="100vw"
+              priority
             />
           </div>
           <div className="relative z-20 text-center max-w-3xl animate-fade-in-up mt-12">
@@ -485,11 +492,13 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
             </div>
           </div>
           <div className="md:col-span-7 relative">
-            <div className="aspect-[4/5] glass-panel p-4 rotate-1 translate-x-3 md:translate-x-4 shadow-xl">
-              <img
-                className="w-full h-full object-cover grayscale brightness-95"
+            <div className="relative aspect-[4/5] glass-panel p-4 rotate-1 translate-x-3 md:translate-x-4 shadow-xl">
+              <Image
+                fill
+                className="object-cover grayscale brightness-95"
                 src={isObsidian ? "https://lh3.googleusercontent.com/aida-public/AB6AXuAYImyQ90ZolSeHqu8ZHNbHYgeH3niyCKi_UTouYrgl77TNBsXkXmQJHXEtLO02TrR7SmnWn-CLzukJXueUBG5WbSNb2lovX-x4-1n9tGMXRvU9xfLBhautyWb22pz3Gi8rbu-xbrB6auVNp1G2oczt6ASaVgoucjiceRl-cJIbmP4RFCzYVUJk0AdW9YNuZfD-lP0klnmOzYxGQkOBObkzS3yVoZPXHTeAi32YNVKCLGGOPxWiNN8YvOC8MHFRign32zoHCpAyebKb" : (collection.images[1] || collection.images[0])}
                 alt={`${title} Detail`}
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
             <div className="absolute -bottom-6 -left-6 md:-bottom-8 md:-left-8 w-48 h-48 md:w-64 md:h-64 border border-primary/20 -z-10"></div>
@@ -578,10 +587,12 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
                 {/* Case Study 1 */}
                 <div className="md:col-span-8 group relative overflow-hidden rounded-lg shadow-lg">
                   <div className="absolute inset-0 transition-colors duration-300 dark:bg-background/40 bg-black/20 dark:group-hover:bg-background/10 group-hover:bg-black/5 z-10"></div>
-                  <img
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
+                  <Image
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGgpKyZMz0ioybp2dalGUDsNK6wYw_-Cb3Zz1hVXdWiINZnB7Hc7sr-xVjGjilOxrrToSMfNtENXI_WuS0_D4TB75UkshbwQXw-Mtf8uOXOP-GDrNocmOEj7hpIzNTGVZSgvgro2CFwQGgPJ3as-uhb6SIhMdUnnIIygkO2VdMqrPsraoMlzS27gPYg4zeCvtmiLYAoJTmnqE72iaGAHsLuwqQJ7P_lC6Ml9T5vBNCNYC80ueqtxGekCCnU6zBHEyFi7gNkWdCfEB"
                     alt={obsidianTranslations[language].caseStudy1Title}
+                    sizes="(max-width: 768px) 100vw, 66vw"
                   />
                   <div className="absolute bottom-8 left-8 z-20">
                     <span className="font-sans text-[10px] md:text-xs text-primary uppercase tracking-widest font-bold block mb-1 drop-shadow-md">
@@ -595,10 +606,12 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
                 {/* Case Study 2 */}
                 <div className="md:col-span-4 group relative overflow-hidden rounded-lg shadow-lg">
                   <div className="absolute inset-0 transition-colors duration-300 dark:bg-background/40 bg-black/20 dark:group-hover:bg-background/10 group-hover:bg-black/5 z-10"></div>
-                  <img
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
+                  <Image
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCy-dceJ8sFt9Gaz0fXgxxsOoYo-yUhhrf4g5x_4TyHl3VX9kjo4HQScHhBNeEC5IwCXP0bB7IIeFUHFCZjEWT5H_AXK7Xm8mMng2NGZi7LW2R1uvwhJfRcnMiRP9odit_irlKAJBz-aGZerwMjYaIEFHuHyUP0L-fO8m0y1LJht2wui7-yTfsYHxvcLgn99nOOyANy2R9gwFeUJxhYn8-2jWHyfQ5DhyqK9yvpRT7L0k-E0HiEokk-ODgh3Fq341bCOAPvKiJKgje"
                     alt={obsidianTranslations[language].caseStudy2Title}
+                    sizes="(max-width: 768px) 100vw, 33vw"
                   />
                   <div className="absolute bottom-8 left-8 z-20">
                     <span className="font-sans text-[10px] md:text-xs text-primary uppercase tracking-widest font-bold block mb-1 drop-shadow-md">
@@ -618,10 +631,12 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
                     return (
                       <div key={p.id} className={`${colSpan} group relative overflow-hidden rounded-lg shadow-lg`}>
                         <div className="absolute inset-0 transition-colors duration-300 dark:bg-background/40 bg-black/20 dark:group-hover:bg-background/10 group-hover:bg-black/5 z-10"></div>
-                        <img
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
+                        <Image
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-[1.5s]"
                           src={p.images[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800"}
                           alt={getLocalized(p, "title", language)}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                         <div className="absolute bottom-8 left-8 z-20">
                           <span className="font-sans text-[10px] md:text-xs text-primary uppercase tracking-widest font-bold block mb-1 drop-shadow-md">
@@ -672,10 +687,12 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
                 {(obsidianTranslations[language].fragments as SeriesFragment[]).map((frag, idx: number) => (
                   <div key={idx} className="flex flex-col group">
                     <div className="aspect-square bg-surface-container-low mb-6 overflow-hidden rounded border dark:border-outline-variant/30 border-on-surface/5 relative">
-                      <img
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      <Image
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-700"
                         src={frag.img}
                         alt={frag.name}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                       />
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-15">
                         <button
@@ -702,10 +719,12 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                 <div className="space-y-6">
                   <div className="relative aspect-square w-full rounded overflow-hidden border dark:border-outline-variant/30 border-on-surface/5 shadow-md">
-                    <img
+                    <Image
                       src={collection.images[0]}
                       alt={title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
                 </div>
@@ -750,7 +769,7 @@ export default function CollectionDetailPage({ params }: { params: Promise<{ slu
         {/* Final CTA / Consultation Trigger */}
         <section className="py-32 md:py-40 relative flex flex-col items-center justify-center text-center overflow-hidden border-t border-outline-variant/20">
           <div className="absolute inset-0 z-0 opacity-10">
-            <img src={collection.images[0]} alt="Background CTA" className="w-full h-full object-cover blur-md" />
+            <Image src={collection.images[0]} alt="Background CTA" fill className="object-cover blur-md" sizes="100vw" />
           </div>
           <div className="relative z-10 px-6 max-w-4xl">
             <h2 className="font-serif text-3xl md:text-5xl lg:text-6xl mb-12 text-on-surface font-semibold leading-tight">

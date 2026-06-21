@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, startTransition, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
 import { apiProducts } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
 import { Product } from "@/types/api";
-import { SlidersHorizontal, Search, ArrowUpRight, RotateCcw } from "lucide-react";
+import { Search, ArrowUpRight, RotateCcw } from "lucide-react";
 
 export default function CollectionsPage() {
   const { language, t } = useLanguage();
@@ -22,7 +23,7 @@ export default function CollectionsPage() {
   const [priceMin, setPriceMin] = useState("");
   const [priceMax, setPriceMax] = useState("");
 
-  const fetchFilteredPieces = () => {
+  const fetchFilteredPieces = useCallback(() => {
     setLoading(true);
     apiProducts
       .getAll({
@@ -38,11 +39,13 @@ export default function CollectionsPage() {
       })
       .catch((err) => console.error("Error fetching furniture collections:", err))
       .finally(() => setLoading(false));
-  };
+  }, [search, subCategory, material, priceMin, priceMax]);
 
   useEffect(() => {
-    fetchFilteredPieces();
-  }, [subCategory, material]);
+    startTransition(() => {
+      fetchFilteredPieces();
+    });
+  }, [fetchFilteredPieces]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -188,10 +191,12 @@ export default function CollectionsPage() {
                 className="group flex flex-col bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20 shadow-md hover:shadow-lg"
               >
                 <div className="relative aspect-square w-full overflow-hidden">
-                  <img
+                  <Image
                     src={piece.images[0] || "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=800"}
                     alt={getLocalized(piece, "title", language)}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60" />
                   <div className="absolute top-4 left-4 bg-background/80 border border-outline-variant/30 backdrop-blur-md px-3 py-1 rounded text-[10px] tracking-widest text-gold uppercase">

@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { Sparkles, Users, Award, ShieldCheck } from "lucide-react";
+import { Sparkles, Award, ShieldCheck } from "lucide-react";
 
 const aboutData = {
   en: {
@@ -191,10 +192,12 @@ export default function AboutPage() {
             </div>
             <div className="lg:col-span-6">
               <div className="relative aspect-video rounded-lg overflow-hidden border border-outline-variant/30 shadow-2xl">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=1200"
                   alt="Aura Studio Craftsmanship"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-black/60 to-transparent" />
               </div>
@@ -237,10 +240,12 @@ export default function AboutPage() {
             {data.team.map((member, idx) => (
               <div key={idx} className="group bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden flex flex-col transition-all duration-300 hover:border-gold/15 shadow-md hover:shadow-lg">
                 <div className="aspect-[4/5] w-full overflow-hidden relative">
-                  <img
+                  <Image
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60" />
                 </div>

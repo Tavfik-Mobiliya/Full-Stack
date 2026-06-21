@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, startTransition } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useLanguage, Language } from "@/context/LanguageContext";
 import { Globe, Menu, X, ChevronDown, Sun, Moon } from "lucide-react";
@@ -27,8 +28,10 @@ export const Navbar: React.FC = () => {
 
   // Close menus on path change
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setLangDropdownOpen(false);
+    startTransition(() => {
+      setMobileMenuOpen(false);
+      setLangDropdownOpen(false);
+    });
   }, [pathname]);
 
   const isAdmin = pathname?.startsWith("/admin");
@@ -56,10 +59,12 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Brand Logo */}
         <Link href="/" className="flex flex-col items-start justify-center">
-          <img 
+          <Image 
             src="/logo.png" 
             alt="TEVFIK" 
-            className="h-8 w-auto object-contain hover:opacity-90 transition-opacity"
+            width={32}
+            height={32}
+            className="object-contain hover:opacity-90 transition-opacity"
           />
           <span className="text-[8px] md:text-[9px] uppercase tracking-[0.15em] text-on-surface-variant/70 mt-1 block">
             {t("nav.subtitle")}

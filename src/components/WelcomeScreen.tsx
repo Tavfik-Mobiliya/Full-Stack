@@ -1,22 +1,30 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { useLanguage, Language } from "@/context/LanguageContext";
 import { Globe, ArrowRight, ArrowLeft } from "lucide-react";
 
+function getInitialMounted(): boolean {
+  if (typeof window !== "undefined") {
+    return !sessionStorage.getItem("showroom_entered");
+  }
+  return false;
+}
+
 export const WelcomeScreen: React.FC = () => {
   const { language, setLanguage, t, dir } = useLanguage();
-  const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(getInitialMounted);
   const [dismissing, setDismissing] = useState(false);
 
   useEffect(() => {
-    // Check if the user has already entered during the current session
-    const entered = sessionStorage.getItem("showroom_entered");
-    if (!entered) {
-      setMounted(true);
+    if (mounted) {
       document.body.style.overflow = "hidden";
     }
-  }, []);
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mounted]);
 
   const handleEnter = () => {
     setDismissing(true);
@@ -43,10 +51,13 @@ export const WelcomeScreen: React.FC = () => {
     >
       {/* Background Image with Slow Zoom Ambient Animation */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
+        <Image
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg-70ZBH9uCh-Q7hg84E5AtIta9Ku1C_Q6oD0QsvSBHaIFAwtG7RBkbLHMZ5tPXIoD3nH_ntNJ6tli560FWFoIO9SNW2zkcmfN37YhB__WfSFMrkMZWHj0UoUyS9spuQRRsnQcsPoDN-_dHkZC9DuJn9F-SgWjr60WrAtydVzg8Mz6kYrYiXS-FLD8yZo6-DTwrU_xzuE8uUjQpZ13o_XCTAcF9fJ4XlbA68-d9U_aWtintSc634CA_4_HAWwyzKnhQuyW955Lgd5"
           alt="Luxury Interior Showroom"
-          className="w-full h-full object-cover opacity-20 filter blur-[3px] scale-105 animate-slow-zoom"
+          fill
+          className="object-cover opacity-20 filter blur-[3px] scale-105 animate-slow-zoom"
+          sizes="100vw"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/30 to-black/90" />
       </div>
@@ -82,10 +93,12 @@ export const WelcomeScreen: React.FC = () => {
         {/* Logo Container */}
         <div className="mb-8 relative group">
           <div className="absolute -inset-2 bg-gradient-to-r from-gold/20 to-amber-500/20 rounded-full blur-lg opacity-40 group-hover:opacity-75 transition duration-1000" />
-          <img
+          <Image
             src="/logo.png"
             alt="Tevfik Logo"
-            className="h-16 w-auto relative object-contain mx-auto transition-transform duration-500 hover:scale-105"
+            width={64}
+            height={64}
+            className="object-contain mx-auto transition-transform duration-500 hover:scale-105"
           />
         </div>
 

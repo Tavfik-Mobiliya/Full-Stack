@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
@@ -18,7 +19,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function DealDetailPage() {
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
   const params = useParams();
   const slug = params?.slug as string;
   const [deal, setDeal] = useState<Deal | null>(null);
@@ -77,10 +78,13 @@ export default function DealDetailPage() {
       <main className="flex-1">
         {/* Hero */}
         <section className="relative h-[70vh] min-h-[500px] w-full overflow-hidden">
-          <img
+          <Image
             src={deal.coverImage || deal.images[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1600"}
             alt={getLocalized(deal, "title", language)}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
           <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 max-w-7xl mx-auto">
@@ -128,10 +132,12 @@ export default function DealDetailPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {deal.images.map((img, idx) => (
                   <div key={idx} className={`relative overflow-hidden rounded-lg ${idx === 0 ? "md:col-span-2" : ""}`}>
-                    <img
+                    <Image
                       src={img}
                       alt={`${getLocalized(deal, "title", language)} - Image ${idx + 1}`}
-                      className="w-full h-80 object-cover hover:scale-105 transition-transform duration-500"
+                      fill
+                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
                     />
                   </div>
                 ))}
@@ -152,10 +158,12 @@ export default function DealDetailPage() {
                     className="group flex flex-col bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20 shadow-md hover:shadow-lg"
                   >
                     <div className="relative aspect-video w-full overflow-hidden">
-                      <img
+                      <Image
                         src={product.images[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800"}
                         alt={getLocalized(product, "title", language)}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </div>
                     <div className="p-5 flex flex-col flex-1 space-y-3">
