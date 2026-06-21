@@ -11,6 +11,93 @@ import { getLocalized } from "@/utils/localize";
 import { Product } from "@/types/api";
 import { Search, ArrowUpRight, RotateCcw } from "lucide-react";
 
+const defaultPieces = [
+  {
+    id: 1,
+    slug: "marmara-marvel",
+    images: ["https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=800"],
+    titleEn: "Marmara Marvel Table",
+    titleAr: "طاولة مرمرة الرائعة",
+    titleTr: "Marmara Harikası Masa",
+    descriptionEn: "A sculptural dining table carved from pristine Marmara marble with brushed brass inlays.",
+    descriptionAr: "طاولة طعام نحتية من رخام مرمرة البكر مع ترصيعات نحاسية فرشاة.",
+    descriptionTr: "Fırçalanmış pirinç kakmalı el değmemiş Marmara mermerinden oyulmuş heykelsi bir yemek masası.",
+    locationEn: "ISTANBUL",
+    locationAr: "إسطنبول",
+    locationTr: "İSTANBUL",
+    year: "2024",
+    subCategory: "Table",
+    budget: "Bespoke",
+    materialEn: "Marble",
+    materialAr: "رخام",
+    materialTr: "Mermer",
+    price: 45000,
+    specs: {},
+    images: [],
+    featured: true,
+    createdAt: "",
+    updatedAt: "",
+    category: "Furniture",
+    collectionId: null,
+  },
+  {
+    id: 2,
+    slug: "velvet-vertex",
+    images: ["https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&q=80&w=800"],
+    titleEn: "Velvet Vertex Lounge Chair",
+    titleAr: "كرسي استرخاء فيلفيت فيرتكس",
+    titleTr: "Velvet Vertex Oturma Koltuğu",
+    descriptionEn: "Deep midnight-blue velvet wrapped over a polished steel frame.",
+    descriptionAr: "مخمل أزرق داكن منتصف الليل ملفوف على إطار فولاذي مصقول.",
+    descriptionTr: "Cilalı çelik çerçeve üzerine sarılmış koyu gece mavisi kadife.",
+    locationEn: "MILAN",
+    locationAr: "ميلانو",
+    locationTr: "MİLANO",
+    year: "2024",
+    subCategory: "Chair",
+    budget: "Premium",
+    materialEn: "Velvet",
+    materialAr: "مخمل",
+    materialTr: "Kadife",
+    price: 28000,
+    specs: {},
+    images: [],
+    featured: true,
+    createdAt: "",
+    updatedAt: "",
+    category: "Furniture",
+    collectionId: null,
+  },
+  {
+    id: 3,
+    slug: "brass-heritage",
+    images: ["https://images.unsplash.com/photo-1597006335776-25bb89e7d20b?auto=format&fit=crop&q=80&w=800"],
+    titleEn: "Brass Heritage Cabinet",
+    titleAr: "خزانة التراث النحاسي",
+    titleTr: "Pirinç Miras Dolabı",
+    descriptionEn: "Handcrafted walnut cabinet with woven brass detailing.",
+    descriptionAr: "خزانة جوز مصنوعة يدويًا مع تفاصيل نحاسية منسوجة.",
+    descriptionTr: "Örgü pirinç detaylı el işçiliği ceviz dolap.",
+    locationEn: "PARIS",
+    locationAr: "باريس",
+    locationTr: "PARİS",
+    year: "2023",
+    subCategory: "Cabinet",
+    budget: "Bespoke",
+    materialEn: "Walnut",
+    materialAr: "جوز",
+    materialTr: "Ceviz",
+    price: 52000,
+    specs: {},
+    images: [],
+    featured: true,
+    createdAt: "",
+    updatedAt: "",
+    category: "Furniture",
+    collectionId: null,
+  },
+];
+
 export default function CollectionsPage() {
   const { language, t } = useLanguage();
   const [pieces, setPieces] = useState<Product[]>([]);
@@ -35,9 +122,12 @@ export default function CollectionsPage() {
         priceMax: priceMax || undefined,
       })
       .then((data) => {
-        setPieces(data);
+        setPieces(data.length > 0 ? data : defaultPieces as unknown as Product[]);
       })
-      .catch((err) => console.error("Error fetching furniture collections:", err))
+      .catch((err) => {
+        console.error("Error fetching furniture collections:", err);
+        setPieces(defaultPieces as unknown as Product[]);
+      })
       .finally(() => setLoading(false));
   }, [search, subCategory, material, priceMin, priceMax]);
 
@@ -61,8 +151,11 @@ export default function CollectionsPage() {
     setLoading(true);
     apiProducts
       .getAll({ category: "Furniture" })
-      .then((data) => setPieces(data))
-      .catch((err) => console.error("Error resetting collections:", err))
+      .then((data) => setPieces(data.length > 0 ? data : defaultPieces as unknown as Product[]))
+      .catch((err) => {
+        console.error("Error resetting collections:", err);
+        setPieces(defaultPieces as unknown as Product[]);
+      })
       .finally(() => setLoading(false));
   };
 

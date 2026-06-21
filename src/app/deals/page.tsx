@@ -17,6 +17,66 @@ const statusColors: Record<string, string> = {
   Upcoming: "bg-blue-500/10 border-blue-500/20 text-blue-400",
 };
 
+const defaultDeals = [
+  {
+    id: 1,
+    slug: "kempinski-residence",
+    clientName: "Kempinski Residences",
+    coverImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=800",
+    images: [],
+    year: 2024,
+    status: "Completed",
+    featured: true,
+    titleEn: "Kempinski Residences Istanbul",
+    titleAr: "كمبينسكي السكني إسطنبول",
+    titleTr: "Kempinski Konutları İstanbul",
+    descriptionEn: "Full interior fit-out for 12 ultra-luxury residence suites in the heart of Istanbul.",
+    descriptionAr: "تجهيز داخلي كامل لـ 12 جناح سكني فاخر للغاية في قلب إسطنبول.",
+    descriptionTr: "İstanbul'un kalbinde 12 ultra-lüks konut süitinin komple iç mekan döşemesi.",
+    products: [],
+    createdAt: "",
+    updatedAt: "",
+  },
+  {
+    id: 2,
+    slug: "al-maabar-palace",
+    clientName: "Al Maabar Hospitality",
+    coverImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
+    images: [],
+    year: 2025,
+    status: "In Progress",
+    featured: true,
+    titleEn: "Al Maabar Palace Hotel",
+    titleAr: "فندق قصر المعبر",
+    titleTr: "Al Maabar Palace Oteli",
+    descriptionEn: "A 200-key luxury hotel with bespoke commissioned furniture across all public and private spaces.",
+    descriptionAr: "فندق فاخر يضم 200 مفتاح مع أثاث مخصص حسب الطلب في جميع المساحات العامة والخاصة.",
+    descriptionTr: "Tüm kamu ve özel alanlarda özel sipariş mobilyalara sahip 200 anahtarlı lüks otel.",
+    products: [],
+    createdAt: "",
+    updatedAt: "",
+  },
+  {
+    id: 3,
+    slug: "bosphorus-yacht",
+    clientName: "Private Client",
+    coverImage: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=800",
+    images: [],
+    year: 2026,
+    status: "Upcoming",
+    featured: true,
+    titleEn: "Bosphorus Mega Yacht Interior",
+    titleAr: "التصميم الداخلي ليخت البوسفور الضخم",
+    titleTr: "Boğaziçi Mega Yat İç Tasarımı",
+    descriptionEn: "Complete interior design and custom furniture fabrication for a 70m luxury yacht.",
+    descriptionAr: "تصميم داخلي كامل وتصنيع أثاث مخصص ليخت فاخر بطول 70 مترًا.",
+    descriptionTr: "70 metrelik lüks bir yat için komple iç tasarım ve özel mobilya üretimi.",
+    products: [],
+    createdAt: "",
+    updatedAt: "",
+  },
+];
+
 export default function DealsPage() {
   const { language, t } = useLanguage();
   const [deals, setDeals] = useState<Deal[]>([]);
@@ -25,8 +85,11 @@ export default function DealsPage() {
   useEffect(() => {
     apiDeals
       .getAll()
-      .then((data) => setDeals(data))
-      .catch((err) => console.error("Error fetching deals:", err))
+      .then((data) => setDeals(data.length > 0 ? data : defaultDeals as unknown as Deal[]))
+      .catch((err) => {
+        console.error("Error fetching deals:", err);
+        setDeals(defaultDeals as unknown as Deal[]);
+      })
       .finally(() => setLoading(false));
   }, []);
 
