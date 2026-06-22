@@ -37,6 +37,28 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
+// GET single collection by ID
+router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) {
+      res.status(400).json({ error: "Invalid collection id" });
+      return;
+    }
+    const collection = await prisma.collection.findUnique({
+      where: { id },
+      include: { products: true },
+    });
+    if (!collection) {
+      res.status(404).json({ error: "Collection not found" });
+      return;
+    }
+    res.json(collection);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // POST create collection
 router.post("/", authMiddleware, validateBody(collectionSchema), async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -184,6 +184,10 @@ export const apiCollections = {
     return fetchAPI<Collection[]>("/collections").then((data) => data ?? []);
   },
 
+  getById: (id: number) => {
+    return fetchAPI<Collection>(`/collections/${id}`);
+  },
+
   create: (data: CollectionPayload) => {
     invalidateResource("/collections");
     return fetchAPI<Collection>("/collections", {

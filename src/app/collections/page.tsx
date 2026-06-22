@@ -1,164 +1,32 @@
 "use client";
 
-import React, { useEffect, useState, startTransition, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { apiProducts } from "@/utils/api";
+import { apiCollections } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
-import { Product } from "@/types/api";
-import { Search, ArrowUpRight, RotateCcw } from "lucide-react";
-
-const defaultPieces = [
-  {
-    id: 1,
-    slug: "marmara-marvel",
-    images: ["https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=800"],
-    titleEn: "Marmara Marvel Table",
-    titleAr: "طاولة مرمرة الرائعة",
-    titleTr: "Marmara Harikası Masa",
-    descriptionEn: "A sculptural dining table carved from pristine Marmara marble with brushed brass inlays.",
-    descriptionAr: "طاولة طعام نحتية من رخام مرمرة البكر مع ترصيعات نحاسية فرشاة.",
-    descriptionTr: "Fırçalanmış pirinç kakmalı el değmemiş Marmara mermerinden oyulmuş heykelsi bir yemek masası.",
-    locationEn: "ISTANBUL",
-    locationAr: "إسطنبول",
-    locationTr: "İSTANBUL",
-    year: "2024",
-    subCategory: "Table",
-    budget: "Bespoke",
-    materialEn: "Marble",
-    materialAr: "رخام",
-    materialTr: "Mermer",
-    price: 45000,
-    specs: {},
-    featured: true,
-    createdAt: "",
-    updatedAt: "",
-    category: "Furniture",
-    collectionId: null,
-  },
-  {
-    id: 2,
-    slug: "velvet-vertex",
-    images: ["https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&q=80&w=800"],
-    titleEn: "Velvet Vertex Lounge Chair",
-    titleAr: "كرسي استرخاء فيلفيت فيرتكس",
-    titleTr: "Velvet Vertex Oturma Koltuğu",
-    descriptionEn: "Deep midnight-blue velvet wrapped over a polished steel frame.",
-    descriptionAr: "مخمل أزرق داكن منتصف الليل ملفوف على إطار فولاذي مصقول.",
-    descriptionTr: "Cilalı çelik çerçeve üzerine sarılmış koyu gece mavisi kadife.",
-    locationEn: "MILAN",
-    locationAr: "ميلانو",
-    locationTr: "MİLANO",
-    year: "2024",
-    subCategory: "Chair",
-    budget: "Premium",
-    materialEn: "Velvet",
-    materialAr: "مخمل",
-    materialTr: "Kadife",
-    price: 28000,
-    specs: {},
-    featured: true,
-    createdAt: "",
-    updatedAt: "",
-    category: "Furniture",
-    collectionId: null,
-  },
-  {
-    id: 3,
-    slug: "brass-heritage",
-    images: ["https://images.unsplash.com/photo-1597006335776-25bb89e7d20b?auto=format&fit=crop&q=80&w=800"],
-    titleEn: "Brass Heritage Cabinet",
-    titleAr: "خزانة التراث النحاسي",
-    titleTr: "Pirinç Miras Dolabı",
-    descriptionEn: "Handcrafted walnut cabinet with woven brass detailing.",
-    descriptionAr: "خزانة جوز مصنوعة يدويًا مع تفاصيل نحاسية منسوجة.",
-    descriptionTr: "Örgü pirinç detaylı el işçiliği ceviz dolap.",
-    locationEn: "PARIS",
-    locationAr: "باريس",
-    locationTr: "PARİS",
-    year: "2023",
-    subCategory: "Cabinet",
-    budget: "Bespoke",
-    materialEn: "Walnut",
-    materialAr: "جوز",
-    materialTr: "Ceviz",
-    price: 52000,
-    specs: {},
-    featured: true,
-    createdAt: "",
-    updatedAt: "",
-    category: "Furniture",
-    collectionId: null,
-  },
-];
+import { Collection } from "@/types/api";
 
 export default function CollectionsPage() {
-  const { language, t } = useLanguage();
-  const [pieces, setPieces] = useState<Product[]>([]);
+  const { language } = useLanguage();
+  const [collections, setCollections] = useState<Collection[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Filters State
-  const [search, setSearch] = useState("");
-  const [subCategory, setSubCategory] = useState("");
-  const [material, setMaterial] = useState("");
-  const [priceMin, setPriceMin] = useState("");
-  const [priceMax, setPriceMax] = useState("");
-
-  const fetchFilteredPieces = useCallback(() => {
-    setLoading(true);
-    apiProducts
-      .getAll({
-        category: "Furniture",
-        collectionId: "not-null",
-        search: search || undefined,
-        subCategory: subCategory || undefined,
-        material: material || undefined,
-        priceMin: priceMin || undefined,
-        priceMax: priceMax || undefined,
-      })
-      .then((data) => {
-        setPieces(data.length > 0 ? data : defaultPieces as unknown as Product[]);
-      })
-      .catch((err) => {
-        console.error("Error fetching furniture collections:", err);
-        setPieces(defaultPieces as unknown as Product[]);
-      })
-      .finally(() => setLoading(false));
-  }, [search, subCategory, material, priceMin, priceMax]);
-
   useEffect(() => {
-    startTransition(() => {
-      fetchFilteredPieces();
-    });
-  }, [fetchFilteredPieces]);
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    fetchFilteredPieces();
-  };
-
-  const handleReset = () => {
-    setSearch("");
-    setSubCategory("");
-    setMaterial("");
-    setPriceMin("");
-    setPriceMax("");
-    setLoading(true);
-    apiProducts
-      .getAll({ category: "Furniture" })
-      .then((data) => setPieces(data.length > 0 ? data : defaultPieces as unknown as Product[]))
+    apiCollections
+      .getAll()
+      .then((data) => {
+        setCollections(data || []);
+      })
       .catch((err) => {
-        console.error("Error resetting collections:", err);
-        setPieces(defaultPieces as unknown as Product[]);
+        console.error("Error fetching collections:", err);
+        setCollections([]);
       })
       .finally(() => setLoading(false));
-  };
-
-  const subCategories = ["Table", "Chair", "Cabinet"];
-  const materials = ["Marble", "Velvet", "Walnut", "Brass", "Steel"];
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-on-surface">
@@ -171,153 +39,58 @@ export default function CollectionsPage() {
             COLLECTIBLE DESIGNS
           </span>
           <h1 className="font-serif text-4xl md:text-6xl text-on-surface font-bold animate-fade-in-up">
-            {t("nav.collections")}
+            {language === "ar" ? "المجموعات" : language === "tr" ? "Koleksiyonlar" : "Collections"}
           </h1>
         </div>
 
-        {/* Filter Toolbar */}
-        <div className="glass-panel p-6 rounded-lg mb-12 flex flex-col lg:flex-row gap-6 items-stretch lg:items-center justify-between">
-          {/* Text Search */}
-          <form onSubmit={handleSearchSubmit} className="flex-1 relative flex items-center">
-            <input
-              type="text"
-              placeholder={t("filters.search")}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-surface-container-low border border-outline-variant rounded-l px-4 py-3 pl-10 rtl:pl-4 rtl:pr-10 text-on-surface text-sm focus:outline-none focus:border-gold transition-all"
-            />
-            <Search size={16} className="absolute left-3.5 rtl:left-auto rtl:right-3.5 text-on-surface-variant/40" />
-            <button
-              type="submit"
-              className="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 text-xs uppercase tracking-widest font-semibold rounded-r transition-colors"
-            >
-              Search
-            </button>
-          </form>
-
-          {/* Selector Dropdowns & Price range */}
-          <div className="flex flex-wrap items-center gap-4">
-            {/* Sub-Category */}
-            <select
-              value={subCategory}
-              onChange={(e) => setSubCategory(e.target.value)}
-              className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
-            >
-              <option value="">Category</option>
-              {subCategories.map((cat) => (
-                <option key={cat} value={cat} className="bg-surface text-on-surface">
-                  {cat}s
-                </option>
-              ))}
-            </select>
-
-            {/* Material */}
-            <select
-              value={material}
-              onChange={(e) => setMaterial(e.target.value)}
-              className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
-            >
-              <option value="">Material</option>
-              {materials.map((mat) => (
-                <option key={mat} value={mat} className="bg-surface text-on-surface">
-                  {mat}
-                </option>
-              ))}
-            </select>
-
-            {/* Price Filter inputs */}
-            <div className="flex items-center space-x-2 rtl:space-x-reverse bg-surface-container-low border border-outline-variant rounded px-2">
-              <input
-                type="number"
-                placeholder="Min ($)"
-                value={priceMin}
-                onChange={(e) => setPriceMin(e.target.value)}
-                className="w-16 bg-transparent text-on-surface text-xs py-2 px-1 focus:outline-none"
-              />
-              <span className="text-outline-variant/50 text-xs">|</span>
-              <input
-                type="number"
-                placeholder="Max ($)"
-                value={priceMax}
-                onChange={(e) => setPriceMax(e.target.value)}
-                className="w-16 bg-transparent text-on-surface text-xs py-2 px-1 focus:outline-none"
-              />
-              <button
-                onClick={fetchFilteredPieces}
-                className="text-gold hover:text-champagne p-1 text-xs"
-              >
-                Go
-              </button>
-            </div>
-
-            {/* Reset */}
-            <button
-              onClick={handleReset}
-              className="inline-flex items-center space-x-1 rtl:space-x-reverse text-xs uppercase tracking-widest text-on-surface-variant/70 hover:text-gold transition-colors py-3 px-4 rounded border border-outline-variant hover:border-gold/20"
-            >
-              <RotateCcw size={12} />
-              <span>Reset</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Gallery Grid */}
+        {/* Collections Grid */}
         {loading ? (
           <div className="py-24 text-center">
             <span className="text-xs uppercase tracking-widest text-gold animate-pulse">
-              Curating pieces collections...
+              Curating collections...
             </span>
           </div>
-        ) : pieces.length === 0 ? (
+        ) : collections.length === 0 ? (
           <div className="py-24 text-center glass-panel rounded-lg">
             <span className="text-sm text-on-surface-variant/50 uppercase tracking-widest">
-              No matching pieces found in the catalog.
+              No collections available yet.
             </span>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {pieces.map((piece) => (
-              <div
-                key={piece.id}
+            {collections.map((col) => (
+              <Link
+                key={col.id}
+                href={`/collections/${col.id}`}
                 className="group flex flex-col bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20 shadow-md hover:shadow-lg"
               >
                 <div className="relative aspect-square w-full overflow-hidden">
                   <Image
-                    src={piece.images[0] || "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=800"}
-                    alt={getLocalized(piece, "title", language)}
+                    src={col.products?.[0]?.images?.[0] || "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&q=80&w=800"}
+                    alt={getLocalized(col, "name", language)}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60" />
                   <div className="absolute top-4 left-4 bg-background/80 border border-outline-variant/30 backdrop-blur-md px-3 py-1 rounded text-[10px] tracking-widest text-gold uppercase">
-                    {piece.subCategory || "Furniture"}
+                    {(col.products?.length || 0)} {language === "ar" ? "قطعة" : language === "tr" ? "parça" : "pieces"}
                   </div>
                 </div>
-                <div className="p-6 flex flex-col flex-1 space-y-4">
-                  <span className="text-xs text-on-surface-variant/60 tracking-widest uppercase block">
-                    {getLocalized(piece, "location", language)} &bull; {piece.year}
-                  </span>
+                <div className="p-6 flex flex-col flex-1">
                   <h3 className="font-serif text-xl text-on-surface font-semibold group-hover:text-gold transition-colors">
-                    {getLocalized(piece, "title", language)}
+                    {getLocalized(col, "name", language)}
                   </h3>
-                  <p className="text-sm text-on-surface-variant/80 line-clamp-2 leading-relaxed">
-                    {getLocalized(piece, "description", language)}
-                  </p>
                   <div className="pt-4 mt-auto border-t border-outline-variant/30 flex items-center justify-between">
-                    <span className="text-sm text-primary font-semibold tracking-wide">
-                      {piece.price ? `$${parseFloat(String(piece.price)).toLocaleString()}` : "Price upon request"}
+                    <span className="text-xs tracking-widest uppercase text-gold hover:text-primary font-semibold transition-colors">
+                      {language === "ar" ? "عرض المجموعة" : language === "tr" ? "Koleksiyonu Gör" : "View Collection"}
                     </span>
-                    <Link
-                      href={`/collections/${piece.slug}`}
-                      className="inline-flex items-center text-xs tracking-widest uppercase text-gold hover:text-primary font-semibold transition-colors"
-                    >
-                      <span>VIEW PIECE</span>
-                      <ArrowUpRight size={14} className="ml-1 rtl:mr-1" />
-                    </Link>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gold">
+                      <path d="M7 17L17 7M17 7H7M17 7V17" />
+                    </svg>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
