@@ -112,6 +112,7 @@ export default function CollectionsPage() {
     apiProducts
       .getAll({
         category: "Furniture",
+        collectionId: "not-null",
         search: search || undefined,
         subCategory: subCategory || undefined,
         material: material || undefined,

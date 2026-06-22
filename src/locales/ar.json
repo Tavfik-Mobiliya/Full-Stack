@@ -60,7 +60,28 @@
     "requestSimilar": "طلب تصميم مماثل",
     "bringVision": "أحضر هذه الرؤية إلى مساحتك",
     "downloadSpecs": "تحميل المواصفات الكاملة",
-    "conceptTitle": "فن العيش المخصص"
+    "conceptTitle": "فن العيش المخصص",
+    "loading": "جارٍ تحميل تفاصيل العمل الفني...",
+    "notFound": "لم يتم العثور على العمل الفني.",
+    "returnToGallery": "العودة إلى المعرض",
+    "clientNeedsFallback": "ملاذ خاص مخصص يتناسب مع الهوية المعمارية للعلامة التجارية.",
+    "timelineFallback": "12 شهرًا",
+    "recognitionFallback": "عرض التصميم المميز 2024",
+    "transformation": "التحول",
+    "capturingDetail": "التقاط التفاصيل",
+    "editorialPerspective": "منظور تحريري",
+    "galleryDescription": "تم تنسيق كل تفصيل وتنفيذه بدقة ليتوافق مع النقاء الهندسي للمفهوم المعماري.",
+    "viewMasterWork": "عرض العمل الفني",
+    "designFocus": "التركيز التصميمي",
+    "designFocusDescription": "يسمح التخطيط الدقيق بالتقاط أقصى قدر من الإضاءة الطبيعية على مدار الفصول.",
+    "inquiriesLabel": "الاستفسارات والحجوزات",
+    "inquiriesDescription": "تواصل مع مسؤولي صالة العرض لدينا لطلب عينات المواد الفعلية أو خيارات التخصيص أو تفاصيل الكتالوج.",
+    "showroomAssistance": "مساعدة صالة العرض",
+    "showroomDescription": "تتوفر ورش العمل لدينا في إسطنبول وميلانو للجولات الخاصة عن طريق التعيين المسبق.",
+    "galleryAlt": "منظر المعرض",
+    "detailAlt": "منظر التفاصيل",
+    "atriumAlt": "منظر البهو",
+    "additionalDetailAlt": "تفاصيل إضافية"
   },
   "testimonials": {
     "title": "آراء العملاء",
@@ -119,8 +140,7 @@
     "form": {
       "slug": "المعرف الفريد (الرابط)",
       "category": "الفئة الرئيسية",
-      "subCategory": "الفئة الفرعية (اختياري)",
-      "roomType": "نوع الغرفة (اختياري)",
+      "roomType": "الغرفة / النوع",
       "year": "سنة الإنشاء",
       "images": "روابط الصور (مفصولة بفواصل)",
       "beforeImage": "رابط صورة (قبل) (اختياري)",
@@ -170,6 +190,51 @@
     "contact": "الاتصال",
     "hours": "أوقات العمل في الأتيليه",
     "hoursVal": "الاثنين - الجمعة: 09:00 - 18:00"
+  },
+  "featuredProjects": "المشاريع المميزة",
+  "deals": {
+    "loading": "جارٍ تنظيم معرض المشاريع...",
+    "empty": "لا توجد مشاريع متاحة بعد.",
+    "product": "منتج",
+    "products": "منتجات",
+    "viewProject": "عرض المشروع",
+    "detailLoading": "جارٍ تحميل تفاصيل المشروع...",
+    "notFound": "المشروع غير موجود.",
+    "backToProjects": "العودة إلى المشاريع",
+    "projectOverview": "نظرة عامة على المشروع",
+    "projectGallery": "معرض المشروع",
+    "featuredProductsLabel": "المنتجات المميزة",
+    "viewProduct": "عرض",
+    "imageLabel": "صورة"
+  },
+  "projects": {
+    "galleryLabel": "المعرض المعماري",
+    "searchButton": "بحث",
+    "roomTypePlaceholder": "نوع الغرفة",
+    "stylePlaceholder": "النمط الجمالي",
+    "budgetPlaceholder": "مستوى الميزانية",
+    "resetButton": "إعادة تعيين",
+    "loading": "جارٍ تنظيم معرض المجموعة...",
+    "empty": "لم يتم العثور على روائع مطابقة.",
+    "exploreDetails": "اكتشف التفاصيل",
+    "fallbackSubCategory": "سكني",
+    "fallbackBudget": "مخصص",
+    "roomTypes": {
+      "livingRoom": "غرفة معيشة",
+      "bedroom": "غرفة نوم",
+      "kitchen": "مطبخ"
+    },
+    "styles": {
+      "monolithicMinimalist": "بساطة متجانسة",
+      "nocturnalLuxury": "فخامة ليلية",
+      "coastalMinimalism": "بساطة ساحلية",
+      "contemporaryMonolithic": "متجانسة معاصرة"
+    },
+    "budgets": {
+      "premium": "بريميوم",
+      "ultraLuxury": "فائق الفخامة",
+      "bespoke": "مخصص"
+    }
   },
   "home": {
     "interiorDescription": "حلول معمارية مخصصة للمنزل العصري",

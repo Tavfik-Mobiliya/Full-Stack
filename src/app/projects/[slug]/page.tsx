@@ -101,7 +101,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
           <span className="text-xs uppercase tracking-widest text-gold animate-pulse">
-            Retrieving masterwork details...
+            {t("project.loading")}
           </span>
         </div>
         <Footer />
@@ -115,10 +115,10 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center space-y-4">
           <span className="text-sm uppercase tracking-widest text-on-surface-variant/50">
-            Masterpiece not found.
+            {t("project.notFound")}
           </span>
           <Link href="/projects" className="text-xs uppercase tracking-widest text-gold border-b border-gold">
-            Return to Gallery
+            {t("project.returnToGallery")}
           </Link>
         </div>
         <Footer />
@@ -139,15 +139,21 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
 
       {/* Hero Header */}
       <header className="relative h-[80vh] w-full overflow-hidden flex items-end">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src={project.images && project.images[0] ? project.images[0] : "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1600"}
-            alt={title}
-            fill
-            className="object-cover transition-transform duration-[2s] hover:scale-105"
-            sizes="100vw"
-            priority
-          />
+              <div className="absolute inset-0 z-0">
+                {project.images && project.images[0] ? (
+                  <Image
+                    src={project.images[0]}
+                    alt={title}
+                    fill
+                    className="object-cover transition-transform duration-[2s] hover:scale-105"
+                    sizes="100vw"
+                    priority
+                  />
+                ) : (
+                  <div className="w-full h-full bg-surface-container-low flex items-center justify-center">
+                    <span className="text-on-surface-variant/20 text-[10px] uppercase tracking-widest">{t("deals.imageLabel")}</span>
+                  </div>
+                )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
         </div>
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pb-16 text-white flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
@@ -204,7 +210,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                   {t("project.clientNeeds")}
                 </h4>
                 <p className="font-serif text-lg md:text-xl text-on-surface leading-snug">
-                  {getSpecValue("Client Needs", getSpecValue("احتياجات العميل", getSpecValue("Müşteri İhtiyaçları", "A bespoke private sanctuary matching the brand's architectural identity."))) || "A bespoke private sanctuary matching the brand's architectural identity."}
+                  {getSpecValue("Client Needs", t("project.clientNeedsFallback"))}
                 </p>
               </div>
               
@@ -214,7 +220,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                     {t("project.timeline")}
                   </h4>
                   <p className="text-base text-on-surface">
-                    {getSpecValue("Timeline", getSpecValue("الجدول الزمني", getSpecValue("Zaman Çizelgesi", "12 Months"))) || "12 Months"}
+                    {getSpecValue("Timeline", t("project.timelineFallback"))}
                   </p>
                 </div>
                 <div>
@@ -222,7 +228,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                     {t("project.recognition")}
                   </h4>
                   <p className="text-base text-on-surface">
-                    {getSpecValue("Recognition", getSpecValue("التقدير والجوائز", getSpecValue("Ödüller & Başarılar", "Featured Design Showcase 2024"))) || "Featured Design Showcase 2024"}
+                    {getSpecValue("Recognition", t("project.recognitionFallback"))}
                   </p>
                 </div>
               </div>
@@ -273,7 +279,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
           <section className="relative w-full max-w-7xl mx-auto px-6 mb-24">
             <div className="mb-12 text-center">
               <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-on-surface-variant/60 mb-3 block font-semibold">
-                TRANSFORMATION
+              {t("project.transformation")}
               </span>
               <h2 className="font-serif text-3xl md:text-4xl text-on-surface font-light">
                 {t("project.beforeAfter")}
@@ -291,14 +297,14 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
             <div className="mb-16 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
               <div>
                 <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-on-surface-variant/60 mb-3 block font-semibold">
-                  CAPTURING DETAIL
+                  {t("project.capturingDetail")}
                 </span>
                 <h2 className="font-serif text-3xl md:text-4xl text-on-surface font-light">
-                  An Editorial Perspective
+                  {t("project.editorialPerspective")}
                 </h2>
               </div>
               <p className="max-w-md text-on-surface-variant/80 text-sm leading-relaxed pb-2 border-b border-outline-variant/20 font-light">
-                Each detail is custom-curated and executed to align with the geometric purity of the architectural concept.
+                {t("project.galleryDescription")}
               </p>
             </div>
 
@@ -310,14 +316,14 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                   <div className="md:h-2/3 relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-video md:aspect-auto flex-1">
                     <Image
                       src={galleryImages[0]}
-                      alt="Gallery view"
+                      alt={t("project.galleryAlt")}
                       fill
                       className="object-cover transition-transform duration-1000 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 66vw"
                     />
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <span className="px-8 py-4 bg-white text-black font-label-caps text-xs uppercase tracking-widest rounded-none shadow-md">
-                        VIEW MASTER WORK
+                        {t("project.viewMasterWork")}
                       </span>
                     </div>
                   </div>
@@ -330,7 +336,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                       <div className="relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-square md:aspect-auto">
                         <Image
                           src={galleryImages[1]}
-                          alt="Detail view 1"
+                          alt={t("project.detailAlt")}
                           fill
                           className="object-cover transition-transform duration-1000 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -341,7 +347,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                       <div className="relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-square md:aspect-auto">
                         <Image
                           src={galleryImages[2]}
-                          alt="Detail view 2"
+                          alt={t("project.detailAlt")}
                           fill
                           className="object-cover transition-transform duration-1000 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -357,16 +363,16 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                 <div className="md:col-span-4 h-full relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-[3/4] md:aspect-auto">
                   <Image
                     src={galleryImages[3]}
-                    alt="Atrium view"
+                    alt={t("project.atriumAlt")}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw"
                   />
                   <div className="absolute bottom-6 left-6 right-6 p-6 bg-background/95 backdrop-blur-md opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 border border-outline-variant/20">
-                    <h3 className="font-serif text-lg text-on-surface mb-2 font-medium">Design Focus</h3>
-                    <p className="text-on-surface-variant text-xs leading-relaxed font-light">
-                      The precision layout allows for maximum capture of natural illumination throughout the seasons.
-                    </p>
+                      <h3 className="font-serif text-lg text-on-surface mb-2 font-medium">{t("project.designFocus")}</h3>
+                      <p className="text-on-surface-variant text-xs leading-relaxed font-light">
+                        {t("project.designFocusDescription")}
+                      </p>
                   </div>
                 </div>
               )}
@@ -379,7 +385,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                   <div key={idx} className="relative group overflow-hidden border border-outline-variant/20 rounded-none aspect-video">
                     <Image
                       src={img}
-                      alt={`Additional detail ${idx + 1}`}
+                      alt={`${t("project.additionalDetailAlt")} ${idx + 1}`}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
@@ -396,13 +402,13 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16 max-w-2xl mx-auto">
               <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-gold mb-3 block font-semibold">
-                ACQUISITIONS & INQUIRIES
+              {t("project.inquiriesLabel")}
               </span>
               <h2 className="font-serif text-3xl md:text-5xl text-on-surface font-light mb-6">
                 {t("project.bringVision")}
               </h2>
               <p className="text-on-surface-variant/80 text-sm leading-relaxed font-light">
-                Connect with our showroom concierges to request physical material samples, customization options, or catalog details.
+                {t("project.inquiriesDescription")}
               </p>
             </div>
 
@@ -410,10 +416,10 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
               <div className="lg:col-span-4 space-y-6">
                 <div className="p-6 bg-background border border-outline-variant/20 rounded-none space-y-6">
                   <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold border-b border-outline-variant/20 pb-2">
-                    Showroom Assistance
+                    {t("project.showroomAssistance")}
                   </h4>
                   <p className="text-sm text-on-surface-variant leading-relaxed font-light">
-                    Our ateliers in Istanbul and Milan are available for private walkthroughs by appointment.
+                    {t("project.showroomDescription")}
                   </p>
                   <div className="space-y-4 pt-2">
                     <button 

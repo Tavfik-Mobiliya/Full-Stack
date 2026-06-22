@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase, STORAGE_BUCKET } from "@/utils/supabase";
+import { supabaseAdmin as supabase, STORAGE_BUCKET } from "@/utils/supabase";
 
 async function ensureBucket(): Promise<void> {
   const { data: buckets } = await supabase.storage.listBuckets();

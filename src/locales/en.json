@@ -60,7 +60,28 @@
     "requestSimilar": "Request Similar Design",
     "bringVision": "Bring this vision to your space",
     "downloadSpecs": "Download Full Specs",
-    "conceptTitle": "The Art of Custom Living"
+    "conceptTitle": "The Art of Custom Living",
+    "loading": "Retrieving masterwork details...",
+    "notFound": "Masterpiece not found.",
+    "returnToGallery": "Return to Gallery",
+    "clientNeedsFallback": "A bespoke private sanctuary matching the brand's architectural identity.",
+    "timelineFallback": "12 Months",
+    "recognitionFallback": "Featured Design Showcase 2024",
+    "transformation": "TRANSFORMATION",
+    "capturingDetail": "CAPTURING DETAIL",
+    "editorialPerspective": "An Editorial Perspective",
+    "galleryDescription": "Each detail is custom-curated and executed to align with the geometric purity of the architectural concept.",
+    "viewMasterWork": "VIEW MASTER WORK",
+    "designFocus": "Design Focus",
+    "designFocusDescription": "The precision layout allows for maximum capture of natural illumination throughout the seasons.",
+    "inquiriesLabel": "ACQUISITIONS & INQUIRIES",
+    "inquiriesDescription": "Connect with our showroom concierges to request physical material samples, customization options, or catalog details.",
+    "showroomAssistance": "Showroom Assistance",
+    "showroomDescription": "Our ateliers in Istanbul and Milan are available for private walkthroughs by appointment.",
+    "galleryAlt": "Gallery view",
+    "detailAlt": "Detail view",
+    "atriumAlt": "Atrium view",
+    "additionalDetailAlt": "Additional detail"
   },
   "testimonials": {
     "title": "Client Testimonials",
@@ -119,8 +140,7 @@
     "form": {
       "slug": "Slug (URL identifier)",
       "category": "Main Category",
-      "subCategory": "Sub-Category (optional)",
-      "roomType": "Room Type (optional)",
+      "roomType": "Room / Type",
       "year": "Year Created",
       "images": "Image URLs (comma-separated)",
       "beforeImage": "Before Image URL (optional)",
@@ -177,6 +197,51 @@
     "cta": "Enter Showroom",
     "selectLanguage": "Select Language",
     "tagline": "For Furniture & Internal design"
+  },
+  "featuredProjects": "Featured Projects",
+  "deals": {
+    "loading": "Curating project gallery...",
+    "empty": "No projects available yet.",
+    "product": "Product",
+    "products": "Products",
+    "viewProject": "VIEW PROJECT",
+    "detailLoading": "Loading project details...",
+    "notFound": "Project not found.",
+    "backToProjects": "Back to Projects",
+    "projectOverview": "PROJECT OVERVIEW",
+    "projectGallery": "PROJECT GALLERY",
+    "featuredProductsLabel": "FEATURED PRODUCTS",
+    "viewProduct": "VIEW",
+    "imageLabel": "Image"
+  },
+  "projects": {
+    "galleryLabel": "ARCHITECTURAL GALLERY",
+    "searchButton": "Search",
+    "roomTypePlaceholder": "Room Type",
+    "stylePlaceholder": "Aesthetic Style",
+    "budgetPlaceholder": "Budget Scale",
+    "resetButton": "Reset",
+    "loading": "Curating gallery collection...",
+    "empty": "No matching masterpieces found.",
+    "exploreDetails": "EXPLORE DETAILS",
+    "fallbackSubCategory": "Residential",
+    "fallbackBudget": "Bespoke",
+    "roomTypes": {
+      "livingRoom": "Living Room",
+      "bedroom": "Bedroom",
+      "kitchen": "Kitchen"
+    },
+    "styles": {
+      "monolithicMinimalist": "Monolithic Minimalist",
+      "nocturnalLuxury": "Nocturnal Luxury",
+      "coastalMinimalism": "Coastal Minimalism",
+      "contemporaryMonolithic": "Contemporary Monolithic"
+    },
+    "budgets": {
+      "premium": "Premium",
+      "ultraLuxury": "Ultra-Luxury",
+      "bespoke": "Bespoke"
+    }
   },
   "home": {
     "interiorDescription": "Bespoke architectural solutions for the modern home.",

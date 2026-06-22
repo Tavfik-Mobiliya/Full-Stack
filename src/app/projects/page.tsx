@@ -70,9 +70,22 @@ export default function ProjectsPage() {
       .finally(() => setLoading(false));
   };
 
-  const roomTypes = ["Living Room", "Bedroom", "Kitchen"];
-  const styles = ["Monolithic Minimalist", "Nocturnal Luxury", "Coastal Minimalism", "Contemporary Monolithic"];
-  const budgets = ["Premium", "Ultra-Luxury", "Bespoke"];
+  const roomTypes = [
+    { value: "Living Room", labelKey: "projects.roomTypes.livingRoom" },
+    { value: "Bedroom", labelKey: "projects.roomTypes.bedroom" },
+    { value: "Kitchen", labelKey: "projects.roomTypes.kitchen" },
+  ];
+  const styles = [
+    { value: "Monolithic Minimalist", labelKey: "projects.styles.monolithicMinimalist" },
+    { value: "Nocturnal Luxury", labelKey: "projects.styles.nocturnalLuxury" },
+    { value: "Coastal Minimalism", labelKey: "projects.styles.coastalMinimalism" },
+    { value: "Contemporary Monolithic", labelKey: "projects.styles.contemporaryMonolithic" },
+  ];
+  const budgets = [
+    { value: "Premium", labelKey: "projects.budgets.premium" },
+    { value: "Ultra-Luxury", labelKey: "projects.budgets.ultraLuxury" },
+    { value: "Bespoke", labelKey: "projects.budgets.bespoke" },
+  ];
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-on-surface">
@@ -80,9 +93,9 @@ export default function ProjectsPage() {
 
       <main className="flex-1 pt-32 pb-24 px-6 max-w-7xl mx-auto w-full">
         {/* Header Title */}
-        <div className="mb-16">
+        <div className="mb-0">
           <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold block mb-2 animate-fade-in-up">
-            ARCHITECTURAL GALLERY
+            {t("projects.galleryLabel")}
           </span>
           <h1 className="font-serif text-4xl md:text-6xl text-on-surface font-bold animate-fade-in-up">
             {t("nav.projects")}
@@ -90,7 +103,7 @@ export default function ProjectsPage() {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 py-12 border-y border-outline-variant/20 mb-16 text-center animate-fade-in-up">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6 py-9 border-y border-outline-variant/20 mb-8 text-center animate-fade-in-up">
           <div className="flex flex-col items-center">
             <span className="font-serif text-4xl md:text-5xl font-semibold text-gold mb-2 tracking-tight">
               140+
@@ -126,7 +139,7 @@ export default function ProjectsPage() {
         </div>
 
         {/* Filter Toolbar */}
-        <div className="glass-panel p-6 rounded-lg mb-12 flex flex-col lg:flex-row gap-6 items-stretch lg:items-center justify-between">
+        <div className="glass-panel p-3 rounded-lg mb-12 flex flex-col lg:flex-row gap-6 items-stretch lg:items-center justify-between">
           <form onSubmit={handleSearchSubmit} className="flex-1 relative flex items-center">
             <input
               type="text"
@@ -140,7 +153,7 @@ export default function ProjectsPage() {
               type="submit"
               className="bg-primary hover:bg-primary/90 text-on-primary px-6 py-3 text-xs uppercase tracking-widest font-semibold rounded-r transition-colors"
             >
-              Search
+              {t("projects.searchButton")}
             </button>
           </form>
 
@@ -151,12 +164,12 @@ export default function ProjectsPage() {
               onChange={(e) => setRoomType(e.target.value)}
               className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
             >
-              <option value="">Room Type</option>
+              <option value="">{t("projects.roomTypePlaceholder")}</option>
               {roomTypes.map((type) => (
-                <option key={type} value={type} className="bg-surface text-on-surface">
-                  {type}
-                </option>
-              ))}
+                  <option key={type.value} value={type.value} className="bg-surface text-on-surface">
+                    {t(type.labelKey)}
+                  </option>
+                ))}
             </select>
 
             {/* Style */}
@@ -165,12 +178,12 @@ export default function ProjectsPage() {
               onChange={(e) => setStyle(e.target.value)}
               className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
             >
-              <option value="">Aesthetic Style</option>
+              <option value="">{t("projects.stylePlaceholder")}</option>
               {styles.map((s) => (
-                <option key={s} value={s} className="bg-surface text-on-surface">
-                  {s}
-                </option>
-              ))}
+                  <option key={s.value} value={s.value} className="bg-surface text-on-surface">
+                    {t(s.labelKey)}
+                  </option>
+                ))}
             </select>
 
             {/* Budget */}
@@ -179,12 +192,12 @@ export default function ProjectsPage() {
               onChange={(e) => setBudget(e.target.value)}
               className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
             >
-              <option value="">Budget Scale</option>
+              <option value="">{t("projects.budgetPlaceholder")}</option>
               {budgets.map((b) => (
-                <option key={b} value={b} className="bg-surface text-on-surface">
-                  {b}
-                </option>
-              ))}
+                  <option key={b.value} value={b.value} className="bg-surface text-on-surface">
+                    {t(b.labelKey)}
+                  </option>
+                ))}
             </select>
 
             {/* Reset */}
@@ -193,7 +206,7 @@ export default function ProjectsPage() {
               className="inline-flex items-center space-x-1 rtl:space-x-reverse text-xs uppercase tracking-widest text-on-surface-variant/70 hover:text-gold transition-colors py-3 px-4 rounded border border-outline-variant hover:border-gold/20"
             >
               <RotateCcw size={12} />
-              <span>Reset</span>
+              <span>{t("projects.resetButton")}</span>
             </button>
           </div>
         </div>
@@ -202,13 +215,13 @@ export default function ProjectsPage() {
         {loading ? (
           <div className="py-24 text-center">
             <span className="text-xs uppercase tracking-widest text-gold animate-pulse">
-              Curating gallery collection...
+              {t("projects.loading")}
             </span>
           </div>
         ) : projects.length === 0 ? (
           <div className="py-24 text-center glass-panel rounded-lg">
             <span className="text-sm text-on-surface-variant/50 uppercase tracking-widest">
-              No matching masterpieces found.
+              {t("projects.empty")}
             </span>
           </div>
         ) : (
@@ -219,16 +232,22 @@ export default function ProjectsPage() {
                 className="group flex flex-col bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20 shadow-md hover:shadow-lg"
               >
                 <div className="relative aspect-video w-full overflow-hidden">
-                  <Image
-                    src={project.images[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800"}
-                    alt={getLocalized(project, "title", language)}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
+                  {project.images[0] ? (
+                    <Image
+                      src={project.images[0]}
+                      alt={getLocalized(project, "title", language)}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-surface-container-low flex items-center justify-center">
+                      <span className="text-on-surface-variant/20 text-[10px] uppercase tracking-widest">{t("deals.imageLabel")}</span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60" />
                   <div className="absolute top-4 left-4 bg-background/80 border border-outline-variant/30 backdrop-blur-md px-3 py-1 rounded text-[10px] tracking-widest text-gold uppercase">
-                    {project.subCategory || "Residential"}
+                    {project.subCategory || t("projects.fallbackSubCategory")}
                   </div>
                 </div>
                 <div className="p-6 flex flex-col flex-1 space-y-4">
@@ -243,13 +262,13 @@ export default function ProjectsPage() {
                   </p>
                   <div className="pt-4 mt-auto border-t border-outline-variant/30 flex items-center justify-between">
                     <span className="text-xs tracking-widest text-on-surface-variant/60 uppercase">
-                      {project.budget || "Bespoke"}
+                      {project.budget || t("projects.fallbackBudget")}
                     </span>
                     <Link
                       href={`/projects/${project.slug}`}
                       className="inline-flex items-center text-xs tracking-widest uppercase text-gold hover:text-primary font-semibold transition-colors"
                     >
-                      <span>EXPLORE DETAILS</span>
+                      <span>{t("projects.exploreDetails")}</span>
                       <ArrowUpRight size={14} className="ml-1 rtl:mr-1" />
                     </Link>
                   </div>

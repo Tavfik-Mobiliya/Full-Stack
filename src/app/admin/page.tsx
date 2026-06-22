@@ -48,7 +48,6 @@ export default function AdminPage() {
   const [editingProjectId, setEditingProjectId] = useState<number | null>(null);
   const [slug, setSlug] = useState("");
   const [category, setCategory] = useState("Interior");
-  const [subCategory, setSubCategory] = useState("");
   const [roomType, setRoomType] = useState("");
   const [year, setYear] = useState(new Date().getFullYear().toString());
   const [price, setPrice] = useState("");
@@ -210,8 +209,7 @@ export default function AdminPage() {
     const payload: ProductPayload = {
       slug,
       category,
-      subCategory: subCategory || null,
-      roomType: isFurniture ? null : (roomType || null),
+      roomType: roomType || null,
       year: parseInt(year),
       price: isFurniture ? (price ? parseFloat(price) : null) : null,
       budget: isFurniture ? null : (budget || null),
@@ -267,7 +265,6 @@ export default function AdminPage() {
     setEditingProjectId(p.id);
     setSlug(p.slug);
     setCategory(p.category);
-    setSubCategory(p.subCategory || "");
     setRoomType(p.roomType || "");
     setYear(p.year.toString());
     setPrice(p.price ? p.price.toString() : "");
@@ -383,7 +380,6 @@ export default function AdminPage() {
     setEditingProjectId(null);
     setSlug("");
     setCategory("Interior");
-    setSubCategory("");
     setRoomType("");
     setYear(new Date().getFullYear().toString());
     setPrice("");
@@ -961,16 +957,6 @@ export default function AdminPage() {
                               </select>
                             </div>
                             <div className="flex flex-col space-y-2">
-                              <label className="text-xs text-on-surface-variant">{t("admin.form.subCategory")}</label>
-                              <input
-                                type="text"
-                                value={subCategory}
-                                onChange={(e) => setSubCategory(e.target.value)}
-                                placeholder="e.g. Residential, Table"
-                                className="bg-transparent border-b border-outline-variant/40 focus:border-gold outline-none py-2 px-1 text-on-surface text-sm transition-all rounded-none w-full"
-                              />
-                            </div>
-                            <div className="flex flex-col space-y-2">
                               <label className="text-xs text-on-surface-variant">{t("admin.form.collection")}</label>
                               <select
                                 value={projectCollectionId}
@@ -992,18 +978,16 @@ export default function AdminPage() {
                         <div className="space-y-4">
                           <span className="text-[10px] uppercase tracking-[0.25em] text-gold font-bold">2. Logistics & Registry</span>
                           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                            {category === "Interior" && (
-                              <div className="flex flex-col space-y-2">
-                                <label className="text-xs text-on-surface-variant">{t("admin.form.roomType")}</label>
-                                <input
-                                  type="text"
-                                  value={roomType}
-                                  onChange={(e) => setRoomType(e.target.value)}
-                                  placeholder="e.g. Living Room"
-                                  className="bg-transparent border-b border-outline-variant/40 focus:border-gold outline-none py-2 px-1 text-on-surface text-sm transition-all rounded-none w-full"
-                                />
-                              </div>
-                            )}
+                            <div className="flex flex-col space-y-2">
+                              <label className="text-xs text-on-surface-variant">{t("admin.form.roomType")}</label>
+                              <input
+                                type="text"
+                                value={roomType}
+                                onChange={(e) => setRoomType(e.target.value)}
+                                placeholder="e.g. Living Room, Kitchen"
+                                className="bg-transparent border-b border-outline-variant/40 focus:border-gold outline-none py-2 px-1 text-on-surface text-sm transition-all rounded-none w-full"
+                              />
+                            </div>
                             <div className="flex flex-col space-y-2">
                               <label className="text-xs text-on-surface-variant">{t("admin.form.year")} *</label>
                               <input
@@ -1387,6 +1371,7 @@ export default function AdminPage() {
                               <div className="relative w-16 h-12 bg-surface-container overflow-hidden group-hover:scale-105 transition-transform duration-500 rounded-none border border-outline-variant/30">
                                 <Image
                                   fill
+                                  sizes="64px"
                                   className="object-cover"
                                   src={p.images?.[0] || "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=400"}
                                   alt={p.titleEn}

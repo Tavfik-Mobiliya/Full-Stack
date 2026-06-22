@@ -17,65 +17,7 @@ const statusColors: Record<string, string> = {
   Upcoming: "bg-blue-500/10 border-blue-500/20 text-blue-400",
 };
 
-const defaultDeals = [
-  {
-    id: 1,
-    slug: "kempinski-residence",
-    clientName: "Kempinski Residences",
-    coverImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&q=80&w=800",
-    images: [],
-    year: 2024,
-    status: "Completed",
-    featured: true,
-    titleEn: "Kempinski Residences Istanbul",
-    titleAr: "كمبينسكي السكني إسطنبول",
-    titleTr: "Kempinski Konutları İstanbul",
-    descriptionEn: "Full interior fit-out for 12 ultra-luxury residence suites in the heart of Istanbul.",
-    descriptionAr: "تجهيز داخلي كامل لـ 12 جناح سكني فاخر للغاية في قلب إسطنبول.",
-    descriptionTr: "İstanbul'un kalbinde 12 ultra-lüks konut süitinin komple iç mekan döşemesi.",
-    products: [],
-    createdAt: "",
-    updatedAt: "",
-  },
-  {
-    id: 2,
-    slug: "al-maabar-palace",
-    clientName: "Al Maabar Hospitality",
-    coverImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=800",
-    images: [],
-    year: 2025,
-    status: "In Progress",
-    featured: true,
-    titleEn: "Al Maabar Palace Hotel",
-    titleAr: "فندق قصر المعبر",
-    titleTr: "Al Maabar Palace Oteli",
-    descriptionEn: "A 200-key luxury hotel with bespoke commissioned furniture across all public and private spaces.",
-    descriptionAr: "فندق فاخر يضم 200 مفتاح مع أثاث مخصص حسب الطلب في جميع المساحات العامة والخاصة.",
-    descriptionTr: "Tüm kamu ve özel alanlarda özel sipariş mobilyalara sahip 200 anahtarlı lüks otel.",
-    products: [],
-    createdAt: "",
-    updatedAt: "",
-  },
-  {
-    id: 3,
-    slug: "bosphorus-yacht",
-    clientName: "Private Client",
-    coverImage: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=800",
-    images: [],
-    year: 2026,
-    status: "Upcoming",
-    featured: true,
-    titleEn: "Bosphorus Mega Yacht Interior",
-    titleAr: "التصميم الداخلي ليخت البوسفور الضخم",
-    titleTr: "Boğaziçi Mega Yat İç Tasarımı",
-    descriptionEn: "Complete interior design and custom furniture fabrication for a 70m luxury yacht.",
-    descriptionAr: "تصميم داخلي كامل وتصنيع أثاث مخصص ليخت فاخر بطول 70 مترًا.",
-    descriptionTr: "70 metrelik lüks bir yat için komple iç tasarım ve özel mobilya üretimi.",
-    products: [],
-    createdAt: "",
-    updatedAt: "",
-  },
-];
+
 
 export default function DealsPage() {
   const { language, t } = useLanguage();
@@ -85,10 +27,10 @@ export default function DealsPage() {
   useEffect(() => {
     apiDeals
       .getAll()
-      .then((data) => setDeals(data.length > 0 ? data : defaultDeals as unknown as Deal[]))
+      .then((data) => setDeals(data))
       .catch((err) => {
         console.error("Error fetching deals:", err);
-        setDeals(defaultDeals as unknown as Deal[]);
+        setDeals([]);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -101,7 +43,7 @@ export default function DealsPage() {
         {/* Header */}
         <div className="mb-16">
           <span className="text-xs uppercase tracking-[0.3em] text-gold font-semibold block mb-2 animate-fade-in-up">
-            FEATURED PROJECTS
+            {t("featuredProjects")}
           </span>
           <h1 className="font-serif text-4xl md:text-6xl text-on-surface font-bold animate-fade-in-up">
             {t("nav.projectsDeals")}
@@ -112,13 +54,13 @@ export default function DealsPage() {
         {loading ? (
           <div className="py-24 text-center">
             <span className="text-xs uppercase tracking-widest text-gold animate-pulse">
-              Curating project gallery...
+              {t("deals.loading")}
             </span>
           </div>
         ) : deals.length === 0 ? (
           <div className="py-24 text-center glass-panel rounded-lg">
             <span className="text-sm text-on-surface-variant/50 uppercase tracking-widest">
-              No projects available yet.
+              {t("deals.empty")}
             </span>
           </div>
         ) : (
@@ -129,13 +71,19 @@ export default function DealsPage() {
                 className="group flex flex-col bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20 shadow-md hover:shadow-lg"
               >
                 <div className="relative aspect-video w-full overflow-hidden">
-                  <Image
-                    src={deal.coverImage || deal.images[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800"}
-                    alt={getLocalized(deal, "title", language)}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
+                  {deal.coverImage || deal.images[0] ? (
+                    <Image
+                      src={deal.coverImage || deal.images[0]}
+                      alt={getLocalized(deal, "title", language)}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-surface-container-low flex items-center justify-center">
+                      <span className="text-on-surface-variant/20 text-[10px] uppercase tracking-widest">{t("deals.imageLabel")}</span>
+                    </div>
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60" />
                   <div className={`absolute top-4 left-4 text-[10px] tracking-widest uppercase px-3 py-1 rounded border ${statusColors[deal.status] || statusColors.Completed}`}>
                     {deal.status}
@@ -154,13 +102,13 @@ export default function DealsPage() {
                   </p>
                   <div className="pt-4 mt-auto border-t border-outline-variant/30 flex items-center justify-between">
                     <span className="text-xs tracking-widest text-on-surface-variant/60 uppercase">
-                      {deal.products?.length || 0} {deal.products?.length === 1 ? "Product" : "Products"}
+                      {deal.products?.length || 0} {deal.products?.length === 1 ? t("deals.product") : t("deals.products")}
                     </span>
                     <Link
                       href={`/deals/${deal.slug}`}
                       className="inline-flex items-center text-xs tracking-widest uppercase text-gold hover:text-primary font-semibold transition-colors"
                     >
-                      <span>VIEW PROJECT</span>
+                      <span>{t("deals.viewProject")}</span>
                       <ArrowUpRight size={14} className="ml-1 rtl:mr-1" />
                     </Link>
                   </div>

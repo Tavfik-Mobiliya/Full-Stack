@@ -101,6 +101,7 @@ export interface ProductFilters {
   priceMax?: string | number;
   page?: string | number;
   pageSize?: string | number;
+  collectionId?: string;
 }
 
 export interface InquiryPayload {

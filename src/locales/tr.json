@@ -60,7 +60,28 @@
     "requestSimilar": "Benzer Tasarım Talep Et",
     "bringVision": "Bu vizyonu alanınıza taşıyın",
     "downloadSpecs": "Tüm Özellikleri İndir",
-    "conceptTitle": "Kişiye Özel Yaşam Sanatı"
+    "conceptTitle": "Kişiye Özel Yaşam Sanatı",
+    "loading": "Başyapıt detayları yükleniyor...",
+    "notFound": "Başyapıt bulunamadı.",
+    "returnToGallery": "Galeriye Dön",
+    "clientNeedsFallback": "Markanın mimari kimliğine uygun, özel bir sığınak.",
+    "timelineFallback": "12 Ay",
+    "recognitionFallback": "Öne Çıkan Tasarım Vitrini 2024",
+    "transformation": "DÖNÜŞÜM",
+    "capturingDetail": "DETAY YAKALAMA",
+    "editorialPerspective": "Editoryal Bir Perspektif",
+    "galleryDescription": "Her detay, mimari konseptin geometrik saflığına uyum sağlayacak şekilde özel olarak küratöryel ve uygulanmıştır.",
+    "viewMasterWork": "BAŞYAPITI GÖRÜNTÜLE",
+    "designFocus": "Tasarım Odağı",
+    "designFocusDescription": "Hassas yerleşim düzeni, mevsimler boyunca maksimum doğal aydınlatma yakalanmasını sağlar.",
+    "inquiriesLabel": "SATIN ALMA VE BİLGİ TALEPLERİ",
+    "inquiriesDescription": "Fiziksel malzeme örnekleri, kişiselleştirme seçenekleri veya katalog detayları için showroom danışmanlarımızla iletişime geçin.",
+    "showroomAssistance": "Showroom Yardımı",
+    "showroomDescription": "İstanbul ve Milano'daki atölyelerimiz, randevu ile özel turlar için hizmetinize açıktır.",
+    "galleryAlt": "Galeri görünümü",
+    "detailAlt": "Detay görünümü",
+    "atriumAlt": "Atrium görünümü",
+    "additionalDetailAlt": "Ek detay"
   },
   "testimonials": {
     "title": "Müşteri Yorumları",
@@ -119,8 +140,7 @@
     "form": {
       "slug": "Kısa Ad (URL belirteci)",
       "category": "Ana Kategori",
-      "subCategory": "Alt Kategori (isteğe bağlı)",
-      "roomType": "Oda Türü (isteğe bağlı)",
+      "roomType": "Oda / Tür",
       "year": "Yapım Yılı",
       "images": "Görsel URL'leri (virgülle ayrılmış)",
       "beforeImage": "Önce Görsel URL'si (isteğe bağlı)",
@@ -170,6 +190,51 @@
     "contact": "İletişim",
     "hours": "Atölye Saatleri",
     "hoursVal": "Pzt - Cum: 09:00 - 18:00"
+  },
+  "featuredProjects": "Öne Çıkan Projeler",
+  "deals": {
+    "loading": "Proje galerisi düzenleniyor...",
+    "empty": "Henüz proje bulunmamaktadır.",
+    "product": "Ürün",
+    "products": "Ürünler",
+    "viewProject": "PROJEYİ GÖRÜNTÜLE",
+    "detailLoading": "Proje detayları yükleniyor...",
+    "notFound": "Proje bulunamadı.",
+    "backToProjects": "Projelere Geri Dön",
+    "projectOverview": "PROJEYE GENEL BAKIŞ",
+    "projectGallery": "PROJE GALERİSİ",
+    "featuredProductsLabel": "ÖNE ÇIKAN ÜRÜNLER",
+    "viewProduct": "GÖRÜNTÜLE",
+    "imageLabel": "Görsel"
+  },
+  "projects": {
+    "galleryLabel": "MİMARİ GALERİ",
+    "searchButton": "Ara",
+    "roomTypePlaceholder": "Oda Türü",
+    "stylePlaceholder": "Estetik Tarz",
+    "budgetPlaceholder": "Bütçe Ölçeği",
+    "resetButton": "Sıfırla",
+    "loading": "Galeri koleksiyonu düzenleniyor...",
+    "empty": "Eşleşen başyapıt bulunamadı.",
+    "exploreDetails": "DETAYLARI KEŞFET",
+    "fallbackSubCategory": "Konut",
+    "fallbackBudget": "Özel",
+    "roomTypes": {
+      "livingRoom": "Oturma Odası",
+      "bedroom": "Yatak Odası",
+      "kitchen": "Mutfak"
+    },
+    "styles": {
+      "monolithicMinimalist": "Monolitik Minimalist",
+      "nocturnalLuxury": "Gece Lüksü",
+      "coastalMinimalism": "Kıyı Minimalizmi",
+      "contemporaryMonolithic": "Çağdaş Monolitik"
+    },
+    "budgets": {
+      "premium": "Premium",
+      "ultraLuxury": "Ultra-Lüks",
+      "bespoke": "Özel"
+    }
   },
   "home": {
     "interiorDescription": "Modern ev için özel mimari çözümler",

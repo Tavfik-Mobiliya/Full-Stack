@@ -56,6 +56,11 @@ router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     if (featured !== undefined) {
       where.featured = featured === "true";
     }
+    if (req.query.collectionId === "not-null") {
+      where.collectionId = { not: null };
+    } else if (req.query.collectionId) {
+      where.collectionId = parseInt(req.query.collectionId as string, 10);
+    }
 
     if (priceMin || priceMax) {
       where.price = {};
