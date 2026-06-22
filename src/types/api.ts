@@ -196,3 +196,13 @@ export interface TestimonialPayload {
   roleAr: string;
   roleTr: string;
 }
+
+export interface CompanySettings {
+  id: number;
+  whatsappNumber: string;
+  contactPhone: string;
+  contactEmail: string;
+  instagramUrl?: string;
+  twitterUrl?: string;
+  updatedAt?: string;
+}

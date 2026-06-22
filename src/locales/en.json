@@ -175,6 +175,15 @@
     "title": "Tevfik Mobilya",
     "subtitle": "Furniture & Interior Design Showroom",
     "cta": "Enter Showroom",
-    "selectLanguage": "Select Language"
+    "selectLanguage": "Select Language",
+    "tagline": "For Furniture & Internal design"
+  },
+  "home": {
+    "interiorDescription": "Bespoke architectural solutions for the modern home.",
+    "furnitureDescription": "Exclusive furniture crafted with uncompromising detail.",
+    "portfolioLabel": "PORTFOLIO",
+    "viewAllWorks": "VIEW ALL WORKS",
+    "exploreServices": "EXPLORE SERVICES",
+    "exploreCollections": "EXPLORE COLLECTIONS"
   }
 }

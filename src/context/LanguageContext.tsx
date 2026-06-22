@@ -46,8 +46,14 @@ function getInitialTheme(): Theme {
 }
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  const [language, setLanguageState] = useState<Language>("en");
   const [theme, setThemeState] = useState<Theme>(getInitialTheme);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setLanguageState(getInitialLanguage());
+    setMounted(true);
+  }, []);
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang);

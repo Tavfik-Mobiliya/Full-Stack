@@ -13,6 +13,10 @@ export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,13 +62,13 @@ export const Navbar: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Brand Logo */}
-        <Link href="/" className="flex flex-col items-start justify-center">
+        <Link href="/home" className="flex flex-col items-start justify-center">
           <Image 
             src="/logo.png" 
             alt="TEVFIK" 
-            width={32}
-            height={32}
-            className="object-contain hover:opacity-90 transition-opacity"
+            width={1024}
+            height={332}
+            className="h-8 w-auto object-contain hover:opacity-90 transition-opacity"
           />
           <span className="text-[8px] md:text-[9px] uppercase tracking-[0.15em] text-on-surface-variant/70 mt-1 block">
             {t("nav.subtitle")}
@@ -97,7 +101,7 @@ export const Navbar: React.FC = () => {
             className="p-2 text-on-surface-variant hover:text-gold transition-colors focus:outline-none cursor-pointer"
             aria-label="Toggle Theme"
           >
-            {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}
+            {mounted ? (theme === "light" ? <Moon size={18} /> : <Sun size={18} />) : null}
           </button>
 
           {/* Language Dropdown */}

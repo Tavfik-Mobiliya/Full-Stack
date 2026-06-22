@@ -4,6 +4,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Clear existing data (order respects FK constraints)
+  await prisma.companySettings.deleteMany({});
   await prisma.dealProduct.deleteMany({});
   await prisma.deal.deleteMany({});
   await prisma.product.deleteMany({});
@@ -13,19 +14,30 @@ async function main() {
 
   console.log("Seeding Database...");
 
+  // ── Company Settings ──
+  await prisma.companySettings.create({
+    data: {
+      whatsappNumber: "905551234567",
+      contactPhone: "+90 (555) 123 45 67",
+      contactEmail: "concierge@aura-interiors.com",
+      instagramUrl: "https://instagram.com/tevfikmobilya",
+      twitterUrl: "https://x.com/tevfikmobilya",
+    },
+  });
+
   // ── Testimonials ──
   await prisma.testimonial.createMany({
     data: [
       {
-        author: "Elif & Kerem Al-Sayed",
+        author: "ELIF & KEREM AL-SAYED",
         category: "Interior",
         rating: 5,
-        quoteEn: "Aura Interiors didn't just design a house; they curated a sanctuary that perfectly reflects our heritage and our modern life. Every detail is a testament to their architectural excellence.",
-        quoteAr: "لم تقم أورا إنتيريورز بتصميم منزل فحسب، بل أشرفوا على تنسيق ملاذ يعكس تراثنا وحياتنا المعاصرة بشكل مثالي. كل تفصيل هو شهادة على تميزهم المعماري.",
-        quoteTr: "Aura Interiors sadece bir ev tasarlamadı; mirasımızı ve modern yaşamımızı mükemmel bir şekilde yansıtan bir sığınak kurdu. Her detay mimari mükemmelliklerinin bir kanıtıdır.",
-        roleEn: "Private Estate Owners",
+        quoteEn: "Tevfik Mobilya didn't just design a house; they curated a sanctuary that perfectly reflects our heritage and our modern life. Every detail is a testament to their architectural excellence.",
+        quoteAr: "لم تقم Tevfik Mobilya بمجرد تصميم منزل؛ بل قاموا برعاية ملاذ يعكس تراثنا وحياتنا الحديثة تمامًا. كل التفاصيل هي شهادة على تميزهم المعماري.",
+        quoteTr: "Tevfik Mobilya sadece bir ev tasarlamadı; mirasımızı ve modern yaşamımızı mükemmel bir şekilde yansıtan bir sığınak yarattı. Her detay mimari mükemmelliklerinin bir kanıtı.",
+        roleEn: "PRIVATE ESTATE OWNERS",
         roleAr: "أصحاب عقارات خاصة",
-        roleTr: "Özel Mülk Sahipleri",
+        roleTr: "ÖZEL MÜLK SAHİPLERİ",
       },
       {
         author: "Sarah Jenkins",
@@ -54,6 +66,84 @@ async function main() {
 
   // ── Products (Interior & Furniture) ──
   const productsData = [
+    {
+      slug: "belvedere-residence",
+      category: "Interior",
+      subCategory: "Residential",
+      roomType: "Living Room",
+      year: 2023,
+      images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuBWTf_0MVr4A6vKurPw_f0jfRLbaYlRclNTxTf6Db5Fc43izsK8Ldmm_ov0lupc3DA0Q7nmnYvAlTouQir8Z6UwH42q4LaytR2WvT7PaRlsmuRP_CabTwgR5LXnsGYKlqxmYGe7X5QKsKa5iNOVEzwU8Gh2jpPjpXEECnZ3wfdlQeLDKfHRwYGtP6WE6qNvFrnDrxiza5_D8jyoiFzbCUpUqTUItaC4SHdtw1TucNnC2mQit6WxmAk04GbylW435xIoawClpr7APnz5"],
+      featured: true,
+      budget: "Ultra-Luxury",
+      locationEn: "LONDON",
+      locationAr: "لندن",
+      locationTr: "LONDRA",
+      titleEn: "The Belvedere Residence",
+      titleAr: "سكن بلفيدير",
+      titleTr: "Belvedere Rezidansı",
+      descriptionEn: "A masterful composition of monolithic minimalism and nocturnal luxury overlooking the London skyline.",
+      descriptionAr: "مزيج رائع من البساطة العملاقة والفخامة الليلية المطلة على أفق لندن.",
+      descriptionTr: "Londra silüetine bakan anıtsal minimalist ve gece lüksünün ustaca bir kompozisyonu.",
+      materialEn: "Polished Concrete, Dark Oak, Bronze",
+      materialAr: "الخرسانة المصقولة، البلوط الداكن، البرونز",
+      materialTr: "Cilalı Beton, Koyu Meşe, Bronz",
+      styleEn: "Monolithic Minimalist",
+      styleAr: "بسيط أحادي الهيكل",
+      styleTr: "Monolitik Minimalist",
+      specs: { Area: "12,000 sq ft", Bedrooms: "5", Bathrooms: "6" }
+    },
+    {
+      slug: "emerald-hills",
+      category: "Interior",
+      subCategory: "Villa",
+      roomType: "Living Room",
+      year: 2024,
+      images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuDCWTzGauxDjD56yHXnX8ouetGrIcCALpB_0jkkzFINKXlEvfDodIbiaalsEeN7jad60xkQ4S1ZmdRUmDEfUVPctRfTJwpthuB1ycgR5wDisQiIOmRU6tcMdChws4eREGz0dd1OGRqfm2fYn7UpxTbtPtQx4EKuILlJfK1R8hKUUWdbne2CRa7PK3MD7XDr6HJkXY42Gje2TUB8HMKTY3n-ZzIzQjOagsfRpYkS2OY95pf9MVOoRdOgY9Jj4JKbmsTL8UMl-ZB79w1j"],
+      featured: true,
+      budget: "Bespoke",
+      locationEn: "DUBAI",
+      locationAr: "دبي",
+      locationTr: "DUBAİ",
+      titleEn: "Emerald Hills Villa",
+      titleAr: "فيلا تلال الزمرد",
+      titleTr: "Zümrüt Tepeler Villası",
+      descriptionEn: "Coastal minimalism meets contemporary luxury in this Dubai masterpiece.",
+      descriptionAr: "البساطة الساحلية تلتقي بالفخامة المعاصرة في هذه التحفة الفنية في دبي.",
+      descriptionTr: "Bu Dubai şaheserinde kıyı minimalizmi çağdaş lüksle buluşuyor.",
+      materialEn: "Travertine, Glass, White Oak",
+      materialAr: "الحجر الجيري، الزجاج، البلوط الأبيض",
+      materialTr: "Traverten, Cam, Beyaz Meşe",
+      styleEn: "Coastal Minimalism",
+      styleAr: "بساطة ساحلية",
+      styleTr: "Kıyı Minimalizmi",
+      specs: { Area: "15,000 sq ft", Bedrooms: "6", Bathrooms: "7" }
+    },
+    {
+      slug: "bosphorus-penthouse",
+      category: "Interior",
+      subCategory: "Penthouse",
+      roomType: "Living Room",
+      year: 2023,
+      images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuB0rYtNJ5OC741aRcVw-FPniveLENKDmtmuzf6AMnucFd6ZV_mCOa0CQhcBIjHibA5PJ8PdQ7juDM3Ec9a7nRk5Qv6YjatCWmSbGcmEzaLek0M8VW6RO4Abk_T2-ksra-d8wP-Nq4PH4hfNA9Yrcag1_oG02AZvV0RizG9x1lCX6EdKsICC1riKWiXo5riCYWRWHj6jrlbIV0ksGBIPZhlaqYhqJqdOKRsjtcl33_lCatBKAqvK3AuW1Lyzu8IKWpukD-wS8E-a-9IN"],
+      featured: true,
+      budget: "Premium",
+      locationEn: "ISTANBUL",
+      locationAr: "إسطنبول",
+      locationTr: "İSTANBUL",
+      titleEn: "Bosphorus Penthouse",
+      titleAr: "بنتهاوس البوسفور",
+      titleTr: "Boğaziçi Penthouse",
+      descriptionEn: "An exquisite penthouse blending Ottoman heritage with modernist design.",
+      descriptionAr: "بنتهاوس رائع يمزج التراث العثماني مع التصميم الحديث.",
+      descriptionTr: "Osmanlı mirasını modernist tasarımla harmanlayan zarif bir penthouse.",
+      materialEn: "Marble, Brass, Walnut",
+      materialAr: "الرخام، النحاس، الجوز",
+      materialTr: "Mermer, Pirinç, Ceviz",
+      styleEn: "Contemporary Monolithic",
+      styleAr: "أحادي الهيكل المعاصر",
+      styleTr: "Modern Monolitik",
+      specs: { Area: "8,000 sq ft", Bedrooms: "4", Bathrooms: "5" }
+    },
     {
       slug: "the-onyx-sanctuary",
       category: "Interior",

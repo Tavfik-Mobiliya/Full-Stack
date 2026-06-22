@@ -171,10 +171,19 @@
     "hours": "Atölye Saatleri",
     "hoursVal": "Pzt - Cum: 09:00 - 18:00"
   },
+  "home": {
+    "interiorDescription": "Modern ev için özel mimari çözümler",
+    "furnitureDescription": "Tavizsiz detaylarla işlenmiş özel mobilyalar",
+    "portfolioLabel": "PORTFÖY",
+    "viewAllWorks": "TÜM ÇALIŞMALAR",
+    "exploreServices": "HİZMETLERİ KEŞFET",
+    "exploreCollections": "KOLEKSİYONLARI KEŞFET"
+  },
   "welcome": {
     "title": "Tevfik Mobilya",
     "subtitle": "Mobilya & İç Tasarım Dijital Showroom",
     "cta": "Showroom'a Gir",
-    "selectLanguage": "Dil Seçin"
+    "selectLanguage": "Dil Seçin",
+    "tagline": "Mobilya & İç Tasarım İçin"
   }
 }

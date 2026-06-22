@@ -11,6 +11,7 @@ import inquiryRoutes from "./routes/inquiries";
 import authRoutes from "./routes/auth";
 import collectionRoutes from "./routes/collections";
 import dealRoutes from "./routes/deals";
+import settingsRoutes from "./routes/settings";
 import { env } from "./config/env";
 
 const app = express();
@@ -51,6 +52,7 @@ apiRouter.use("/inquiries", inquiryRoutes);
 apiRouter.use("/auth", authRoutes);
 apiRouter.use("/collections", collectionRoutes);
 apiRouter.use("/deals", dealRoutes);
+apiRouter.use("/settings", settingsRoutes);
 
 app.use("/api", apiRouter);
 app.use("/api/v1", apiRouter);

@@ -12,6 +12,7 @@ import {
   ProductPayload,
   Testimonial,
   TestimonialPayload,
+  CompanySettings,
 } from "@/types/api";
 import { cacheGet, cacheSet, cacheClear } from "./cache";
 
@@ -293,5 +294,18 @@ export const apiAuth = {
     } catch {
       return false;
     }
+  }
+};
+
+export const apiSettings = {
+  get: async (): Promise<CompanySettings | null> => {
+    // Cache for 1 hour since settings rarely change
+    const cacheKey = "company_settings";
+    const cached = cacheGet<CompanySettings>(cacheKey);
+    if (cached !== null && cached !== undefined) return cached;
+
+    const data = await fetchAPI<CompanySettings>("/settings");
+    if (data) cacheSet(cacheKey, data, 1000 * 60 * 60); // 1 hour
+    return data;
   }
 };

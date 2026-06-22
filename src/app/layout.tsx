@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Playfair_Display, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { WelcomeScreen } from "@/components/WelcomeScreen";
 import { ThemeScript } from "@/components/ThemeScript";
+import { SocialSidebar } from "@/components/SocialSidebar";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -34,7 +34,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full bg-background text-on-surface flex flex-col font-sans">
         <LanguageProvider>
-          <WelcomeScreen />
+          <SocialSidebar />
           {children}
         </LanguageProvider>
       </body>

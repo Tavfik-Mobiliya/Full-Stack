@@ -171,10 +171,19 @@
     "hours": "أوقات العمل في الأتيليه",
     "hoursVal": "الاثنين - الجمعة: 09:00 - 18:00"
   },
+  "home": {
+    "interiorDescription": "حلول معمارية مخصصة للمنزل العصري",
+    "furnitureDescription": "أثاث حصري مصنوع بتفاصيل لا تقبل المساومة",
+    "portfolioLabel": "المشاريع",
+    "viewAllWorks": "عرض جميع الأعمال",
+    "exploreServices": "اكتشف الخدمات",
+    "exploreCollections": "اكتشف المجموعات"
+  },
   "welcome": {
     "title": "توفيق موبيليا",
     "subtitle": "معرض التصميم الداخلي والأثاث الفاخر",
     "cta": "دخول المعرض",
-    "selectLanguage": "اختر اللغة"
+    "selectLanguage": "اختر اللغة",
+    "tagline": "للأثاث والتصميم الداخلي"
   }
 }

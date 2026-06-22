@@ -11,75 +11,6 @@ import { getLocalized } from "@/utils/localize";
 import { Product } from "@/types/api";
 import { Search, ArrowUpRight, RotateCcw } from "lucide-react";
 
-const defaultProjects = [
-  {
-    id: 1,
-    slug: "belvedere-residence",
-    images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuBWTf_0MVr4A6vKurPw_f0jfRLbaYlRclNTxTf6Db5Fc43izsK8Ldmm_ov0lupc3DA0Q7nmnYvAlTouQir8Z6UwH42q4LaytR2WvT7PaRlsmuRP_CabTwgR5LXnsGYKlqxmYGe7X5QKsKa5iNOVEzwU8Gh2jpPjpXEECnZ3wfdlQeLDKfHRwYGtP6WE6qNvFrnDrxiza5_D8jyoiFzbCUpUqTUItaC4SHdtw1TucNnC2mQit6WxmAk04GbylW435xIoawClpr7APnz5"],
-    titleEn: "The Belvedere Residence",
-    titleAr: "سكن بلفيدير",
-    titleTr: "Belvedere Rezidansı",
-    descriptionEn: "A masterful composition of monolithic minimalism and nocturnal luxury overlooking the London skyline.",
-    descriptionAr: "مزيج رائع من البساطة العملاقة والفخامة الليلية المطلة على أفق لندن.",
-    descriptionTr: "Londra silüetine bakan anıtsal minimalist ve gece lüksünün ustaca bir kompozisyonu.",
-    locationEn: "LONDON",
-    locationAr: "لندن",
-    locationTr: "LONDRA",
-    year: "2023",
-    subCategory: "Residential",
-    budget: "Ultra-Luxury",
-    specs: {},
-    price: null,
-    featured: true,
-    createdAt: "",
-    updatedAt: "",
-  },
-  {
-    id: 2,
-    slug: "emerald-hills",
-    images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuDCWTzGauxDjD56yHXnX8ouetGrIcCALpB_0jkkzFINKXlEvfDodIbiaalsEeN7jad60xkQ4S1ZmdRUmDEfUVPctRfTJwpthuB1ycgR5wDisQiIOmRU6tcMdChws4eREGz0dd1OGRqfm2fYn7UpxTbtPtQx4EKuILlJfK1R8hKUUWdbne2CRa7PK3MD7XDr6HJkXY42Gje2TUB8HMKTY3n-ZzIzQjOagsfRpYkS2OY95pf9MVOoRdOgY9Jj4JKbmsTL8UMl-ZB79w1j"],
-    titleEn: "Emerald Hills Villa",
-    titleAr: "فيلا تلال الزمرد",
-    titleTr: "Zümrüt Tepeler Villası",
-    descriptionEn: "Coastal minimalism meets contemporary luxury in this Dubai masterpiece.",
-    descriptionAr: "البساطة الساحلية تلتقي بالفخامة المعاصرة في هذه التحفة الفنية في دبي.",
-    descriptionTr: "Bu Dubai şaheserinde kıyı minimalizmi çağdaş lüksle buluşuyor.",
-    locationEn: "DUBAI",
-    locationAr: "دبي",
-    locationTr: "DUBAİ",
-    year: "2024",
-    subCategory: "Villa",
-    budget: "Bespoke",
-    specs: {},
-    price: null,
-    featured: true,
-    createdAt: "",
-    updatedAt: "",
-  },
-  {
-    id: 3,
-    slug: "bosphorus-penthouse",
-    images: ["https://lh3.googleusercontent.com/aida-public/AB6AXuB0rYtNJ5OC741aRcVw-FPniveLENKDmtmuzf6AMnucFd6ZV_mCOa0CQhcBIjHibA5PJ8PdQ7juDM3Ec9a7nRk5Qv6YjatCWmSbGcmEzaLek0M8VW6RO4Abk_T2-ksra-d8wP-Nq4PH4hfNA9Yrcag1_oG02AZvV0RizG9x1lCX6EdKsICC1riKWiXo5riCYWRWHj6jrlbIV0ksGBIPZhlaqYhqJqdOKRsjtcl33_lCatBKAqvK3AuW1Lyzu8IKWpukD-wS8E-a-9IN"],
-    titleEn: "Bosphorus Penthouse",
-    titleAr: "بنتهاوس البوسفور",
-    titleTr: "Boğaziçi Penthouse",
-    descriptionEn: "An exquisite penthouse blending Ottoman heritage with modernist design.",
-    descriptionAr: "بنتهاوس رائع يمزج التراث العثماني مع التصميم الحديث.",
-    descriptionTr: "Osmanlı mirasını modernist tasarımla harmanlayan zarif bir penthouse.",
-    locationEn: "ISTANBUL",
-    locationAr: "إسطنبول",
-    locationTr: "İSTANBUL",
-    year: "2023",
-    subCategory: "Penthouse",
-    budget: "Premium",
-    specs: {},
-    price: null,
-    featured: true,
-    createdAt: "",
-    updatedAt: "",
-  },
-];
-
 export default function ProjectsPage() {
   const { language, t } = useLanguage();
   const [projects, setProjects] = useState<Product[]>([]);
@@ -102,11 +33,11 @@ export default function ProjectsPage() {
         budget: budget || undefined,
       })
       .then((data) => {
-        setProjects(data.length > 0 ? data : defaultProjects as unknown as Product[]);
+        setProjects(data || []);
       })
       .catch((err) => {
         console.error("Error fetching products:", err);
-        setProjects(defaultProjects as unknown as Product[]);
+        setProjects([]);
       })
       .finally(() => setLoading(false));
   }, [search, roomType, style, budget]);
@@ -131,10 +62,10 @@ export default function ProjectsPage() {
     setLoading(true);
     apiProducts
       .getAll({ category: "Interior" })
-      .then((data) => setProjects(data.length > 0 ? data : defaultProjects as unknown as Product[]))
+      .then((data) => setProjects(data || []))
       .catch((err) => {
         console.error("Error resetting products:", err);
-        setProjects(defaultProjects as unknown as Product[]);
+        setProjects([]);
       })
       .finally(() => setLoading(false));
   };

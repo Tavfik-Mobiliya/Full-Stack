@@ -126,3 +126,13 @@ model DealProduct {
 
   @@id([dealId, productId])
 }
+
+model CompanySettings {
+  id              Int      @id @default(autoincrement())
+  whatsappNumber  String
+  contactPhone    String
+  contactEmail    String
+  instagramUrl    String?
+  twitterUrl      String?
+  updatedAt       DateTime @updatedAt
+}
