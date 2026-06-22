@@ -13,6 +13,7 @@ import {
   Testimonial,
   TestimonialPayload,
 } from "@/types/api";
+import { cacheGet, cacheSet, cacheClear } from "./cache";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 
@@ -36,6 +37,19 @@ async function fetchWithRetry(url: string, config: RequestInit): Promise<Respons
   throw new Error("fetchWithRetry exhausted");
 }
 
+function isGetRequest(options: RequestInit): boolean {
+  return !options.method || options.method === "GET";
+}
+
+function cacheKey(endpoint: string, options: RequestInit): string {
+  return `${options.method || "GET"} ${endpoint}`;
+}
+
+function resourcePrefix(endpoint: string): string {
+  const parts = endpoint.split(/[\/?]/).filter(Boolean);
+  return parts.length > 0 ? `GET /${parts[0]}` : "GET";
+}
+
 export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
   const url = `${API_BASE_URL}${endpoint}`;
   
@@ -49,6 +63,13 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
     headers,
     credentials: "include" as RequestCredentials,
   };
+
+  const key = cacheKey(endpoint, options);
+
+  if (isGetRequest(options)) {
+    const cached = cacheGet<T>(key);
+    if (cached !== undefined) return cached;
+  }
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -64,12 +85,24 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
       const errorData = (await response.json().catch(() => ({}))) as { error?: string };
       throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
     }
-    return (await response.json()) as T;
+    const data = (await response.json()) as T;
+    if (isGetRequest(options)) {
+      const ttl = endpoint.includes("/products/") || endpoint.includes("/deals/") || endpoint.includes("/collections/")
+        ? 10 * 60 * 1000
+        : 5 * 60 * 1000;
+      cacheSet(key, data, ttl);
+    }
+    return data;
   } catch (error) {
     clearTimeout(timeoutId);
     console.error(`API Fetch Error [${endpoint}]: ${toErrorMessage(error)}`);
     return null;
   }
+}
+
+function invalidateResource(endpoint: string): void {
+  const prefix = resourcePrefix(endpoint);
+  cacheClear(prefix);
 }
 
 // Products APIs
@@ -82,14 +115,15 @@ export const apiProducts = {
       }
     });
     const queryString = params.toString() ? `?${params.toString()}` : "";
-    return fetchAPI<Product[]>(`/products${queryString}`, { cache: "no-store" }).then((data) => data ?? []);
+    return fetchAPI<Product[]>(`/products${queryString}`).then((data) => data ?? []);
   },
 
   getBySlug: (slug: string) => {
-    return fetchAPI<Product>(`/products/${slug}`, { cache: "no-store" });
+    return fetchAPI<Product>(`/products/${slug}`);
   },
 
   create: (data: ProductPayload) => {
+    invalidateResource("/products");
     return fetchAPI<Product>("/products", {
       method: "POST",
       body: JSON.stringify(data),
@@ -97,6 +131,7 @@ export const apiProducts = {
   },
 
   update: (id: number, data: ProductPayload) => {
+    invalidateResource("/products");
     return fetchAPI<Product>(`/products/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
@@ -104,6 +139,7 @@ export const apiProducts = {
   },
 
   delete: (id: number) => {
+    invalidateResource("/products");
     return fetchAPI<{ message: string }>(`/products/${id}`, {
       method: "DELETE",
     });
@@ -114,10 +150,11 @@ export const apiProducts = {
 export const apiTestimonials = {
   getAll: (category?: string) => {
     const query = category ? `?category=${category}` : "";
-    return fetchAPI<Testimonial[]>(`/testimonials${query}`, { cache: "no-store" }).then((data) => data ?? []);
+    return fetchAPI<Testimonial[]>(`/testimonials${query}`).then((data) => data ?? []);
   },
 
   create: (data: TestimonialPayload) => {
+    invalidateResource("/testimonials");
     return fetchAPI<Testimonial>("/testimonials", {
       method: "POST",
       body: JSON.stringify(data),
@@ -125,6 +162,7 @@ export const apiTestimonials = {
   },
 
   update: (id: number, data: TestimonialPayload) => {
+    invalidateResource("/testimonials");
     return fetchAPI<Testimonial>(`/testimonials/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
@@ -132,6 +170,7 @@ export const apiTestimonials = {
   },
 
   delete: (id: number) => {
+    invalidateResource("/testimonials");
     return fetchAPI<{ message: string }>(`/testimonials/${id}`, {
       method: "DELETE",
     });
@@ -141,10 +180,11 @@ export const apiTestimonials = {
 // Collections APIs
 export const apiCollections = {
   getAll: () => {
-    return fetchAPI<Collection[]>("/collections", { cache: "no-store" }).then((data) => data ?? []);
+    return fetchAPI<Collection[]>("/collections").then((data) => data ?? []);
   },
 
   create: (data: CollectionPayload) => {
+    invalidateResource("/collections");
     return fetchAPI<Collection>("/collections", {
       method: "POST",
       body: JSON.stringify(data),
@@ -152,6 +192,7 @@ export const apiCollections = {
   },
 
   update: (id: number, data: CollectionPayload) => {
+    invalidateResource("/collections");
     return fetchAPI<Collection>(`/collections/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
@@ -159,6 +200,7 @@ export const apiCollections = {
   },
 
   delete: (id: number) => {
+    invalidateResource("/collections");
     return fetchAPI<{ success: boolean }>(`/collections/${id}`, {
       method: "DELETE",
     });
@@ -168,7 +210,7 @@ export const apiCollections = {
 // Inquiries APIs
 export const apiInquiries = {
   getAll: () => {
-    return fetchAPI<Inquiry[]>("/inquiries", { cache: "no-store" }).then((data) => data ?? []);
+    return fetchAPI<Inquiry[]>("/inquiries").then((data) => data ?? []);
   },
 
   submit: (data: InquiryPayload) => {
@@ -179,6 +221,7 @@ export const apiInquiries = {
   },
 
   delete: (id: number) => {
+    invalidateResource("/inquiries");
     return fetchAPI<{ message: string }>(`/inquiries/${id}`, {
       method: "DELETE",
     });
@@ -191,14 +234,15 @@ export const apiDeals = {
     const params = new URLSearchParams();
     if (filters.featured) params.append("featured", "true");
     const queryString = params.toString() ? `?${params.toString()}` : "";
-    return fetchAPI<{ data: Deal[]; total: number }>(`/deals${queryString}`, { cache: "no-store" }).then((res) => res?.data ?? []);
+    return fetchAPI<{ data: Deal[]; total: number }>(`/deals${queryString}`).then((res) => res?.data ?? []);
   },
 
   getBySlug: (slug: string) => {
-    return fetchAPI<Deal>(`/deals/${slug}`, { cache: "no-store" });
+    return fetchAPI<Deal>(`/deals/${slug}`);
   },
 
   create: (data: DealPayload) => {
+    invalidateResource("/deals");
     return fetchAPI<Deal>("/deals", {
       method: "POST",
       body: JSON.stringify(data),
@@ -206,6 +250,7 @@ export const apiDeals = {
   },
 
   update: (id: number, data: DealPayload) => {
+    invalidateResource("/deals");
     return fetchAPI<Deal>(`/deals/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
@@ -213,6 +258,7 @@ export const apiDeals = {
   },
 
   delete: (id: number) => {
+    invalidateResource("/deals");
     return fetchAPI<{ success: boolean }>(`/deals/${id}`, {
       method: "DELETE",
     });
