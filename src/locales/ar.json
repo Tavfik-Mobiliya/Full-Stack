@@ -217,6 +217,10 @@
     "loading": "جارٍ تنظيم معرض المجموعة...",
     "empty": "لم يتم العثور على روائع مطابقة.",
     "exploreDetails": "اكتشف التفاصيل",
+    "categories": {
+      "interior": "تصميم داخلي",
+      "furniture": "أثاث"
+    },
     "fallbackSubCategory": "سكني",
     "fallbackBudget": "مخصص",
     "roomTypes": {

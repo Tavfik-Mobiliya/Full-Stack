@@ -24,14 +24,13 @@ export default function ProjectsPage() {
 
   const fetchFilteredProjects = useCallback(() => {
     setLoading(true);
-    apiProducts
-      .getAll({
-        category: "Interior",
-        search: search || undefined,
-        roomType: roomType || undefined,
-        style: style || undefined,
-        budget: budget || undefined,
-      })
+      apiProducts
+        .getAll({
+          search: search || undefined,
+          roomType: roomType || undefined,
+          style: style || undefined,
+          budget: budget || undefined,
+        })
       .then((data) => {
         setProjects(data || []);
       })
@@ -61,7 +60,7 @@ export default function ProjectsPage() {
     // We need to fetch all since we reset states
     setLoading(true);
     apiProducts
-      .getAll({ category: "Interior" })
+      .getAll({})
       .then((data) => setProjects(data || []))
       .catch((err) => {
         console.error("Error resetting products:", err);
@@ -248,6 +247,15 @@ export default function ProjectsPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-ink-black/80 via-transparent to-transparent opacity-60" />
                   <div className="absolute top-4 left-4 bg-background/80 border border-outline-variant/30 backdrop-blur-md px-3 py-1 rounded text-[10px] tracking-widest text-gold uppercase">
                     {project.subCategory || t("projects.fallbackSubCategory")}
+                  </div>
+                  <div className={`absolute top-4 right-4 px-3 py-1 rounded text-[10px] tracking-widest uppercase font-semibold ${
+                    project.category === "Interior"
+                      ? "bg-gold/15 text-gold border border-gold/30"
+                      : "bg-primary/15 text-primary border border-primary/30"
+                  }`}>
+                    {project.category === "Interior"
+                      ? t("projects.categories.interior")
+                      : t("projects.categories.furniture")}
                   </div>
                 </div>
                 <div className="p-6 flex flex-col flex-1 space-y-4">

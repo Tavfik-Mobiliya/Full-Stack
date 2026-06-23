@@ -217,6 +217,10 @@
     "loading": "Galeri koleksiyonu düzenleniyor...",
     "empty": "Eşleşen başyapıt bulunamadı.",
     "exploreDetails": "DETAYLARI KEŞFET",
+    "categories": {
+      "interior": "İç Tasarım",
+      "furniture": "Mobilya"
+    },
     "fallbackSubCategory": "Konut",
     "fallbackBudget": "Özel",
     "roomTypes": {

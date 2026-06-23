@@ -56,6 +56,7 @@ export default function AdminPage() {
   const [beforeImage, setBeforeImage] = useState("");
   const [afterImage, setAfterImage] = useState("");
   const [uploadingField, setUploadingField] = useState<"main" | "before" | "after" | null>(null);
+  const [dealUploadingField, setDealUploadingField] = useState<"cover" | "images" | null>(null);
   const [featured, setFeatured] = useState(false);
   const [titleEn, setTitleEn] = useState("");
   const [titleAr, setTitleAr] = useState("");
@@ -361,6 +362,46 @@ export default function AdminPage() {
     }
   };
 
+  const handleDealCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setDealUploadingField("cover");
+    try {
+      const url = await handleFileUpload(file);
+      setDealCoverImage(url);
+    } catch (err: unknown) {
+      alert(getErrorMessage(err, "Failed to upload cover image."));
+    } finally {
+      setDealUploadingField(null);
+    }
+  };
+
+  const handleDealImagesUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setDealUploadingField("images");
+    try {
+      const uploadedUrls: string[] = [];
+      for (let i = 0; i < files.length; i++) {
+        const url = await handleFileUpload(files[i]);
+        uploadedUrls.push(url);
+      }
+
+      const currentImages = dealImages.trim();
+      if (currentImages) {
+        setDealImages(currentImages + ", " + uploadedUrls.join(", "));
+      } else {
+        setDealImages(uploadedUrls.join(", "));
+      }
+    } catch (err: unknown) {
+      alert(getErrorMessage(err, "Failed to upload images."));
+    } finally {
+      setDealUploadingField(null);
+    }
+  };
+
   const handleAfterImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -605,6 +646,7 @@ export default function AdminPage() {
     setDealClientName("");
     setDealCoverImage("");
     setDealImages("");
+    setDealUploadingField(null);
     setDealYear(new Date().getFullYear().toString());
     setDealStatus("Completed");
     setDealFeatured(false);
@@ -1475,13 +1517,26 @@ export default function AdminPage() {
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="flex flex-col space-y-2">
                               <label className="text-xs text-on-surface-variant">{t("admin.form.coverImage")}</label>
-                              <input
-                                type="text"
-                                value={dealCoverImage}
-                                onChange={(e) => setDealCoverImage(e.target.value)}
-                                placeholder="https://..."
-                                className="bg-transparent border-b border-outline-variant/40 focus:border-gold outline-none py-2 px-1 text-on-surface text-sm transition-all rounded-none w-full"
-                              />
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="text"
+                                  value={dealCoverImage}
+                                  onChange={(e) => setDealCoverImage(e.target.value)}
+                                  placeholder="https://..."
+                                  className="bg-transparent border-b border-outline-variant/40 focus:border-gold outline-none py-2 px-1 text-on-surface text-sm transition-all rounded-none flex-1"
+                                />
+                                <label className="flex items-center gap-1 px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-semibold cursor-pointer transition-all border border-outline-variant/30 select-none shrink-0">
+                                  <Upload size={14} />
+                                  <span>{dealUploadingField === "cover" ? "Uploading..." : "Upload"}</span>
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleDealCoverUpload}
+                                    className="hidden"
+                                    disabled={dealUploadingField !== null}
+                                  />
+                                </label>
+                              </div>
                             </div>
                             <div className="flex flex-col space-y-2">
                               <label className="text-xs text-on-surface-variant">{t("admin.form.dealStatus")} *</label>
@@ -1498,13 +1553,27 @@ export default function AdminPage() {
                           </div>
                           <div className="flex flex-col space-y-2">
                             <label className="text-xs text-on-surface-variant">{t("admin.form.dealImages")}</label>
-                            <input
-                              type="text"
-                              value={dealImages}
-                              onChange={(e) => setDealImages(e.target.value)}
-                              placeholder="https://..., https://..."
-                              className="bg-transparent border-b border-outline-variant/40 focus:border-gold outline-none py-2 px-1 text-on-surface text-sm transition-all rounded-none w-full"
-                            />
+                            <div className="flex items-center gap-2">
+                              <input
+                                type="text"
+                                value={dealImages}
+                                onChange={(e) => setDealImages(e.target.value)}
+                                placeholder="https://..., https://..."
+                                className="bg-transparent border-b border-outline-variant/40 focus:border-gold outline-none py-2 px-1 text-on-surface text-sm transition-all rounded-none flex-1"
+                              />
+                              <label className="flex items-center gap-1 px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-semibold cursor-pointer transition-all border border-outline-variant/30 select-none shrink-0">
+                                <Upload size={14} />
+                                <span>{dealUploadingField === "images" ? "Uploading..." : "Upload"}</span>
+                                <input
+                                  type="file"
+                                  multiple
+                                  accept="image/*"
+                                  onChange={handleDealImagesUpload}
+                                  className="hidden"
+                                  disabled={dealUploadingField !== null}
+                                />
+                              </label>
+                            </div>
                           </div>
                           <label className="flex items-center space-x-3 rtl:space-x-reverse cursor-pointer">
                             <input

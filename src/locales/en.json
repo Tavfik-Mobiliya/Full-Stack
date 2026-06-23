@@ -224,6 +224,10 @@
     "loading": "Curating gallery collection...",
     "empty": "No matching masterpieces found.",
     "exploreDetails": "EXPLORE DETAILS",
+    "categories": {
+      "interior": "Interior Design",
+      "furniture": "Furniture"
+    },
     "fallbackSubCategory": "Residential",
     "fallbackBudget": "Bespoke",
     "roomTypes": {
