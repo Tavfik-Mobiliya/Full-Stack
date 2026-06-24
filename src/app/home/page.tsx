@@ -6,15 +6,17 @@ import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { useLanguage } from "@/context/LanguageContext";
-import { apiProducts, apiTestimonials, apiInquiries, apiSettings } from "@/utils/api";
+import { apiProducts, apiDeals, apiTestimonials, apiInquiries, apiSettings } from "@/utils/api";
 import { getLocalized } from "@/utils/localize";
-import { Product, Testimonial, CompanySettings } from "@/types/api";
+import { Deal, Product, Testimonial, CompanySettings } from "@/types/api";
 import { Mail, Phone, Send, MessageSquare, BookOpen, Calendar, Sparkles,
   Star } from "lucide-react";
 
 export default function HomePage() {
   const { language, t } = useLanguage();
   const [featuredProjects, setFeaturedProjects] = useState<Product[]>([]);
+  const [deals, setDeals] = useState<Deal[]>([]);
+  const [heroIndex, setHeroIndex] = useState(0);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [settings, setSettings] = useState<CompanySettings | null>(null);
   const [activeTestimonial, setActiveTestimonial] = useState(0);
@@ -41,6 +43,14 @@ export default function HomePage() {
         }
       });
 
+    apiDeals
+      .getAll({ featured: true })
+      .then((data) => {
+        if (data) {
+          setDeals(data);
+        }
+      });
+
     apiTestimonials
       .getAll()
       .then((data) => {
@@ -57,6 +67,15 @@ export default function HomePage() {
         }
       });
   }, []);
+
+  // Auto-rotate hero backgrounds
+  useEffect(() => {
+    if (deals.length < 2) return;
+    const interval = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % deals.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [deals.length]);
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -147,33 +166,71 @@ export default function HomePage() {
         {/* Full-screen Hero Section */}
         <section className="relative h-screen w-full overflow-hidden">
           <div className="absolute inset-0 z-0">
-            <Image 
-              fill
-              className="object-cover scale-105" 
-              alt="A grand, ultra-luxurious living room design showroom"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg-70ZBH9uCh-Q7hg84E5AtIta9Ku1C_Q6oD0QsvSBHaIFAwtG7RBkbLHMZ5tPXIoD3nH_ntNJ6tli560FWFoIO9SNW2zkcmfN37YhB__WfSFMrkMZWHj0UoUyS9spuQRRsnQcsPoDN-_dHkZC9DuJn9F-SgWjr60WrAtydVzg8Mz6kYrYiXS-FLD8yZo6-DTwrU_xzuE8uUjQpZ13o_XCTAcF9fJ4XlbA68-d9U_aWtintSc634CA_4_HAWwyzKnhQuyW955Lgd5"
-              sizes="100vw"
-              priority
-            />
+            {deals.length > 0 ? (
+              deals.map((deal, idx) => (
+                <div
+                  key={deal.id}
+                  className={`absolute inset-0 transition-opacity duration-1000 ${
+                    idx === heroIndex ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <Image
+                    fill
+                    className="object-cover scale-105"
+                    alt={getLocalized(deal, "title", language)}
+                    src={deal.coverImage || deal.images[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1920"}
+                    sizes="100vw"
+                    priority={idx === 0}
+                  />
+                </div>
+              ))
+            ) : (
+              <Image
+                fill
+                className="object-cover scale-105"
+                alt="Hero background"
+                src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1920"
+                sizes="100vw"
+                priority
+              />
+            )}
             <div className="absolute inset-0 hero-gradient"></div>
           </div>
           <div className="relative z-10 h-full flex flex-col justify-end px-6 md:px-16 pb-32 max-w-7xl mx-auto w-full">
             <div className="reveal-on-scroll active space-y-6">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-[10px] uppercase tracking-[0.3em] text-white/60 font-semibold">
+                  {t("hero.featuredDeal")}
+                </span>
+                {deals.length > 1 && (
+                  <div className="flex gap-1.5">
+                    {deals.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setHeroIndex(idx)}
+                        className={`w-1.5 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                          idx === heroIndex ? "bg-primary w-4" : "bg-white/40 hover:bg-white/60"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
               <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white max-w-4xl tracking-tight leading-none">
-                {t("hero.title")}
+                {deals.length > 0 ? getLocalized(deals[heroIndex], "title", language) : t("hero.title")}
               </h1>
               <p className="text-white/80 text-lg md:text-xl font-light tracking-wide max-w-2xl">
-                {t("hero.subtitle")}
+                {deals.length > 0 ? getLocalized(deals[heroIndex], "description", language) : t("hero.subtitle")}
               </p>
               <div className="flex flex-wrap gap-4 pt-4">
-                <Link 
-                  href="/projects" 
+                <Link
+                  href={deals.length > 0 ? `/deals/${deals[heroIndex].slug}` : "/projects"}
                   className="bg-primary text-on-primary px-10 py-4 text-xs font-semibold uppercase tracking-widest hover:opacity-90 transition-all shadow-lg rounded"
                 >
-                  {t("hero.explore")}
+                  {deals.length > 0 ? t("hero.viewDeal") : t("hero.explore")}
                 </Link>
-                <a 
-                  href="#concierge" 
+                <a
+                  href="#concierge"
                   className="border border-white/40 text-white px-10 py-4 text-xs font-semibold uppercase tracking-widest hover:bg-white/10 transition-all backdrop-blur-sm rounded"
                 >
                   {t("hero.book")}
