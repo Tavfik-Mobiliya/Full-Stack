@@ -16,7 +16,20 @@ import {
 } from "@/types/api";
 import { cacheGet, cacheSet, cacheClear } from "./cache";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
+const getApiBaseUrl = (): string => {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (!envUrl) return "/api";
+
+  // If page is loaded over HTTPS, prevent mixed content blocking by converting local URLs to relative '/api'
+  if (typeof window !== "undefined" && window.location.protocol === "https:") {
+    if (envUrl.startsWith("http://localhost") || envUrl.startsWith("http://127.0.0.1")) {
+      return "/api";
+    }
+  }
+  return envUrl;
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 function toErrorMessage(error: unknown): string {
   if (error instanceof Error) {
