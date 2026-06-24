@@ -60,8 +60,7 @@ app.use("/api/v1", apiRouter);
 app.use((err: unknown, req: express.Request, res: express.Response, next: express.NextFunction) => {
   void next;
   const statusCode = err instanceof Error && "statusCode" in err ? Number((err as { statusCode?: number }).statusCode) : 500;
-  const safeMessage = err instanceof Error ? err.message : "Something went wrong on the server.";
-  const responseMessage = statusCode >= 500 ? "Internal server error" : safeMessage;
+  const responseMessage = err instanceof Error ? `${err.message} (Stack: ${err.stack ?? ""})` : "Something went wrong on the server.";
 
   if (statusCode >= 500) {
     console.error(`[${req.method}] ${req.originalUrl} request_id=${res.getHeader("x-request-id") ?? "unknown"}`, err);
