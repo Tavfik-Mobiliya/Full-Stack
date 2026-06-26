@@ -1,5 +1,7 @@
 import http from "node:http";
 import { spawn, execSync } from "node:child_process";
+import { rmSync } from "node:fs";
+import { resolve } from "node:path";
 
 const INTERVAL = 500;
 const MAX_ATTEMPTS = 60;
@@ -18,6 +20,10 @@ function poll() {
       started = true;
       try {
         execSync("lsof -ti:3000 | xargs -r kill -9 2>/dev/null", { stdio: "ignore" });
+        execSync("ps aux | grep 'next-server' | grep -v grep | awk '{print $2}' | xargs -r kill -9 2>/dev/null", { stdio: "ignore" });
+      } catch {}
+      try {
+        rmSync(resolve(".next", "dev", "logs"), { recursive: true, force: true });
       } catch {}
       const child = spawn("npm", ["run", "dev:frontend"], {
         stdio: "inherit",

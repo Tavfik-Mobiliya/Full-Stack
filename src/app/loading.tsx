@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import Image from "next/image";
 
 const loadingPhrases = {
   en: [
@@ -97,32 +98,16 @@ export default function LoadingPage() {
           {/* Ambient Glow */}
           <div className="absolute inset-0 bg-gold/15 blur-2xl rounded-full scale-90" />
           
-          {/* Loader Icon */}
-          <div className="relative z-10 w-24 h-24 flex items-center justify-center">
-            <svg
-              className="w-16 h-16 animate-spin text-gold"
-              viewBox="0 0 48 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{ animationDuration: "2s" }}
-            >
-              <circle
-                cx="24"
-                cy="24"
-                r="20"
-                stroke="currentColor"
-                strokeWidth="1"
-                strokeDasharray="4 8"
-                className="opacity-20"
-              />
-              <path
-                d="M44 24C44 12.9543 35.0457 4 24 4"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
+          {/* Logo */}
+          <Image
+            src="/logo1.png"
+            alt="Tevfik Logo Icon"
+            width={200}
+            height={120}
+            className="object-contain mx-auto mb-4"
+            priority
+          />
+
         </div>
 
         {/* Identity & Subtitles */}

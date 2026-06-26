@@ -18,15 +18,7 @@ import { cacheGet, cacheSet, cacheClear } from "./cache";
 
 const getApiBaseUrl = (): string => {
   const envUrl = process.env.NEXT_PUBLIC_API_URL;
-  if (!envUrl) return "/api";
-
-  // If page is loaded over HTTPS, prevent mixed content blocking by converting local URLs to relative '/api'
-  if (typeof window !== "undefined" && window.location.protocol === "https:") {
-    if (envUrl.startsWith("http://localhost") || envUrl.startsWith("http://127.0.0.1")) {
-      return "/api";
-    }
-  }
-  return envUrl;
+  return envUrl || "http://localhost:5050/api";
 };
 
 const API_BASE_URL = getApiBaseUrl();
@@ -66,7 +58,7 @@ function resourcePrefix(endpoint: string): string {
 
 export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
   const url = `${API_BASE_URL}${endpoint}`;
-  
+
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...options.headers as Record<string, string>,
@@ -77,6 +69,8 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
     headers,
     credentials: "include" as RequestCredentials,
   };
+  
+
 
   const key = cacheKey(endpoint, options);
 
@@ -298,11 +292,11 @@ export const apiAuth = {
   },
   isLoggedIn: async (): Promise<boolean> => {
     try {
-      const url = `${API_BASE_URL}/auth/session`;
-      const response = await fetch(url, {
-        method: "GET",
-        credentials: "include",
-      });
+    const url = `${API_BASE_URL}/auth/session`;
+    const response = await fetch(url, {
+      method: "GET",
+      credentials: "include",
+    });
       if (response.ok) {
         const data = await response.json() as AuthSession;
         return Boolean(data?.authenticated);
