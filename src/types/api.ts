@@ -205,5 +205,6 @@ export interface CompanySettings {
   contactEmail: string;
   instagramUrl?: string;
   twitterUrl?: string;
+  tiktokUrl?: string;
   updatedAt?: string;
 }

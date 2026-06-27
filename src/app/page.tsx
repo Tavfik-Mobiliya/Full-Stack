@@ -84,14 +84,14 @@ export default function WelcomePage() {
 
         {/* Logo Container */}
         <div
-          className={`mb-1 relative group transition-all duration-1000 delay-100 ${isMounted ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          className={`mb-0 relative group transition-all duration-1000 delay-100 ${isMounted ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
         >
           <div className="absolute -inset-3 bg-gradient-to-r from-gold/10 to-amber-500/10 rounded-full blur-xl opacity-50 group-hover:opacity-80 transition duration-1000" />
           <Image
             src="/logo1.png"
             alt="Tevfik Logo Icon"
-            width={90}
+            width={120}
             height={60}
             className="object-contain mx-auto transition-transform duration-700 hover:scale-105"
             priority
@@ -100,13 +100,13 @@ export default function WelcomePage() {
 
         {/* Name of the Platform */}
         <div
-          className={`flex flex-col items-center justify-center transition-all duration-1000 delay-200 ${isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          className={`flex flex-col items-center justify-center transition-all duration-1000 delay-200 ${isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
         >
           <Image
             src="/logo.png"
             alt="TEVFIK"
-            width={700}
+            width={600}
             height={400}
             className="object-contain mx-auto filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]"
             priority
@@ -127,13 +127,6 @@ export default function WelcomePage() {
           className={`flex flex-col items-center gap-6 transition-all duration-1000 delay-400 ${isMounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
         >
-          <p
-            className="text-white/70 text-xs sm:text-[13px] font-sans uppercase tracking-[0.3em] font-light max-w-xl leading-relaxed"
-            style={{ wordSpacing: "0.05em" }}
-          >
-            {t("welcome.subtitle")}
-          </p>
-
           <button
             onClick={handleEnter}
             className="group relative inline-flex items-center justify-center border border-gold/30 bg-black/40 backdrop-blur-md text-gold hover:bg-gold hover:text-black font-medium text-xs uppercase tracking-[0.3em] py-4 px-12 rounded-sm transition-all duration-700 hover:shadow-[0_0_35px_rgba(242,202,80,0.25)] hover:-translate-y-0.5 cursor-pointer overflow-hidden mt-2"

@@ -55,19 +55,19 @@ export const SocialSidebar: React.FC = () => {
         </span>
       </a>
 
-      {/* X (Twitter) */}
+      {/* TikTok */}
       <a
-        href={settings?.twitterUrl || "https://x.com"}
+        href={settings?.tiktokUrl || "https://www.tiktok.com/@yourprofile"}
         target="_blank"
         rel="noopener noreferrer"
-        className="p-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container/50 transition-all rounded-lg group relative flex items-center justify-center"
-        title="X (Twitter)"
+        className="p-3 text-on-surface-variant hover:text-[#69C9D0] hover:bg-[#69C9D0]/10 transition-all rounded-lg group relative flex items-center justify-center"
+        title="TikTok"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.856L1.254 2.25H8.08l4.26 5.632L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
         </svg>
         <span className="absolute right-full mr-2 px-3 py-1 bg-surface-container-high text-on-surface text-[10px] rounded opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity border border-outline-variant/30">
-          X (Twitter)
+          TikTok
         </span>
       </a>
 

@@ -66,8 +66,9 @@ export default function DealsPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {deals.map((deal) => (
-              <div
+              <Link
                 key={deal.id}
+                href={`/deals/${deal.slug}`}
                 className="group flex flex-col bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20 shadow-md hover:shadow-lg"
               >
                 <div className="relative aspect-video w-full overflow-hidden">
@@ -104,16 +105,13 @@ export default function DealsPage() {
                     <span className="text-xs tracking-widest text-on-surface-variant/60 uppercase">
                       {deal.products?.length || 0} {deal.products?.length === 1 ? t("deals.product") : t("deals.products")}
                     </span>
-                    <Link
-                      href={`/deals/${deal.slug}`}
-                      className="inline-flex items-center text-xs tracking-widest uppercase text-gold hover:text-primary font-semibold transition-colors"
-                    >
-                      <span>{t("deals.viewProject")}</span>
+                    <span className="inline-flex items-center text-xs tracking-widest uppercase text-gold hover:text-primary font-semibold transition-colors cursor-pointer">
+                      {t("deals.viewProject")}
                       <ArrowUpRight size={14} className="ml-1 rtl:mr-1" />
-                    </Link>
+                    </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

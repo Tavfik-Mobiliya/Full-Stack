@@ -19,8 +19,6 @@ export default function ProjectsPage() {
   // Filters State
   const [search, setSearch] = useState("");
   const [roomType, setRoomType] = useState("");
-  const [style, setStyle] = useState("");
-  const [budget, setBudget] = useState("");
 
   const fetchFilteredProjects = useCallback(() => {
     setLoading(true);
@@ -28,8 +26,6 @@ export default function ProjectsPage() {
         .getAll({
           search: search || undefined,
           roomType: roomType || undefined,
-          style: style || undefined,
-          budget: budget || undefined,
         })
       .then((data) => {
         setProjects(data || []);
@@ -39,7 +35,7 @@ export default function ProjectsPage() {
         setProjects([]);
       })
       .finally(() => setLoading(false));
-  }, [search, roomType, style, budget]);
+  }, [search, roomType]);
 
   useEffect(() => {
     startTransition(() => {
@@ -55,8 +51,7 @@ export default function ProjectsPage() {
   const handleReset = () => {
     setSearch("");
     setRoomType("");
-    setStyle("");
-    setBudget("");
+
     // We need to fetch all since we reset states
     setLoading(true);
     apiProducts
@@ -171,34 +166,6 @@ export default function ProjectsPage() {
                 ))}
             </select>
 
-            {/* Style */}
-            <select
-              value={style}
-              onChange={(e) => setStyle(e.target.value)}
-              className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
-            >
-              <option value="">{t("projects.stylePlaceholder")}</option>
-              {styles.map((s) => (
-                  <option key={s.value} value={s.value} className="bg-surface text-on-surface">
-                    {t(s.labelKey)}
-                  </option>
-                ))}
-            </select>
-
-            {/* Budget */}
-            <select
-              value={budget}
-              onChange={(e) => setBudget(e.target.value)}
-              className="bg-surface-container-low border border-outline-variant rounded px-4 py-3 text-on-surface text-xs uppercase tracking-widest focus:outline-none focus:border-gold transition-all"
-            >
-              <option value="">{t("projects.budgetPlaceholder")}</option>
-              {budgets.map((b) => (
-                  <option key={b.value} value={b.value} className="bg-surface text-on-surface">
-                    {t(b.labelKey)}
-                  </option>
-                ))}
-            </select>
-
             {/* Reset */}
             <button
               onClick={handleReset}
@@ -226,8 +193,9 @@ export default function ProjectsPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project) => (
-              <div
+              <Link
                 key={project.id}
+                href={`/projects/${project.slug}`}
                 className="group flex flex-col bg-surface-container-low border border-outline-variant/30 rounded-lg overflow-hidden transition-all duration-300 hover:border-gold/20 shadow-md hover:shadow-lg"
               >
                 <div className="relative aspect-video w-full overflow-hidden">
@@ -272,16 +240,13 @@ export default function ProjectsPage() {
                     <span className="text-xs tracking-widest text-on-surface-variant/60 uppercase">
                       {project.budget || t("projects.fallbackBudget")}
                     </span>
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      className="inline-flex items-center text-xs tracking-widest uppercase text-gold hover:text-primary font-semibold transition-colors"
-                    >
-                      <span>{t("projects.exploreDetails")}</span>
+                    <span className="inline-flex items-center text-xs tracking-widest uppercase text-gold hover:text-primary font-semibold transition-colors cursor-pointer">
+                      {t("projects.exploreDetails")}
                       <ArrowUpRight size={14} className="ml-1 rtl:mr-1" />
-                    </Link>
+                    </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

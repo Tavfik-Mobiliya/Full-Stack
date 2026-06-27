@@ -47,7 +47,7 @@
   "project": {
     "specs": "Mimari Özellikler",
     "beforeAfter": "Dönüşüm (Önce & Sonra)",
-    "back": "Portföye Dön",
+    "back": "Ürünlere Dön",
     "inquire": "Bu Parça Hakkında Bilgi Al",
     "location": "Konum",
     "year": "Yıl",
@@ -62,6 +62,7 @@
     "requestSimilar": "Benzer Tasarım Talep Et",
     "bringVision": "Bu vizyonu alanınıza taşıyın",
     "downloadSpecs": "Tüm Özellikleri İndir",
+    "inquiryMessage": "Merhaba, \"${title}\" hakkında bilgi almak istiyorum. Lütfen daha fazla bilgi sağlayın.",
     "conceptTitle": "Kişiye Özel Yaşam Sanatı",
     "loading": "Başyapıt detayları yükleniyor...",
     "notFound": "Başyapıt bulunamadı.",
@@ -252,9 +253,9 @@
   },
   "welcome": {
     "title": "Tevfik Mobilya",
-    "subtitle": "Mobilya & İç Tasarım Dijital Showroom",
+    "subtitle": "Mobilya & İç Mimarlık",
     "cta": "Showroom'a Gir",
     "selectLanguage": "Dil Seçin",
-    "tagline": "Mobilya & İç Tasarım İçin"
+    "tagline": "Mobilya & İç Mimarlık"
   }
 }

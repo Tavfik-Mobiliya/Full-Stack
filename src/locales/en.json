@@ -47,7 +47,7 @@
   "project": {
     "specs": "Architectural Specifications",
     "beforeAfter": "Metamorphosis (Before & After)",
-    "back": "Back to Portfolio",
+    "back": "Back to Products",
     "inquire": "Inquire About This Piece",
     "location": "Location",
     "year": "Year",
@@ -62,6 +62,7 @@
     "requestSimilar": "Request Similar Design",
     "bringVision": "Bring this vision to your space",
     "downloadSpecs": "Download Full Specs",
+    "inquiryMessage": "Hello, I am interested in inquiring about \"${title}\". Please provide me with more information.",
     "conceptTitle": "The Art of Custom Living",
     "loading": "Retrieving masterwork details...",
     "notFound": "Masterpiece not found.",

@@ -80,7 +80,7 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
   }
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 15000);
+  const timeoutId = setTimeout(() => controller.abort(new DOMException("Request timed out", "TimeoutError")), 30000);
 
   try {
     const response = await fetchWithRetry(url, { ...config, signal: controller.signal });

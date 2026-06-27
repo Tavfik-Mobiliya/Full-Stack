@@ -337,6 +337,8 @@ router.delete("/:id", authMiddleware, async (req: Request, res: Response, next: 
       return;
     }
 
+    // Delete related DealProduct entries to satisfy foreign key constraint
+    await prisma.dealProduct.deleteMany({ where: { productId: id } });
     await prisma.product.delete({ where: { id } });
     res.json({ message: "Product deleted successfully" });
   } catch (error) {

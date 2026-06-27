@@ -37,7 +37,7 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
         setProject(data);
         if (data) {
           const pTitle = getLocalized(data, "title", language);
-          setMessage(`Hello Aura, I am interested in inquiring about "${pTitle}". Please provide me with more information.`);
+          setMessage(t("project.inquiryMessage", { title: pTitle }));
         }
       })
       .catch((err) => {
@@ -176,13 +176,13 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
             </div>
           </div>
           
-          <Link
-            href={project.category === "Interior" ? "/projects" : "/collections"}
-            className="inline-flex items-center space-x-2 rtl:space-x-reverse text-xs uppercase tracking-widest text-white/70 hover:text-gold transition-colors pb-1 border-b border-white/20 hover:border-gold"
-          >
-            <ArrowLeft size={14} className="rtl:rotate-180" />
-            <span>{t("project.back")}</span>
-          </Link>
+                      <Link
+  href="/projects"
+  className="inline-flex items-center space-x-2 rtl:space-x-reverse text-xs uppercase tracking-widest text-white/70 hover:text-gold transition-colors pb-1 border-b border-white/20 hover:border-gold"
+>
+  <ArrowLeft size={14} className="rtl:rotate-180" />
+  <span>{t("project.back")}</span>
+</Link>
         </div>
       </header>
 
@@ -413,26 +413,9 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mt-12">
-              <div className="lg:col-span-4 space-y-6">
-                <div className="p-6 bg-background border border-outline-variant/20 rounded-none space-y-6">
-                  <h4 className="text-[10px] md:text-xs uppercase tracking-widest text-on-surface-variant/60 font-semibold border-b border-outline-variant/20 pb-2">
-                    {t("project.showroomAssistance")}
-                  </h4>
-                  <p className="text-sm text-on-surface-variant leading-relaxed font-light">
-                    {t("project.showroomDescription")}
-                  </p>
-                  <div className="space-y-4 pt-2">
-                    <button 
-                      onClick={() => window.print()}
-                      className="w-full py-3 border border-on-surface text-on-surface hover:bg-on-surface hover:text-background font-label-caps text-xs uppercase tracking-widest transition-all rounded-none font-semibold"
-                    >
-                      {t("project.downloadSpecs")}
-                    </button>
-                  </div>
-                </div>
-              </div>
 
-              <div className="lg:col-span-8 p-8 bg-background border border-outline-variant/20 rounded-none">
+
+              <div className="lg:col-span-12 p-8 bg-background border border-outline-variant/20 rounded-none">
                 <form onSubmit={handleInquirySubmit} className="space-y-8">
                   {success && (
                     <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-none text-sm animate-fade-in-up">
