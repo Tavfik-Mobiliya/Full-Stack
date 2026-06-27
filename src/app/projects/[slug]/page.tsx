@@ -145,9 +145,10 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                     src={project.images[0]}
                     alt={title}
                     fill
-                    className="object-cover transition-transform duration-[2s] hover:scale-105"
+                    className="transition-transform duration-[2s] hover:scale-105"
                     sizes="100vw"
                     priority
+                    style={{ objectFit: "cover" }}
                   />
                 ) : (
                   <div className="w-full h-full bg-surface-container-low flex items-center justify-center">
@@ -318,8 +319,9 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                       src={galleryImages[0]}
                       alt={t("project.galleryAlt")}
                       fill
-                      className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                      className="transition-transform duration-1000 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 66vw"
+                      style={{ objectFit: "cover" }}
                     />
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <span className="px-8 py-4 bg-white text-black font-label-caps text-xs uppercase tracking-widest rounded-none shadow-md">
@@ -338,8 +340,9 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                           src={galleryImages[1]}
                           alt={t("project.detailAlt")}
                           fill
-                          className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                          className="transition-transform duration-1000 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          style={{ objectFit: "cover" }}
                         />
                       </div>
                     )}
@@ -349,8 +352,9 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                           src={galleryImages[2]}
                           alt={t("project.detailAlt")}
                           fill
-                          className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                          className="transition-transform duration-1000 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          style={{ objectFit: "cover" }}
                         />
                       </div>
                     )}
@@ -387,8 +391,9 @@ export default function ProjectDetailPage({ params }: { params: Promise<{ slug: 
                       src={img}
                       alt={`${t("project.additionalDetailAlt")} ${idx + 1}`}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      style={{ objectFit: "cover" }}
                     />
                   </div>
                 ))}

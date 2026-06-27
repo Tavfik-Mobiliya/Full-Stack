@@ -67,7 +67,9 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
   const config = {
     ...options,
     headers,
+    // Ensure cookies are sent and CORS is handled correctly
     credentials: "include" as RequestCredentials,
+    mode: "cors",
   };
   
 

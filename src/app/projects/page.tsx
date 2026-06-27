@@ -204,8 +204,9 @@ export default function ProjectsPage() {
                       src={project.images[0]}
                       alt={getLocalized(project, "title", language)}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="transition-transform duration-500 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      style={{ objectFit: "cover" }}
                     />
                   ) : (
                     <div className="w-full h-full bg-surface-container-low flex items-center justify-center">

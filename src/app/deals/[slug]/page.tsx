@@ -83,9 +83,10 @@ export default function DealDetailPage() {
                 src={deal.coverImage || deal.images[0]}
                 alt={getLocalized(deal, "title", language)}
                 fill
-                className="object-cover"
+                className=""
                 sizes="100vw"
                 priority
+                style={{ objectFit: "cover" }}
               />
             ) : (
               <div className="w-full h-full bg-surface-container-low flex items-center justify-center">
@@ -142,8 +143,9 @@ export default function DealDetailPage() {
                       src={img}
                       alt={`${getLocalized(deal, "title", language)} - ${t("deals.imageLabel")} ${idx + 1}`}
                       fill
-                      className="object-cover hover:scale-105 transition-transform duration-500"
+                      className="hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+                      style={{ objectFit: "cover" }}
                     />
                   </div>
                 ))}
@@ -169,8 +171,9 @@ export default function DealDetailPage() {
                           src={product.images[0]}
                           alt={getLocalized(product, "title", language)}
                           fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="transition-transform duration-500 group-hover:scale-105"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          style={{ objectFit: "cover" }}
                         />
                       ) : (
                         <div className="w-full h-full bg-surface-container-low flex items-center justify-center">

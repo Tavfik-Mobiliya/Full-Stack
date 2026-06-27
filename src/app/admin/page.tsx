@@ -1414,9 +1414,10 @@ export default function AdminPage() {
                                 <Image
                                   fill
                                   sizes="64px"
-                                  className="object-cover"
-                                  src={p.images?.[0] || "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=400"}
+                                  className=""
+                                  src={p.images?.[0]?.trim() || "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=400"}
                                   alt={p.titleEn}
+                                  style={{ objectFit: "cover" }}
                                 />
                               </div>
                             </td>

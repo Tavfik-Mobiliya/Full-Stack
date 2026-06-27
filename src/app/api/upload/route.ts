@@ -3,10 +3,21 @@ import { supabaseAdmin as supabase, STORAGE_BUCKET } from "@/utils/supabase";
 
 async function ensureBucket(): Promise<void> {
   const { data: buckets } = await supabase.storage.listBuckets();
-  if (!buckets?.find((b) => b.name === STORAGE_BUCKET)) {
-    await supabase.storage.createBucket(STORAGE_BUCKET, {
+  const existingBucket = buckets?.find((b) => b.name === STORAGE_BUCKET);
+  if (!existingBucket) {
+    const { error: createError } = await supabase.storage.createBucket(STORAGE_BUCKET, {
       public: true,
     });
+    if (createError) {
+      console.error("Failed to create storage bucket:", createError);
+    }
+  } else if (!existingBucket.public) {
+    const { error: updateError } = await supabase.storage.updateBucket(STORAGE_BUCKET, {
+      public: true,
+    });
+    if (updateError) {
+      console.error("Failed to update storage bucket to public:", updateError);
+    }
   }
 }
 

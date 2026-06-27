@@ -176,22 +176,24 @@ export default function HomePage() {
                 >
                   <Image
                     fill
-                    className="object-cover scale-105 hover:scale-110 transition-transform duration-1000"
+                    className="scale-105 hover:scale-110 transition-transform duration-1000"
                     alt={getLocalized(deal, "title", language)}
                     src={deal.coverImage || deal.images[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1920"}
                     sizes="100vw"
                     priority={idx === 0}
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
               ))
             ) : (
               <Image
                 fill
-                className="object-cover scale-105"
+                className="scale-105"
                 alt="Hero background"
                 src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1920"
                 sizes="100vw"
                 priority
+                style={{ objectFit: "cover" }}
               />
             )}
             <div className="absolute inset-0 hero-gradient"></div>
@@ -247,10 +249,11 @@ export default function HomePage() {
             <Link href="/projects" className="group relative overflow-hidden h-[500px] md:h-full rounded-lg border border-outline-variant/30 reveal-on-scroll">
   <Image
     fill
-    className="object-cover transition-transform duration-1000 group-hover:scale-110"
+    className="transition-transform duration-1000 group-hover:scale-110"
     alt="Minimalist luxury kitchen and dining interior design"
     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcT32eIqldwdS9JKEWnTT29cCnfwx9YU570iBeElcepVtY0e0aSiC56EXnD5Y5_wT6itTcLsNd5Qvw_sToZXZOitPQZpQFY7n0kwdJ3g_IUksZnPMy_Lr4MqcG6yfdXYPu29R6gxoObpmhb5at6MGMfoOii4vcNdCV7rIUhAPsMREEws8sa8aKaQL35z6aHF49kHNvj_51CSAXvB0EZC-jPq-pj20COSgziRwmX3onMUDrK4ME2Il6STvuSMfPzZJTlWo2byYVWGzX"
     sizes="(max-width: 768px) 100vw, 50vw"
+    style={{ objectFit: "cover" }}
   />
   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:bg-black/60 transition-all duration-500 flex flex-col justify-end p-12">
     <h2 className="font-serif text-3xl md:text-5xl text-white mb-4">
@@ -270,10 +273,11 @@ export default function HomePage() {
             <Link href="/collections" className="group relative overflow-hidden h-[500px] md:h-full rounded-lg border border-outline-variant/30 reveal-on-scroll">
               <Image
                 fill
-                className="object-cover transition-transform duration-1000 group-hover:scale-110"
+                className="transition-transform duration-1000 group-hover:scale-110"
                 alt="Bespoke furniture crafted as sculptural objects"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKfiav6kLsRC6faFNyR4P803O6AbAYV9OKvG1cMAOeIoUSqmmBM5CeSceQ3uGlepLCrZ-uNb1WZpIiKkk7Bqf26QrZBZp54N5ZqKesa12aVOdqD9JZmdfSWKehOBozox7b54hFvW4V2nd-LJB8WVd0Zg-tWTXifak4GpIHvIWReF9DZmzPX9dr4dD6uVEp2KwYmAVPwxS3XA7dxsa8TH-E8n0prw6k_-nc5Kh142iXsdlDEuo4K7BWjgB-j3NDyHvr9vPiCt1Ifl6r"
                 sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: "cover" }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 group-hover:bg-black/60 transition-all duration-500 flex flex-col justify-end p-12">
                 <h2 className="font-serif text-3xl md:text-5xl text-white mb-4">{t("nav.collections")}</h2>
@@ -317,8 +321,9 @@ export default function HomePage() {
                         src={project.images?.[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=800"}
                         alt={getLocalized(project, "title", language)}
                         fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                        className="transition-transform duration-700 group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        style={{ objectFit: "cover" }}
                       />
                     </div>
                     <p className="text-[10px] text-on-surface-variant mb-1 uppercase tracking-widest">
