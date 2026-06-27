@@ -22,7 +22,7 @@ interface LanguageContextProps {
   language: Language;
   setLanguage: (lang: Language) => void;
   dir: "ltr" | "rtl";
-  t: (key: string) => string;
+  t: (key: string, params?: Record<string, string>) => string;
   theme: Theme;
   setTheme: (theme: Theme) => void;
 }
@@ -84,7 +84,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   }, [theme]);
 
   // Nested object lookup for dot-separated keys, e.g. "nav.home"
-  const t = (key: string): string => {
+  const t = (key: string, params?: Record<string, string>): string => {
     const dict = dictionaries[language];
     const parts = key.split(".");
     let current: string | TranslationDict = dict;
@@ -93,11 +93,15 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       if (typeof current !== "string" && current[part] !== undefined) {
         current = current[part];
       } else {
-        return key; // Fallback to key if not found
+        return key;
       }
     }
 
-    return typeof current === "string" ? current : key;
+    const resolved = typeof current === "string" ? current : key;
+    if (params) {
+      return resolved.replace(/\$\{(\w+)\}/g, (_, name) => params[name] ?? `\${${name}}`);
+    }
+    return resolved;
   };
 
   return (

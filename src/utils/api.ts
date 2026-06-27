@@ -64,12 +64,10 @@ export async function fetchAPI<T>(endpoint: string, options: RequestInit = {}): 
     ...options.headers as Record<string, string>,
   };
 
-  const config = {
+  const config: RequestInit = {
     ...options,
     headers,
-    // Ensure cookies are sent and CORS is handled correctly
-    credentials: "include" as RequestCredentials,
-    mode: "cors",
+    credentials: "include",
   };
   
 
